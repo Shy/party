@@ -1,8 +1,0 @@
-version: '3.8'
-
-services:
-  web:
-    build: web
-    command: gunicorn --bind 0.0.0.0:5001 shyparty:app
-    ports:
-      - 5001:5001

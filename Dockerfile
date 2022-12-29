@@ -2,7 +2,7 @@
 FROM python:3-slim
 
 #Expose ports
-EXPOSE 5000
+EXPOSE 5001
 
 # Setup work directory.
 WORKDIR /python-docker
@@ -19,4 +19,6 @@ ENV PYTHONUNBUFFERED 1
 
 COPY . /python-docker
 
+ENTRYPOINT [ "gunicorn" ]
+CMD [ "--bind","0.0.0.0:5001","shyparty:app" ]
 
