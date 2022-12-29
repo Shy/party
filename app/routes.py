@@ -39,7 +39,6 @@ def textInvites(attendee, event_junction_public_id):
 
 
 @app.route("/")
-@app.route("/index/")
 def index():
     return render_template("index.html")
 
