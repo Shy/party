@@ -92,15 +92,14 @@ def attendee_rsvp(event_junction_public_id):
     attendee = Attendee.query.filter_by(id=event_junction.attendee_id).first_or_404()
     event = Event.query.filter_by(id=event_junction.event_id).first_or_404()
 
-    match event_junction.rsvp:
-        case "attending":
-            attendee_status = "attending!"
-        case "maybe":
-            attendee_status = "a maybe?"
-        case "not_attending":
-            attendee_status = "not being able to make it."
-        case _:
-            attendee_status = "yet to RSVP."
+    if event_junction.rsvp == "attending":
+        attendee_status = "attending!"
+    elif event_junction.rsvp == "not_attending":
+        attendee_status = "not being able to make it."
+    elif event_junction.rsvp == "maybe":
+        attendee_status = "a maybe?"
+    else:
+        attendee_status = "yet to RSVP."
 
     return render_template(
         "attendee_rsvp.html",
