@@ -23,21 +23,6 @@ def debug_only(f):
     return wrapped
 
 
-def lookupAttendeesByEvent(event_id):
-    lookup = EventAttendeeJunction.query.filter_by(
-        event_id=event_id, rsvp="attending"
-    ).all()
-    attending = []
-    for item in lookup:
-        attending.append(item.attendee.attendee)
-    if len(attending) == 0:
-        return ""
-    elif len(attending) == 1:
-        return f"{attending[0]} is coming. Hopefully I'll get to see you too!"
-    else:
-        return f"{', '.join(attending[:-1])} and {attending[-1]} are coming. Hopefully I'll get to see you too!"
-
-
 def textInvites(attendee, event_junction_public_id):
     print(
         f'{app.config["DOMAIN"]}{url_for("attendee_rsvp", event_junction_public_id=event_junction_public_id)} texted to {attendee.phone}'
@@ -61,7 +46,6 @@ def event(event_public_id):
         "event.html",
         title=event.event,
         event=event,
-        attending=lookupAttendeesByEvent(event.id),
     )
 
 
@@ -108,5 +92,4 @@ def attendee_rsvp(event_junction_public_id):
         event=event,
         attendee=attendee,
         title=f"{attendee.attendee}'s private invite to {event.event}.,",
-        attending=lookupAttendeesByEvent(event.id),
     )

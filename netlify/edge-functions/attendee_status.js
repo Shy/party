@@ -33,7 +33,11 @@ export default async (request, context) => {
     const response = await context.next();
     const page = await response.text();
     const jsonData = await SBresponse.json();
-    const updatedPage = page.replace(/STATUS_UNKNOWN/i, jsonData["data"]);
+    const jsonjsonData = JSON.parse(jsonData["data"]);
+
+    let updatedPage = page
+        .replace(/STATUS_UNKNOWN/i, jsonjsonData["status"])
+        .replace(/ATTENDING_UNKOWN/i, jsonjsonData["attending"]);
 
     return new Response(updatedPage, response);
 };
