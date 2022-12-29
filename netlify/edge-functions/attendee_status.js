@@ -1,9 +1,8 @@
-const fetch = require("node-fetch");
-
 const API_ENDPOINT =
     "https://app.superblocks.com/agent/v1/workflows/0e26c575-344c-483c-a848-f76e78ee4c86?environment=production";
 
-export default async (request, context) => {
+export default async (request) => {
+    console.log("hello");
     const url = new URL(request.url);
 
     // Look for the "?method=transform" query parameter, and return if we don't find it

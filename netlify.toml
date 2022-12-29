@@ -1,6 +1,3 @@
-[build]
-    publish = "/app/build"
-
 [[edge_functions]]
   path = "/hello"
   function = "hello"
@@ -9,3 +6,8 @@
 [[edge_functions]]
   path = "/attendee_status"
   function = "attendee_status"
+
+
+[dev]
+  command = "python freeze.py" # Command to start your dev server
+  publish = "/app/build"
