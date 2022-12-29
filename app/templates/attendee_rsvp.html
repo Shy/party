@@ -1,6 +1,5 @@
 {% extends "base.html" %}{%block coverimage %} url("{{ url_for("static",
 filename="images/index.jpg") }} {% endblock %}{% block content %}
-
 <div id="wrapper"><h1 class="glitch" data-text="{{event.event}}">{{event.event}}</h1>
 <div><span class="sub">{{event.date | humanize_ts}}</span></div>
 <div><span class="sub">{{event.location }}</span></div></br>
@@ -17,11 +16,15 @@ filename="images/index.jpg") }} {% endblock %}{% block content %}
 
 
     <div id="wrapper"></br><h3 class="glitch" data-text="Hey {{attendee.attendee}},">Hey {{attendee.attendee}},</h3></br>
-<span class="content">This is your private event page for {{event.event}}. <span class="glitch content" data-text="Don't share it with anyone.">Don't share it with anyone.</span> It's only for you. </br><br>I have you marked down as <span class="glitch content" data-text="{{attendee_status}}">{{attendee_status}}</span> Feel free to come back and change your RSVP at anytime. If you wanna bring folks with you shoot me a text, with their name and number so I can send you an secret invite page for them too. {{attending}}</span></br><br>
-<form method="post" action="{{ url_for(request.endpoint, **request.view_args) }}">
+<span class="content">This is your private event page for {{event.event}}. <span class="glitch content" data-text="Don't share it with anyone.">Don't share it with anyone.</span> It's only for you. </br><br>I have you marked down as STATUS_UNKNOWN. Feel free to come back and change your RSVP at anytime. If you wanna bring folks with you shoot me a text, with their name and number so I can send you an secret invite page for them too. {{attending}}</span></br><br>
 
-<button type="submit" name="rsvp" value="attending" class="gradient" data-text="Attending">🥰</button>
-<button type="submit" name="rsvp" value="maybe" class="gradient" data-text="Maybe">🤔</button>
-<button type="submit" name="rsvp" value="not_attending" class="gradient"  data-text="Can't go.">😢</button></div></form>
+<button onclick="updateRSVP('attending')" id="attending" name="rsvp" value="attending" class="gradient" data-text="Attending">🥰</button>
+<button onclick="updateRSVP('maybe')" id="maybe" name="rsvp" value="maybe" class="gradient" data-text="Maybe">🤔</button>
+<button onclick="updateRSVP('not_attending')" id="not_attending" name="rsvp" value="not_attending" class="gradient"  data-text="Can't go.">😢</button></div>
 
+{% endblock %}
+{% block js %}
+function updateRSVP(attendee_status) {
+    console.log(attendee_status);
+}
 {% endblock %}
