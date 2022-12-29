@@ -1,4 +1,10 @@
-from flask import render_template, request, url_for, send_from_directory, request
+from flask import (
+    render_template,
+    request,
+    url_for,
+    send_from_directory,
+    request,
+)
 from app import app, db
 from app.models import Event, Attendee, EventAttendeeJunction
 from functools import wraps
@@ -97,20 +103,10 @@ def attendee_rsvp(event_junction_public_id):
     attendee = Attendee.query.filter_by(id=event_junction.attendee_id).first_or_404()
     event = Event.query.filter_by(id=event_junction.event_id).first_or_404()
 
-    if event_junction.rsvp == "attending":
-        attendee_status = "attending!"
-    elif event_junction.rsvp == "not_attending":
-        attendee_status = "not being able to make it."
-    elif event_junction.rsvp == "maybe":
-        attendee_status = "a maybe?"
-    else:
-        attendee_status = "yet to RSVP."
-
     return render_template(
         "attendee_rsvp.html",
         event=event,
         attendee=attendee,
-        attendee_status=attendee_status,
         title=f"{attendee.attendee}'s private invite to {event.event}.,",
         attending=lookupAttendeesByEvent(event.id),
     )

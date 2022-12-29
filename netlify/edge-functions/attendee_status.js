@@ -33,12 +33,7 @@ export default async (request, context) => {
     const response = await context.next();
     const page = await response.text();
     const jsonData = await SBresponse.json();
+    const updatedPage = page.replace(/STATUS_UNKNOWN/i, jsonData["data"]);
 
-    // Search for the placeholder
-    const regex = /STATUS_UNKNOWN/i;
-
-    const updatedPage = page.replace(regex, jsonData["data"][0]["rsvp"]);
-
-    // Return the response
     return new Response(updatedPage, response);
 };
