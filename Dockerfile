@@ -10,8 +10,7 @@ WORKDIR /python-docker
 # Copy the requirements file to the container and the install depenedencies.
 COPY requirements.txt /python-docker
 
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # set environment variables\
 ENV PYTHONDONTWRITEBYTECODE 1
