@@ -6,6 +6,9 @@ h1{font-size: 4em;}
 	 margin: 0;
 	 font-family: 'Montserrat', sans-serif;
 }
+h1,h2,h3,h4,h5,h6 {
+		 letter-spacing: 0.5em;
+}
  #app {
 	 background: #0a0a0a;
 	 height: 100vh;
@@ -33,11 +36,11 @@ h1{font-size: 4em;}
 	display: inline-block;
 	text-align: center;
 }
-/* Our mixin positions a copy of our text directly on our existing text, while also setting content to the appropriate text set in the data-text attribute. */
+
  .glitch {
 	 position: relative;
 	 color: white;
-	 letter-spacing: 0.5em;
+
 	/* Animation provies a slight random skew. Check bottom of doc for more information on how to random skew. */
 	 animation: glitch-skew 1s infinite linear alternate-reverse;
 }
