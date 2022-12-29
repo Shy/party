@@ -39,12 +39,12 @@ def textInvites(attendee, event_junction_public_id):
 
 
 @app.route("/")
-@app.route("/index")
+@app.route("/index/")
 def index():
     return render_template("index.html")
 
 
-@app.route("/events/<event_public_id>", methods=["GET"])
+@app.route("/events/<event_public_id>/", methods=["GET"])
 def event(event_public_id):
     event = Event.query.filter_by(public_id=event_public_id).first_or_404()
     return render_template(
@@ -55,7 +55,7 @@ def event(event_public_id):
     )
 
 
-@app.route("/events/<event_public_id>/invite")
+@app.route("/events/<event_public_id>/invite/")
 @debug_only
 def invite(event_public_id):
     event = Event.query.filter_by(public_id=event_public_id).first_or_404()
@@ -73,14 +73,15 @@ def invite(event_public_id):
     return "Invites to event {} sent.".format(event.event)
 
 
-@app.route("/attendee/<attendee_public_id>", methods=["GET"])
+@app.route("/attendee/<attendee_public_id>/", methods=["GET"])
+@debug_only
 def attendee(attendee_public_id):
     attendee = Attendee.query.filter_by(public_id=attendee_public_id).first_or_404()
     print(attendee)
     return attendee.attendee
 
 
-@app.route("/rsvp/<event_junction_public_id>", methods=["GET", "POST"])
+@app.route("/rsvp/<event_junction_public_id>/", methods=["GET", "POST"])
 def attendee_rsvp(event_junction_public_id):
     event_junction = EventAttendeeJunction.query.filter_by(
         public_id=event_junction_public_id
