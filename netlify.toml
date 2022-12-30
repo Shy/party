@@ -7,6 +7,5 @@
   path = "/rsvp/*"
   function = "attendee_status"
 
-
 [dev]
 # Just run netlify dev -d app/build/

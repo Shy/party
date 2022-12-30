@@ -11,24 +11,24 @@
             href="{{ url_for('static', filename='css/style.css') }}"
         />
         <style>
-            #app {
-                background: linear-gradient(rgba(10, 10, 10, 0.6), rgba(0, 0, 0, 0.9)),
-                    repeating-linear-gradient(
-                        0,
-                        transparent,
-                        transparent 2px,
-                        black 3px,
-                        black 3px
-                    ),
-                     {% block coverimage %}{% endblock %}");
-                background-size: cover;
-                background-position: center;
-                z-index: 1;
+            body {
+
+                            background: linear-gradient(rgba(10, 10, 10, 0.6), rgba(0, 0, 0, 0.9)),
+                                repeating-linear-gradient(
+                                    0,
+                                    transparent,
+                                    transparent 2px,
+                                    black 3px,
+                                    black 3px
+                                ),{% block coverimage %}{% endblock %}");
+                            background-size: cover;
+                            background-position: center;
+                            z-index: 1;
             }
         </style>
     </head>
     <body>
-        <div id="app">{% block content %}{% endblock %}</div>
+        <div class="container">{% block content %}{% endblock %}</div>
 
         <script>
             {% block js %}{% endblock %}

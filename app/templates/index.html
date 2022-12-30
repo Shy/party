@@ -1,11 +1,12 @@
 {% extends "base.html" %}{%block coverimage %} url("{{ url_for("static",
 filename="images/index.jpg") }} {% endblock %}{% block content %}
-<h1
-    class="glitch"
-    data-text="
-Shy."
->
-    Shy.
-</h1>
-<span class="sub">party</span>
+
+<section class="hero is-fullheight is-flex-touch is-medium">
+    <div class="hero-body">
+        <div class="">
+            <p class="title is-size-1 glitch" data-text="Shy">Shy</p>
+            <p class="subtitle is-size-3">.party</p>
+        </div>
+    </div>
+</section>
 {% endblock %}

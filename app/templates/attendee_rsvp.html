@@ -1,30 +1,72 @@
-{% extends "base.html" %}{%block coverimage %} url("{{ url_for("static",
-filename="images/index.jpg") }} {% endblock %}{% block content %}
-<div id="wrapper"><h1 class="glitch" data-text="{{event.event}}">{{event.event}}</h1>
-<div><span class="sub">{{event.date | humanize_ts}}</span></div>
-<div><span class="sub">{{event.location }}</span></div></br>
-</div>
-<div id="wrapper">
-<div>
-    <span style="white-space: pre-line" class="content">{{event.description }}</span>
-</div>
-</br>
+{% extends "base.html" %} {%block coverimage %}url("{{
+url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content %}
 
+<section class="hero is-fullheight is-flex-touch">
+    <div class="hero-body">
+        <div class="">
+            <p class="subtitle is-size-3">
+                {{attendee.attendee}}, you are invited to attend
+            </p>
 
+            <p class="title is-size-1" data-text="{{event.event}}">{{event.event}}</p>
+            <p class="subtitle is-size-3">
+                {{event.date | humanize_ts}}
+                <br />{{event.location}}
+            </p>
 
-    <hr>
+            <p class="subtitle is-size-5">What am I inviting you too?</p>
+            <p class="content">{{event.description}}</p>
 
+            <p class="subtitle is-size-5">What is this website?</p>
+            <p class="content">
+                This is your private event page for {{event.event}}. Don't share it with
+                anyone. It's only for you. I have you marked down as STATUS_UNKNOWN.
+                Click the flashing buttons to change that. Come back and change your
+                RSVP at anytime. If you wanna bring folks with you shoot me a text, with
+                their name and number so I can send you an secret invite page for them
+                too. ATTENDING_UNKOWN
+            </p>
 
-    <div id="wrapper"></br><h3 class="glitch" data-text="Hey {{attendee.attendee}},">Hey {{attendee.attendee}},</h3></br>
-<span class="content">This is your private event page for {{event.event}}. <span class="glitch content" data-text="Don't share it with anyone.">Don't share it with anyone.</span> It's only for you. </br><br>I have you marked down as STATUS_UNKNOWN. Feel free to come back and change your RSVP at anytime. If you wanna bring folks with you shoot me a text, with their name and number so I can send you an secret invite page for them too. ATTENDING_UNKOWN</span></br><br>
+            <form action="/submit" method="POST">
+                <div class="columns has-text-centered">
+                    <div class="column">
+                        <button
+                            type="submit"
+                            id="attending"
+                            name="rsvp"
+                            value="attending"
+                            data-text="Attending"
+                        >
+                            🥰
+                        </button>
+                    </div>
+                    <div class="column has-text-centered">
+                        <button
+                            type="submit"
+                            id="maybe"
+                            name="rsvp"
+                            value="maybe"
+                            data-text="Maybe"
+                        >
+                            🤔
+                        </button>
+                    </div>
+                    <div class="column has-text-centered">
+                        <button
+                            type="submit"
+                            id="not_attending"
+                            name="rsvp"
+                            value="not_attending"
+                            data-text="Can't go."
+                        >
+                            😢
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 
-<button onclick="updateRSVP('attending')" id="attending" name="rsvp" value="attending" class="gradient" data-text="Attending">🥰</button>
-<button onclick="updateRSVP('maybe')" id="maybe" name="rsvp" value="maybe" class="gradient" data-text="Maybe">🤔</button>
-<button onclick="updateRSVP('not_attending')" id="not_attending" name="rsvp" value="not_attending" class="gradient"  data-text="Can't go.">😢</button></div>
-
-{% endblock %}
-{% block js %}
-function updateRSVP(attendee_status) {
-    console.log(attendee_status);
-}
-{% endblock %}
+{% endblock %} {% block js %} function updateRSVP(attendee_status) {
+console.log(attendee_status); } {% endblock %}
