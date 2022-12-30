@@ -8,7 +8,9 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 {{attendee.attendee}}, you are invited to attend
             </p>
 
-            <p class="title is-size-1" data-text="{{event.event}}">{{event.event}}</p>
+            <p class="title is-size-1 glitch" data-text="{{event.event}}">
+                {{event.event}}
+            </p>
             <p class="subtitle is-size-3">
                 {{event.date | humanize_ts}}
                 <br />{{event.location}}
