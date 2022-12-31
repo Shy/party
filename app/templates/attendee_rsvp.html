@@ -17,19 +17,27 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             </p>
 
             <p class="subtitle is-size-5">What am I inviting you too?</p>
-            <p class="content">{{event.description}}</p>
+            <p class="content" style="white-space: pre-line">{{event.description}}</p>
 
             <p class="subtitle is-size-5">What is this website?</p>
             <p class="content">
-                This is your private event page for {{event.event}}. Don't share it with
-                anyone. It's only for you. I have you marked down as STATUS_UNKNOWN.
-                Click the flashing buttons to change that. Come back and change your
-                RSVP at anytime. If you wanna bring folks with you shoot me a text, with
-                their name and number so I can send you an secret invite page for them
-                too. ATTENDING_UNKOWN
+                This is your private event page for {{event.event}}. I have you marked
+                down as STATUS_UNKNOWN If you wanna bring a +1 text me their details.
+                ATTENDING_UNKOWN
             </p>
 
-            <form action="/submit" method="POST">
+            <form
+                name="submit_rsvp"
+                method="post"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                @submit.prevent="handleSubmit"
+            >
+                <input
+                    type="hidden"
+                    name="form-name"
+                    value="{{event_junction_public_id}}"
+                />
                 <div class="columns has-text-centered">
                     <div class="column">
                         <button
@@ -39,7 +47,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                             value="attending"
                             data-text="Attending"
                         >
-                            🥰
+                            &#128525;
                         </button>
                     </div>
                     <div class="column has-text-centered">
@@ -50,7 +58,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                             value="maybe"
                             data-text="Maybe"
                         >
-                            🤔
+                            &#129300;
                         </button>
                     </div>
                     <div class="column has-text-centered">
@@ -61,7 +69,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                             value="not_attending"
                             data-text="Can't go."
                         >
-                            😢
+                            &#128546;
                         </button>
                     </div>
                 </div>
@@ -70,5 +78,26 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     </div>
 </section>
 
-{% endblock %} {% block js %} function updateRSVP(attendee_status) {
-console.log(attendee_status); } {% endblock %}
+{% endblock %} {% block js %}
+
+<script>
+    export default {
+      export default {
+      name: "PollForm",
+
+      methods: {
+        handleSubmit () {
+          //some stuff
+          fetch('/', {...})
+          .then(res => {
+            this.$router.push('thanks')
+          })
+          .catch(err => {
+            this.$router.push('404')
+          })
+        }
+      }
+    }
+</script>
+
+{% endblock %}

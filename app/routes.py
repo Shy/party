@@ -91,5 +91,6 @@ def attendee_rsvp(event_junction_public_id):
         "attendee_rsvp.html",
         event=event,
         attendee=attendee,
+        event_junction_public_id=event_junction_public_id,
         title=f"{attendee.attendee}'s private invite to {event.event}.,",
     )
