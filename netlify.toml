@@ -1,9 +1,4 @@
 [[edge_functions]]
-  path = "/hello"
-  function = "hello"
-
-
-[[edge_functions]]
   path = "/rsvp/*"
   function = "attendee_status"
 
