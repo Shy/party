@@ -77,7 +77,7 @@ exports.handler = function (event, context, callback) {
         statusCode: 302,
         headers: {
             // Location: body["payload"]["data"]["referrer"],
-            refresh: "1; " + body["payload"]["data"]["referrer"],
+            location: body["payload"]["data"]["referrer"],
             "Cache-Control": "no-cache",
             "Access-Control-Expose-Headers": "Set-Cookie",
             "Set-Cookie": "deepdeepsheet=cookieValueHere; Path=/; Max-Age=259200",
