@@ -11,15 +11,18 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             <p class="title is-size-1 glitch" data-text="{{event.event}}">
                 {{event.event}}
             </p>
-            <p class="subtitle is-size-3">
-                {{event.date | humanize_ts}}
-                <br />{{event.location}}
+            <p class="content is-size-4">
+                <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}}
+                <br /><i class="fa-solid fa-location-dot" style="margin: 0 1.5px"></i>
+                {{event.location}}
             </p>
 
-            <p class="subtitle is-size-5">What am I inviting you too?</p>
-            <p class="content" style="white-space: pre-line">{{event.description}}</p>
+            <p class="subtitle is-size-4">What am I inviting you too?</p>
+            <p class="content">
+                <span class="pre">{{event.description | safe | trim}}</span>
+            </p>
 
-            <p class="subtitle is-size-5">What is this website?</p>
+            <p class="subtitle is-size-4">What is this website?</p>
             <p class="content">
                 This is your private event page for {{event.event}}. I have you marked
                 down as STATUS_UNKNOWN If you wanna bring a +1 text me their details.
@@ -27,6 +30,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             </p>
 
             <form
+                id="submit_rsvp"
                 name="submit_rsvp"
                 method="post"
                 data-netlify="true"
@@ -90,7 +94,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
           //some stuff
           fetch('/', {...})
           .then(res => {
-            this.$router.push('thanks')
+            {# this.$router.push('thanks') #}
           })
           .catch(err => {
             this.$router.push('404')

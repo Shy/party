@@ -40,7 +40,7 @@ exports.handler = function (event, context, callback) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + process.env.SUPERBLOCKS_ACCESS_TOKEN,
+            Authorization: "Bearer " + process.env.SUPERBLOCKS_PROD_WF,
         },
 
         body: {
@@ -73,9 +73,13 @@ exports.handler = function (event, context, callback) {
             event_junction_public_id: body["payload"]["data"]["form-name"],
         })
     );
-
     callback(null, {
-        statusCode: 200,
-        body: `[SUCCESS] Sending webhook to ${webhook_url.format()}`,
+        statusCode: 302,
+        headers: {
+            // Location: body["payload"]["data"]["referrer"],
+            refresh: "1; " + body["payload"]["data"]["referrer"],
+            "Cache-Control": "no-cache",
+        },
+        body: JSON.stringify(),
     });
 };
