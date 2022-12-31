@@ -4,3 +4,9 @@
 
 [dev]
 # Just run netlify dev -d app/build/
+
+[functions]
+directory = "netlify/functions/"
+
+[build]
+	functions = "netlify/functions/"
