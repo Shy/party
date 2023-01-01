@@ -30,14 +30,27 @@ export default async (request, context) => {
         };
     }
 
-    const response = await context.next();
-    const page = await response.text();
-    const jsonData = await SBresponse.json();
-    const jsonjsonData = JSON.parse(jsonData["data"]);
+    try {
+        const response = await context.next();
+        const page = await response.text();
+        const jsonData = await SBresponse.json();
+        const jsonjsonData = JSON.parse(jsonData["data"]);
 
-    let updatedPage = page
-        .replace(/STATUS_UNKNOWN/i, jsonjsonData["status"])
-        .replace(/ATTENDING_UNKOWN/i, jsonjsonData["attending"]);
+        if ("error" in jsonjsonData) {
+            console.log(jsonjsonData["error"]);
+            const res = Response.redirect("/", 302);
+            return res;
+        }
 
-    return new Response(updatedPage, response);
+        const updatedPage = page
+            .replace(/STATUS_UNKNOWN/i, jsonjsonData["status"])
+            .replace(/ATTENDING_UNKOWN/i, jsonjsonData["attending"]);
+
+        return new Response(updatedPage, response);
+    } catch (err) {
+        return {
+            statusCode: err.statusCode || 404,
+            body: JSON.stringify(404),
+        };
+    }
 };

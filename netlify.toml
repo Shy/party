@@ -6,7 +6,12 @@
 # Just run netlify dev -d app/build/
 
 [functions]
-directory = "netlify/functions/"
 
 [build]
 	functions = "netlify/functions/"
+
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
