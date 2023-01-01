@@ -14,7 +14,7 @@ exports.handler = function (event, context, callback) {
     }
 
     // 2. Filter
-    if (!body.payload.data.rsvp || !body.payload.data["form-name"]) {
+    if (!body.payload.data.rsvp || !body.payload.data["junction_pub"]) {
         const errorMessage = "[SPAM DETECTED] Required fields not defined.";
         console.log(errorMessage);
         callback(null, {
@@ -45,13 +45,11 @@ exports.handler = function (event, context, callback) {
 
         body: {
             rsvp: body["payload"]["data"]["rsvp"],
-            event_junction_public_id: body["payload"]["data"]["form-name"],
+            event_junction_public_id: body["payload"]["data"]["junction_pub"],
         },
     };
     // Set up webhook request
     const req = https.request(options, function (res) {
-        console.log(`Status: ${res.statusCode}`);
-        console.log(`Headers: ${JSON.stringify(res.headers)}`);
         res.setEncoding("utf8");
     });
 
@@ -70,17 +68,14 @@ exports.handler = function (event, context, callback) {
     req.end(
         JSON.stringify({
             rsvp: body["payload"]["data"]["rsvp"],
-            event_junction_public_id: body["payload"]["data"]["form-name"],
+            event_junction_public_id: body["payload"]["data"]["junction_pub"],
         })
     );
     callback(null, {
         statusCode: 302,
         headers: {
-            // Location: body["payload"]["data"]["referrer"],
-            location: body["payload"]["data"]["referrer"],
+            Refresh: 1,
             "Cache-Control": "no-cache",
-            "Access-Control-Expose-Headers": "Set-Cookie",
-            "Set-Cookie": "deepdeepsheet=cookieValueHere; Path=/; Max-Age=259200",
         },
         body: JSON.stringify(),
     });
