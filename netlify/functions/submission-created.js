@@ -77,6 +77,5 @@ exports.handler = function (event, context, callback) {
             Refresh: 1,
             "Cache-Control": "no-cache",
         },
-        body: JSON.stringify(),
     });
 };
