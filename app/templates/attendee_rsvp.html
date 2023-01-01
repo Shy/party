@@ -32,11 +32,17 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             <form
                 id="submit_rsvp"
                 name="submit_rsvp"
-                method="POST"
+                method="post"
                 data-netlify="true"
                 data-netlify-honeypot="bot-field"
                 @submit.prevent="handleSubmit"
             >
+                >
+                <input
+                    type="hidden"
+                    name="form-name"
+                    value="{{event_junction_public_id}}"
+                />
                 <div class="columns has-text-centered">
                     <div class="column">
                         <button
