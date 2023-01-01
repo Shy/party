@@ -1,5 +1,5 @@
 // Simple Contact Form Spam Filter
-exports.handler = async (event, context, callback) => {
+exports.handler = async function (event, context, callback) {
     // 1. Parse the form
     try {
         // NB: Using `var` since `const` is block-scoped
