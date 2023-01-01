@@ -1,5 +1,5 @@
 // Simple Contact Form Spam Filter
-exports.handler = function (event, context, callback) {
+exports.handler = async (event, context, callback) => {
     // 1. Parse the form
     try {
         // NB: Using `var` since `const` is block-scoped
@@ -77,5 +77,6 @@ exports.handler = function (event, context, callback) {
             Refresh: 1,
             "Cache-Control": "no-cache",
         },
+        body: JSON.stringify(),
     });
 };
