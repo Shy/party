@@ -34,7 +34,6 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 name="submit_rsvp"
                 method="POST"
                 data-netlify="true"
-                data-netlify-recaptcha="true"
                 data-netlify-honeypot="bot-field"
             >
                 <input
@@ -48,6 +47,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                             type="submit"
                             id="attending"
                             name="rsvp"
+                            data-netlify-recaptcha="true"
                             value="attending"
                             data-text="Attending"
                         >
@@ -60,6 +60,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                             id="maybe"
                             name="rsvp"
                             value="maybe"
+                            data-netlify-recaptcha="true"
                             data-text="Maybe"
                         >
                             &#129300;
@@ -72,6 +73,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                             name="rsvp"
                             value="not_attending"
                             data-text="Can't go."
+                            data-netlify-recaptcha="true"
                         >
                             &#128546;
                         </button>
