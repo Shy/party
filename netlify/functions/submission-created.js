@@ -15,7 +15,7 @@ exports.handler = async function (event, context, callback) {
 
     // 2. Filter
     if (!body.payload.data.rsvp || !body.payload.data["junction_pub"]) {
-        console.log(body);
+        console.log(body.payload);
         const errorMessage = "[SPAM DETECTED] Required fields not defined.";
         console.log(errorMessage);
         callback(null, {
