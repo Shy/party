@@ -33,9 +33,9 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 id="submit_rsvp"
                 name="submit_rsvp"
                 method="POST"
+                action=""
                 data-netlify="true"
                 data-netlify-honeypot="bot-field"
-                action="{{url_for("rsvp", event_junction_public_id=event_junction_public_id)}}"
             >
                 <input
                     type="hidden"
