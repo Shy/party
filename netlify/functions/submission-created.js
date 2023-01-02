@@ -73,11 +73,6 @@ exports.handler = async function (event, context, callback) {
         })
     );
     callback(null, {
-        statusCode: 302,
-        headers: {
-            Refresh: 1,
-            "Cache-Control": "no-cache",
-        },
-        body: JSON.stringify(),
+        statusCode: 200,
     });
 };
