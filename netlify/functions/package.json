@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "start": "netlify-lambda serve source/lambda",
+    "build": "netlify-lambda build source/lambda"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "dotenv": "^8.1.0",
+    "netlify-lambda": "^1.6.3"
+  }
+}

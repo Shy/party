@@ -34,31 +34,21 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 
             <form
                 id="submit_rsvp"
-                name="submit_rsvp"
-                method="POST"
-                action="/rsvp/{{event_junction_public_id}}/?success=true"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
+                action="/.netlify/functions/form-handler"
+                method="post"
             >
                 <input
                     type="hidden"
                     name="junction_pub"
+                    id="junction_pub"
                     value="{{event_junction_public_id}}"
-                />
-                <input
-                    type="hidden"
-                    id="hidden_rsvp_status"
-                    name="rsvp_status"
-                    value=""
                 />
                 <div class="columns has-text-centered">
                     <div class="column">
                         <button
-                            type="button"
-                            onClick="prepSubmit('attending')"
+                            type="submit"
                             id="attending"
                             name="rsvp"
-                            data-netlify-recaptcha="true"
                             value="attending"
                             data-text="Attending"
                         >
@@ -67,26 +57,22 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                     </div>
                     <div class="column has-text-centered">
                         <button
-                            type="button"
+                            type="submit"
                             id="maybe"
                             name="rsvp"
                             value="maybe"
-                            data-netlify-recaptcha="true"
                             data-text="Maybe"
-                            onClick="prepSubmit('maybe')"
                         >
                             &#129300;
                         </button>
                     </div>
                     <div class="column has-text-centered">
                         <button
-                            type="button"
+                            type="submit"
                             id="not_attending"
                             name="rsvp"
                             value="not_attending"
                             data-text="Can't go."
-                            data-netlify-recaptcha="true"
-                            onClick="prepSubmit('not_attending')"
                         >
                             &#128546;
                         </button>
@@ -99,11 +85,43 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 
 {% endblock %} {% block js %}
 <script>
-    function prepSubmit(status) {
-        form = document.getElementById("submit_rsvp");
-        document.getElementById("hidden_rsvp_status").value = status;
-        console.log(form.rsvp_status.value);
-        form.submit();
+    document.getElementById("attending").addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("attending");
+        submitRSVP("attending");
+    });
+    document.getElementById("maybe").addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("maybe");
+        submitRSVP("maybe");
+    });
+    document.getElementById("not_attending").addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("not_attending");
+        submitRSVP("not_attending");
+    });
+
+    function submitRSVP(status) {
+        junction_pub = document.getElementById("junction_pub").value;
+        fetch("/.netlify/functions/form-handler", {
+            method: "post",
+            body: JSON.stringify({
+                rsvp: status,
+                junction_pub: junction_pub,
+            }),
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log("data from function", data);
+                successNotification = document.getElementById("successNotification");
+                successNotification.hidden = false;
+                successNotification.innerText = data.message;
+                setTimeout(function () {
+                    window.location.reload();
+                }, 5000);
+            });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -117,20 +135,6 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             }
         );
     });
-    function getQueryVariable(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) {
-                return pair[1];
-            }
-        }
-        return false;
-    }
-    if (getQueryVariable("success") == "true") {
-        document.getElementById("successNotification").hidden = false;
-    }
 </script>
 
 {% endblock %}
