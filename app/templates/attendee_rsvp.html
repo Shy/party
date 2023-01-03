@@ -42,7 +42,12 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                     name="junction_pub"
                     value="{{event_junction_public_id}}"
                 />
-                <input type="hidden" name="rsvp_status" value="" />
+                <input
+                    type="hidden"
+                    id="hidden_rsvp_status"
+                    name="rsvp_status"
+                    value=""
+                />
                 <div class="columns has-text-centered">
                     <div class="column">
                         <button
@@ -93,7 +98,8 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 <script>
     function prepSubmit(status) {
         form = document.getElementById("submit_rsvp");
-        form.rsvp_status.value = status;
+        form.rsvp_status.value;
+        document.getElementById("hidden_rsvp_status").value = status;
         console.log(form.rsvp_status.value);
         form.submit();
     }
