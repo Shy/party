@@ -93,6 +93,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 <script>
     function prepSubmit(status) {
         var form = document.getElementById("submit_rsvp");
+        console.log(form);
         form[1].value = status;
         form.submit();
     }
