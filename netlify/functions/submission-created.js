@@ -74,6 +74,15 @@ exports.handler = async function (event, context, callback) {
         })
     );
 
+    return {
+        statusCode: 302,
+        headers: {
+            Location: body["payload"]["data"]["referrer"],
+            "Cache-Control": "no-cache",
+        },
+        body: JSON.stringify({}),
+    };
+
     callback(null, {
         statusCode: 200,
     });
