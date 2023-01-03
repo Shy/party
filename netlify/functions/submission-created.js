@@ -15,7 +15,7 @@ exports.handler = async function (event, context, callback) {
 
     // 2. Filter
 
-    if (!body.payload.data.rsvp || !body.payload.data["junction_pub"]) {
+    if (!body.payload.data["rsvp_status"] || !body.payload.data["junction_pub"]) {
         console.log(body.payload.data);
         const errorMessage = "[SPAM DETECTED] Required fields not defined.";
         console.log(errorMessage);
@@ -46,7 +46,7 @@ exports.handler = async function (event, context, callback) {
         },
 
         body: {
-            rsvp: body["payload"]["data"]["rsvp"],
+            rsvp: body["payload"]["data"]["rsvp_status"],
             event_junction_public_id: body["payload"]["data"]["junction_pub"],
         },
     };
@@ -69,10 +69,11 @@ exports.handler = async function (event, context, callback) {
     // Send form data to webhook request and end request
     req.end(
         JSON.stringify({
-            rsvp: body["payload"]["data"]["rsvp"],
+            rsvp: body["payload"]["data"]["rsvp_status"],
             event_junction_public_id: body["payload"]["data"]["junction_pub"],
         })
     );
+
     callback(null, {
         statusCode: 200,
     });

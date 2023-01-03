@@ -42,10 +42,12 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                     name="junction_pub"
                     value="{{event_junction_public_id}}"
                 />
+                <input type="hidden" name="rsvp_status" value="" />
                 <div class="columns has-text-centered">
                     <div class="column">
                         <button
-                            type="submit"
+                            type="button"
+                            onClick="prepSubmit('attending')"
                             id="attending"
                             name="rsvp"
                             data-netlify-recaptcha="true"
@@ -57,24 +59,26 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                     </div>
                     <div class="column has-text-centered">
                         <button
-                            type="submit"
+                            type="button"
                             id="maybe"
                             name="rsvp"
                             value="maybe"
                             data-netlify-recaptcha="true"
                             data-text="Maybe"
+                            onClick="prepSubmit('maybe')"
                         >
                             &#129300;
                         </button>
                     </div>
                     <div class="column has-text-centered">
                         <button
-                            type="submit"
+                            type="button"
                             id="not_attending"
                             name="rsvp"
                             value="not_attending"
                             data-text="Can't go."
                             data-netlify-recaptcha="true"
+                            onClick="prepSubmit('not_attending')"
                         >
                             &#128546;
                         </button>
@@ -85,4 +89,12 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     </div>
 </section>
 
+{% endblock %} {% block js %}
+<script>
+    function prepSubmit(status) {
+        var form = document.getElementById("submit_rsvp");
+        form[1].value = status;
+        form.submit();
+    }
+</script>
 {% endblock %}
