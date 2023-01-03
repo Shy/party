@@ -92,9 +92,9 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 {% endblock %} {% block js %}
 <script>
     function prepSubmit(status) {
-        var form = document.getElementById("submit_rsvp");
-        console.log(form);
-        form[1].value = status;
+        document.getElementById("submit_rsvp");
+        form.rsvp_status.value = status;
+        console.log(form.rsvp_status.value);
         form.submit();
     }
 </script>
