@@ -1,6 +1,9 @@
 {% extends "base.html" %} {%block coverimage %}url("{{
 url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content %}
-
+<div class="notification is-link" id="successNotification" hidden>
+    <button class="delete"></button>
+    Registration Updated
+</div>
 <section class="hero is-fullheight is-flex-touch">
     <div class="hero-body">
         <div class="">
@@ -33,7 +36,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 id="submit_rsvp"
                 name="submit_rsvp"
                 method="POST"
-                action=""
+                action="/rsvp/{{event_junction_public_id}}/?success=true"
                 data-netlify="true"
                 data-netlify-honeypot="bot-field"
             >
@@ -102,5 +105,32 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         console.log(form.rsvp_status.value);
         form.submit();
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        (document.querySelectorAll(".notification .delete") || []).forEach(
+            ($delete) => {
+                const $notification = $delete.parentNode;
+
+                $delete.addEventListener("click", () => {
+                    $notification.parentNode.removeChild($notification);
+                });
+            }
+        );
+    });
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return false;
+    }
+    if (getQueryVariable("success") == "true") {
+        document.getElementById("successNotification").hidden = false;
+    }
 </script>
+
 {% endblock %}

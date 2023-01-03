@@ -75,15 +75,11 @@ def attendee(attendee_public_id):
     return attendee.attendee
 
 
-@app.route("/rsvp/<event_junction_public_id>/", methods=["GET", "POST"])
+@app.route("/rsvp/<event_junction_public_id>/", methods=["GET"])
 def attendee_rsvp(event_junction_public_id):
     event_junction = EventAttendeeJunction.query.filter_by(
         public_id=event_junction_public_id
     ).first_or_404()
-    if request.method == "POST":
-        print(request.form["rsvp"])
-        event_junction.rsvp = request.form["rsvp"]
-        db.session.commit()
     attendee = Attendee.query.filter_by(id=event_junction.attendee_id).first_or_404()
     event = Event.query.filter_by(id=event_junction.event_id).first_or_404()
 
