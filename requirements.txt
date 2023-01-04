@@ -13,7 +13,7 @@ pathspec==0.10.3
 platformdirs==2.6.2
 psycopg2-binary==2.9.5
 pytz==2022.7
-SQLAlchemy==1.4.45
+SQLAlchemy==1.4.46
 sqlalchemy-cockroachdb==1.4.4
 tomli==2.0.1
 Werkzeug==2.2.2
