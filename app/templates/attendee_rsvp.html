@@ -11,9 +11,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 data-text=""
                 hidden
             ></button>
-            <p class="subtitle is-size-3">
-                {{attendee.attendee}}, you are invited to attend
-            </p>
+            <p class="subtitle is-size-3">{{attendee.attendee}}, ATTENDING_UNKOWN</p>
 
             <p class="title is-size-1 glitch" data-text="{{event.event}}">
                 {{event.event}}
@@ -33,7 +31,6 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             <p class="content">
                 This is your private event page for {{event.event}}. I have you marked
                 down as STATUS_UNKNOWN If you wanna bring a +1 text me their details.
-                ATTENDING_UNKOWN
             </p>
 
             <form
