@@ -23,6 +23,7 @@ def debug_only(f):
     return wrapped
 
 
+@debug_only
 def textInvites(attendee, event_junction_public_id):
     print(
         f'{app.config["DOMAIN"]}{url_for("attendee_rsvp", event_junction_public_id=event_junction_public_id)} texted to {attendee.phone}'
