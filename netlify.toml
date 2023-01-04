@@ -9,5 +9,3 @@
 
 [build]
 	functions = "netlify/functions/"
-  cd netlify/functions
-  npm install
