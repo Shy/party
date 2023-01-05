@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charset="UTF-8" />
@@ -13,22 +13,24 @@
             rel="stylesheet"
             href="{{ url_for('static', filename='css/style.css') }}"
         />
+        <link rel="icon" type="image/x-icon" href="url("{{
+        url_for("static",filename="images/favicon.ico") }}">
         <style>
 
             body {
 
-                            background: linear-gradient(rgba(10, 10, 10, 0.6), rgba(0, 0, 0, 0.9)),
-                                repeating-linear-gradient(
-                                    0,
-                                    transparent,
-                                    transparent 2px,
-                                    black 3px,
-                                    black 3px
-                                ),{% block coverimage %}{% endblock %}");
-                            background-size: cover;
-                            background-position: top;
-                            z-index: 1;
-            }
+                                background: linear-gradient(rgba(10, 10, 10, 0.6), rgba(0, 0, 0, 0.9)),
+                                    repeating-linear-gradient(
+                                        0,
+                                        transparent,
+                                        transparent 2px,
+                                        black 3px,
+                                        black 3px
+                                    ),{% block coverimage %}{% endblock %}");
+                                background-size: cover;
+                                background-position: top;
+                                z-index: 1;
+                }
         </style>
         <script
             src="https://kit.fontawesome.com/e3bcf5a3ec.js"
