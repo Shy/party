@@ -10,3 +10,6 @@
 
 [build]
 	functions = "netlify/functions/"
+
+[[plugins]]
+  package ="@netlifyplugin-functions-install-core"
