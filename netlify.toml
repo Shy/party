@@ -6,6 +6,7 @@
 # Just run netlify dev -d app/build/
 
 [functions]
+  node_bundler = "esbuild"
 
 [build]
 	functions = "netlify/functions/"
