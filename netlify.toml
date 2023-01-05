@@ -12,4 +12,4 @@
 	functions = "netlify/functions/"
 
 [[plugins]]
-  package ="@netlifyplugin-functions-install-core"
+package = "netlify-plugin-one"
