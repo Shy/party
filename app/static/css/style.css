@@ -1,17 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+ @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
 
 html {height: 100%;}
 p.title{
-	font-family: 'Silkscreen', sans-serif;
-	font-size: 4em;
+	font-family: 'DotGothic16', sans-serif;
 	color: aliceblue;
 }
 
 p.subtitle{
-	font-family: 'Silkscreen', sans-serif;
-	font-size: 1em;
+	font-family: 'DotGothic16', sans-serif;
 	color: aliceblue;
 }
 
@@ -265,7 +263,7 @@ margin-top: -2.25rem;
 	}
 }
 button {
-	font-family: 'Silkscreen', sans-serif;
+	font-family: 'DotGothic16', sans-serif;
 	 padding: 1em 2em;
 	 min-width:100%;
 	 cursor: pointer;
