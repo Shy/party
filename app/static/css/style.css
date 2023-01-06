@@ -19,7 +19,8 @@ p.content {
 }
 
 .subtitle:not(.is-spaced) + .title {
-margin-top: -2.25rem;
+margin-top: -1.75rem;
+
 }
 
  .glitch {
