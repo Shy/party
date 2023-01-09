@@ -1,14 +1,38 @@
 {% extends "base.html" %}{%block coverimage %} url("{{ url_for("static",
 filename="images/index.jpg") }} {% endblock %}{% block content %}
 
-            <div id="wrapper"><h1 class="glitch" data-text="{{event.event}}">{{event.event}}</h1>
-<div><span class="sub">{{event.date | humanize_ts}}</span></div>
-<div><span class="sub">{{event.location }}</span></div></br>
-</div>
-<div id="wrapper">
-<div><span class="content">{{event.description }}</span></div></br>
+<section class="hero is-fullheight is-flex-touch">
+    <div class="hero-body">
+        <div class="">
+            <p class="title is-size-1 glitch" data-text="{{event.event}}">
+                {{event.event}}
+            </p>
+            <p class="content is-size-4">
+                <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}}
+            </p>
 
+            <p class="subtitle is-size-4">What is this event?</p>
+            <p class="content">
+                <span class="pre">{{event.description | safe | trim}}</span>
+            </p>
 
-<button class="gradient" data-text="Attend this event.">Ping Shy for your private link to RSVP</button></div>
+            <form>
+                <div class="columns has-text-centered">
+                    <div class="column">
+                        <button
+                            type="button"
+                            id="attending"
+                            name="rsvp"
+                            value="attending"
+                            data-text="Attend this event"
+                        >
+                            Ping Shy for your private invite.
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 
 {% endblock %}
