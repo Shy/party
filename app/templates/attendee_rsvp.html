@@ -27,11 +27,13 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 <span class="pre">{{event.description | safe | trim}}</span>
             </p>
 
-            <p class="subtitle is-size-4">What is this website?</p>
+            <p class="subtitle is-size-4">Who is coming?</p>
             <p class="content">
-                This is your private event page for {{event.event}}. If you wanna bring
-                a +1 text me their details. ATTENDING_UNKOWN
+                ATTENDING_UNKOWN If you wanna bring a +1 text me their details.
             </p>
+
+            <p class="subtitle is-size-4">What is this website?</p>
+            <p class="content">This is your private event page for {{event.event}}.</p>
 
             <form
                 id="submit_rsvp"
