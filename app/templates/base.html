@@ -4,10 +4,44 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charset="UTF-8" />
 
+        <!-- HTML Meta Tags -->
+        <title>Shy.Party</title>
+        <meta name="description" content="Shy.Party is a worse version of Partiful. " />
+
+        <!-- Facebook Meta Tags -->
+        <meta property="og:url" content="https://www.shy.party/" />
+        <meta property="og:type" content="website" />
+        <meta
+            property="og:description"
+            content="Shy.Party is a worse version of Partiful."
+        />
+        <meta
+            property="og:image"
+            content="{{ url_for('static', filename='images/image.png') }}"
+        />
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="shy.party" />
+        <meta property="twitter:url" content="https://www.shy.party/" />
+
+        <meta
+            name="twitter:description"
+            content="Shy.Party is a worse version of Partiful. "
+        />
+        <meta
+            name="twitter:image"
+            content="{{ url_for('static', filename='images/image.png') }}"
+        />
+
         {% if title %}
+        <meta property="og:title" content="{{ title }}" />
         <title>{{ title }}</title>
+        <meta name="twitter:title" content="{{ title }}" />
         {% else %}
         <title>Shy.Party</title>
+        <meta property="og:title" content="Shy.party" />
+        <meta name="twitter:title" content="Shy.Party" />
         {% endif %}
         <link
             rel="stylesheet"
