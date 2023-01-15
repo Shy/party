@@ -11,7 +11,9 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 data-text=""
                 hidden
             ></button>
-            <p class="subtitle is-size-3">{{attendee.attendee}}, STATUS_UNKNOWN</p>
+            <p class="subtitle is-size-3">
+                {{attendee.attendee}}, <span id="attendee_status">STATUS_UNKNOWN</span>
+            </p>
 
             <p class="title is-size-1 glitch" data-text="{{event.event}}">
                 {{event.event}}
@@ -126,14 +128,25 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             })
             .then(function (data) {
                 console.log("data from function", data);
+
                 successNotification = document.getElementById("successNotification");
                 successNotification.hidden = false;
                 successNotification.innerText = data.message;
                 successNotification.setAttribute("data-text", data.message);
 
-                setTimeout(function () {
-                    window.location.reload();
-                }, 5000);
+                attendeeStatus = document.getElementById("attendee_status");
+
+                switch (status) {
+                    case "attending":
+                        attendeeStatus.innerText = "you are attending";
+                        break;
+                    case "maybe":
+                        attendeeStatus.innerText = "you are a maybe for";
+                        break;
+                    case "not_attending":
+                        attendeeStatus.innerText = "you are unable to attend";
+                        break;
+                }
             });
     }
 
