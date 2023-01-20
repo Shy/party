@@ -1,7 +1,6 @@
 from flask import (
     render_template,
     request,
-    url_for,
     send_from_directory,
     request,
 )
@@ -21,13 +20,6 @@ def debug_only(f):
         return f(**kwargs)
 
     return wrapped
-
-
-@debug_only
-def textInvites(attendee, event_junction_public_id):
-    print(
-        f'{app.config["DOMAIN"]}{url_for("attendee_rsvp", event_junction_public_id=event_junction_public_id)} texted to {attendee.phone}'
-    )
 
 
 @app.route("/")
