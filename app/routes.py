@@ -4,6 +4,7 @@ from flask import (
     send_from_directory,
     request,
 )
+
 from app import app, db
 from app.models import Event, Attendee, EventAttendeeJunction
 from functools import wraps
@@ -42,29 +43,14 @@ def event(event_public_id):
     )
 
 
-@app.route("/events/<event_public_id>/invite/")
-@debug_only
-def invite(event_public_id):
-    event = Event.query.filter_by(public_id=event_public_id).first_or_404()
-    invited = Attendee.query.filter_by(invited=True).all()
-    for invitee in invited:
-        event_junction = EventAttendeeJunction(
-            public_id=generate("0123456789abcdefghijklmnopqrstuvwxyz", 12),
-            event_id=event.id,
-            attendee_id=invitee.id,
-        )
-        db.session.add(event_junction)
-        db.session.commit()
-        textInvites(invitee, event_junction.public_id)
-
-    return "Invites to event {} sent.".format(event.event)
-
-
 @app.route("/attendee/<attendee_public_id>/", methods=["GET"])
 @debug_only
 def attendee(attendee_public_id):
     attendee = Attendee.query.filter_by(public_id=attendee_public_id).first_or_404()
-    print(attendee)
+    events = EventAttendeeJunction.query.filter_by(
+        attendee_id=attendee.id, rsvp="attending"
+    ).all()
+    print(len(events))
     return attendee.attendee
 
 

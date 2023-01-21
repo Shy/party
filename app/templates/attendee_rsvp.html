@@ -19,11 +19,13 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 {{event.event}}
             </p>
             <p class="content is-size-4">
-                <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}}
+                <a id="default-button">
+                    <i class="fa-regular fa-calendar"></i> {{event.date |
+                    humanize_ts}}</a
+                >
                 <br /><i class="fa-solid fa-location-dot" style="margin: 0 1.5px"></i>
                 {{event.location}}
             </p>
-
             <p class="subtitle is-size-4">What am I inviting you too?</p>
             <p class="content">
                 <span class="pre">{{event.description | safe | trim}}</span>
@@ -162,5 +164,38 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         );
     });
 </script>
+<script
+    src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1"
+    async
+    defer
+></script>
+<script type="application/javascript">
+    const config = {
+        name: "{{event.event}}",
+        description:
+            "Update your RSVP at https://shy.party/rsvp/{{event_junction_public_id}}",
+        startDate: "{{ event.date | humanize_cal_date }}",
+        endDate: "{{ event.date | humanize_cal_date_end }}",
+        startTime: "{{ event.date | humanize_cal_time }}",
+        endTime: "{{ event.date | humanize_cal_time_end }}",
+        options: [
+            "Google",
+            "Apple",
+            "iCal",
+            "Microsoft365",
+            "MicrosoftTeams",
+            "Outlook.com",
+            "Yahoo",
+            "iCal",
+        ],
+        timeZone: "US/Eastern",
+        trigger: "click",
+        iCalFileName: "Reminder-Shy-Party",
+        label: "Add to Calendar",
 
+        location: "{{event.location}}",
+    };
+    const button = document.getElementById("default-button");
+    button.addEventListener("click", () => atcb_action(config, button));
+</script>
 {% endblock %}
