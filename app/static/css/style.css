@@ -283,6 +283,25 @@ button {
 	 -o-animation: AnimationName 4s ease infinite;
 	 animation: AnimationName 4s ease infinite;
 }
+
+.atcb-list-item{
+	 font-family: 'DotGothic16', sans-serif;
+	 background: #040004;
+	 letter-spacing: 0.25em;
+	 color: white;
+
+}
+.atcb-dropoverlay .atcb-list .atcb-list-item:first-child, .atcb-dropup .atcb-list-item:first-child, .atcb-list.atcb-modal .atcb-list-item:first-child{
+	border-radius: 0.6em 0.6em 0 0;
+}
+.atcb-list .atcb-list-item:not(:first-child) {
+    border-top-style: none;
+}
+.atcb-list-item:last-child {
+	border-radius: 0 0 0.6em 0.6em;
+}
+
+
  @-webkit-keyframes AnimationName {
 	 0% {
 		 background-position: 0% 50%;
@@ -327,6 +346,8 @@ button {
 		 background-position: 0% 50%;
 	}
 }
+
+
  button:after {
 	 position: absolute;
 	 z-index: 11;

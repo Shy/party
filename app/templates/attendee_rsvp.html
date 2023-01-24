@@ -19,10 +19,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 {{event.event}}
             </p>
             <p class="content is-size-4">
-                <a id="default-button">
-                    <i class="fa-regular fa-calendar"></i> {{event.date |
-                    humanize_ts}}</a
-                >
+                <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}}
                 <br /><i class="fa-solid fa-location-dot" style="margin: 0 1.5px"></i>
                 {{event.location}}
             </p>
@@ -99,6 +96,11 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 </section>
 
 {% endblock %} {% block js %}
+<script
+    src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1"
+    async
+    defer
+></script>
 <script>
     document.getElementById("attending").addEventListener("click", (event) => {
         event.preventDefault();
@@ -133,8 +135,12 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 
                 successNotification = document.getElementById("successNotification");
                 successNotification.hidden = false;
-                successNotification.innerText = data.message;
-                successNotification.setAttribute("data-text", data.message);
+                successNotification.innerText =
+                    data.message + " Click me to for a cal invite!";
+                successNotification.setAttribute(
+                    "data-text",
+                    data.message + " Click me to for a cal invite!"
+                );
 
                 attendeeStatus = document.getElementById("attendee_status");
 
@@ -163,13 +169,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             }
         );
     });
-</script>
-<script
-    src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1"
-    async
-    defer
-></script>
-<script type="application/javascript">
+
     const config = {
         name: "{{event.event}}",
         description:
@@ -178,6 +178,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         endDate: "{{ event.date | humanize_cal_date_end }}",
         startTime: "{{ event.date | humanize_cal_time }}",
         endTime: "{{ event.date | humanize_cal_time_end }}",
+        hideBranding: true,
         options: [
             "Google",
             "Apple",
@@ -190,12 +191,13 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         ],
         timeZone: "US/Eastern",
         trigger: "click",
-
+        inline: true,
+        listStyle: "modal",
         label: "Add to Calendar",
         lightMode: "dark",
         location: "{{event.location}}",
     };
-    const button = document.getElementById("default-button");
+    const button = document.getElementById("successNotification");
     button.addEventListener("click", () => atcb_action(config, button));
 </script>
 {% endblock %}
