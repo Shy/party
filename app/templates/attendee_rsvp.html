@@ -137,10 +137,10 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 successNotification = document.getElementById("successNotification");
                 successNotification.hidden = false;
                 successNotification.innerText =
-                    data.message + " Click me to for a cal invite!";
+                    data.message + " Click me to add to your calendar!";
                 successNotification.setAttribute(
                     "data-text",
-                    data.message + " Click me to for a cal invite!"
+                    data.message + " Click me to add to your calendar!"
                 );
 
                 attendeeStatus = document.getElementById("attendee_status");
