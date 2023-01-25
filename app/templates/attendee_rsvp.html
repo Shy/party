@@ -194,7 +194,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 
 
     /* Populate list of attendees. */
-    const ATTENDEE_DATA = ATTENDEES_UNKNOWN;
+    const ATTENDEE_DATA = 'ATTENDEES_UNKNOWN'.split(',');
     const listEl = document.getElementById('attendees-list');
     ATTENDEE_DATA.forEach((attendee) => {
         const li = document.createElement('li');
