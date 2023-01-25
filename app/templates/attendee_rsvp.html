@@ -29,9 +29,10 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             </p>
 
             <p class="subtitle is-size-4">Who is coming?</p>
-            <p class="content">
-                ATTENDING_UNKOWN If you wanna bring a +1 text me their details.
-            </p>
+            <div class="content">
+                <ul id="attendees-list"></ul>
+                If you wanna bring a +1 text me their details.
+            </div>
 
             <p class="subtitle is-size-4">What is this website?</p>
             <p class="content">
@@ -190,5 +191,15 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     };
     const button = document.getElementById("successNotification");
     button.addEventListener("click", () => atcb_action(config, button));
+
+
+    /* Populate list of attendees. */
+    const ATTENDEE_DATA = ATTENDEES_UNKNOWN;
+    const listEl = document.getElementById('attendees-list');
+    ATTENDEE_DATA.forEach((attendee) => {
+        const li = document.createElement('li');
+        li.innerText = attendee;
+        listEl.appendChild(li);
+    });
 </script>
 {% endblock %}

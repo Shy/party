@@ -13,6 +13,7 @@ p.subtitle{
 	color: aliceblue;
 }
 
+div.content,
 p.content {
 	font-family: 'Source Code Pro', sans-serif;
 	color: aliceblue;
@@ -474,3 +475,6 @@ a:hover{
 	white-space: pre-line;
 }
 
+#attendees-list {
+	margin: 0 0 1em 1em;
+}
