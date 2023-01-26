@@ -22,7 +22,7 @@ class Attendee(db.Model):
     invited = db.Column(db.Boolean, nullable=False, server_default=db.text("true"))
 
     def __repr__(self):
-        return "<Attendee {}>".format(self.attendee)
+        return f"<Attendee {self.attendee}>"
 
 
 class Event(db.Model):
@@ -42,7 +42,7 @@ class Event(db.Model):
     )
 
     def __repr__(self):
-        return "<Event {}>".format(self.event)
+        return f"<Event {self.event}>"
 
 
 class EventAttendeeJunction(db.Model):
