@@ -1,6 +1,8 @@
 from flask_frozen import Freezer
 from app import app
 from app.models import EventAttendeeJunction, Event
+from datetime import datetime, timedelta
+import pytz
 
 
 freezer = Freezer(app)
@@ -14,8 +16,15 @@ def event():
 
 @freezer.register_generator
 def attendee_rsvp():
-    for rsvp in EventAttendeeJunction.query.all():
-        yield {"event_junction_public_id": rsvp.public_id}
+    utc = pytz.UTC
+
+    now = utc.localize(datetime.now())
+    time_diff = timedelta(days=31)
+
+    for event in Event.query.all():
+        if event.date >= now - time_diff and event.date <= now + time_diff:
+            for rsvp in EventAttendeeJunction.query.filter_by(event_id=event.id).all():
+                yield {"event_junction_public_id": rsvp.public_id}
 
 
 if __name__ == "__main__":
