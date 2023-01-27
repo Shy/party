@@ -44,8 +44,7 @@ export default async (request, context) => {
 
         const updatedPage = page
             .replace(/STATUS_UNKNOWN/i, jsonjsonData["status"])
-            .replace(/ATTENDEES_UNKNOWN/i, jsonjsonData["attendees"])
-            .replace(/ATTENDING_UNKOWN/i, jsonjsonData["attending"]);
+            .replace(/ATTENDEES_UNKNOWN/i, jsonjsonData["attendees"]);
 
         return new Response(updatedPage, response);
     } catch (err) {

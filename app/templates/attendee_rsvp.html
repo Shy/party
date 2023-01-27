@@ -192,12 +192,11 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     const button = document.getElementById("successNotification");
     button.addEventListener("click", () => atcb_action(config, button));
 
-
     /* Populate list of attendees. */
-    const ATTENDEE_DATA = 'ATTENDEES_UNKNOWN'.split(',');
-    const listEl = document.getElementById('attendees-list');
+    const ATTENDEE_DATA = "ATTENDEES_UNKNOWN".split(",");
+    const listEl = document.getElementById("attendees-list");
     ATTENDEE_DATA.forEach((attendee) => {
-        const li = document.createElement('li');
+        const li = document.createElement("li");
         li.innerText = attendee;
         listEl.appendChild(li);
     });

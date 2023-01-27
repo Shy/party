@@ -301,7 +301,11 @@ button {
 .atcb-list-item:last-child {
 	border-radius: 0 0 0.6em 0.6em;
 }
-
+ul{
+  columns: 4;
+  -webkit-columns: 4;
+  -moz-columns: 4;
+}
 
  @-webkit-keyframes AnimationName {
 	 0% {
