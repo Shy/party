@@ -12,7 +12,9 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 hidden
             ></button>
             <p class="subtitle is-size-3">
-                {{attendee.attendee}},<span id="attendee_status">STATUS_UNKNOWN</span>
+                {{attendee.attendee.split()[0]}},<span id="attendee_status"
+                    >STATUS_UNKNOWN</span
+                >
             </p>
 
             <p class="title is-size-1 glitch" data-text="{{event.event}}">

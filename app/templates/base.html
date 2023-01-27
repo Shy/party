@@ -39,6 +39,7 @@
         <title>{{ title }}</title>
         <meta name="twitter:title" content="{{ title }}" />
         <link
+            inline
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1/assets/css/atcb-3d.min.css"
         />
@@ -47,8 +48,9 @@
         <meta property="og:title" content="Shy.party" />
         <meta name="twitter:title" content="Shy.Party" />
         {% endif %}
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link inline rel="preconnect" href="https://fonts.gstatic.com" />
         <link
+            inline
             rel="stylesheet"
             href="{{ url_for('static', filename='css/style.css') }}"
         />
@@ -70,6 +72,7 @@
             }
         </style>
         <script
+            inline
             src="https://kit.fontawesome.com/e3bcf5a3ec.js"
             crossorigin="anonymous"
         ></script>
