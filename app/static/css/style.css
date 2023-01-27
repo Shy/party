@@ -302,22 +302,10 @@ button {
 	border-radius: 0 0 0.6em 0.6em;
 }
 ul{
-  columns: 4;
-  -webkit-columns: 4;
-  -moz-columns: 4;
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
 }
-
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-    ul .mobile-device {
-
-		columns: 2;
-		-webkit-columns: 2;
-		-moz-columns: 2;
-
-
-    }
-}
-
 
  @-webkit-keyframes AnimationName {
 	 0% {
