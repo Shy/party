@@ -302,9 +302,9 @@ button {
 	border-radius: 0 0 0.6em 0.6em;
 }
 ul{
-  columns: 2;
-  -webkit-columns: 2;
-  -moz-columns: 2;
+  columns: 3;
+  -webkit-columns: 3;
+  -moz-columns: 3;
 }
 
  @-webkit-keyframes AnimationName {
