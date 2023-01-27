@@ -307,6 +307,18 @@ ul{
   -moz-columns: 4;
 }
 
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    ul .mobile-device {
+
+		columns: 2;
+		-webkit-columns: 2;
+		-moz-columns: 2;
+
+
+    }
+}
+
+
  @-webkit-keyframes AnimationName {
 	 0% {
 		 background-position: 0% 50%;
