@@ -3,7 +3,6 @@ from app import app
 from app.models import EventAttendeeJunction, Event
 from datetime import datetime, timedelta
 import pytz
-import logging
 
 
 freezer = Freezer(app)
@@ -24,9 +23,9 @@ def attendee_rsvp():
 
     for event in Event.query.all():
         if event.date >= now - time_diff and event.date <= now + time_diff:
-            logging.info(f"Generating rsvps for {event.event} on {event.date}")
+            print(f"Generating rsvps for {event.event} on {event.date}")
             for rsvp in EventAttendeeJunction.query.filter_by(event_id=event.id).all():
-                logging.info(f"Making rsvp {rsvp.public_id} for {rsvp.attendee_id}")
+                print(f"Making rsvp {rsvp.public_id} for {rsvp.attendee.attendee}")
                 yield {"event_junction_public_id": rsvp.public_id}
 
 

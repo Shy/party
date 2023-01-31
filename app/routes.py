@@ -1,15 +1,13 @@
 from flask import (
     render_template,
-    request,
     send_from_directory,
     request,
 )
 
-from app import app, db
+from app import app
 from app.models import Event, Attendee, EventAttendeeJunction
 from functools import wraps
 from flask import current_app, abort
-from nanoid import generate
 
 
 def debug_only(f):
@@ -41,17 +39,6 @@ def event(event_public_id):
         title=event.event,
         event=event,
     )
-
-
-@app.route("/attendee/<attendee_public_id>/", methods=["GET"])
-@debug_only
-def attendee(attendee_public_id):
-    attendee = Attendee.query.filter_by(public_id=attendee_public_id).first_or_404()
-    events = EventAttendeeJunction.query.filter_by(
-        attendee_id=attendee.id, rsvp="attending"
-    ).all()
-    print(len(events))
-    return attendee.attendee
 
 
 @app.route("/rsvp/<event_junction_public_id>/", methods=["GET"])
