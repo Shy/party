@@ -1,14 +1,8 @@
 const { Pool } = require('pg');
 
-const match = /(.*):(.*)@(.*):(.*)\/(.*)/.exec(process.env.DB_CONNECTION_STRING);
 const dbOptions = {
-      host: match[3],
-      port: parseInt(match[4], 10),
-      user: match[1],
-      password: match[2],
-      database: match[5],
-      max: 20,
-      ssl: true,
+    connectionString: process.ENV.DB_CONNECTION_STRING,
+    ssl: true,
 };
 const pgPool = new Pool(dbOptions);
 
