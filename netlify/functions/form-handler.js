@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const match = /(.*):(.*)@(.*):(.*)\/(.*)/.exec(process.env.DATABASE_URL);
+const match = /(.*):(.*)@(.*):(.*)\/(.*)/.exec(process.env.DB_CONNECTION_STRING);
 const dbOptions = {
       host: match[3],
       port: parseInt(match[4], 10),
