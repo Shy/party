@@ -1,9 +1,10 @@
-const API_ENDPOINT =
-    "https://app.superblocks.com/agent/v1/workflows/0e26c575-344c-483c-a848-f76e78ee4c86?environment=production";
+import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
+const env_vars = Deno.env.toObject();
+const client = new Client(env_vars["DB_CONNECTION_STRING"]);
 
 export default async (request, context) => {
+    await client.connect();
     const url = new URL(request.url);
-    const env_vars = Deno.env.toObject();
     const split_path = url.pathname.split("/");
     let event_junction_pub_id;
     if (split_path[split_path.length - 1] == "") {
@@ -11,40 +12,38 @@ export default async (request, context) => {
     } else {
         event_junction_pub_id = split_path[split_path.length - 1];
     }
-    let SBresponse;
-    try {
-        SBresponse = await fetch(API_ENDPOINT, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + env_vars["SUPERBLOCKS_PROD_WF"],
-            },
-            body: JSON.stringify({ event_junction_pub_id: event_junction_pub_id }),
-        });
-    } catch (err) {
-        return {
-            statusCode: err.statusCode || 500,
-            body: JSON.stringify({
-                error: err.message,
-            }),
-        };
-    }
 
+    const status = {
+        attending: "you are invited to attend",
+        not_attending: "you are unable to attend",
+        maybe: "you are a maybe for",
+    };
+
+    const event_id_lookup = await client.queryObject(
+        "select event_attendee_junction.event_id, event_attendee_junction.rsvp, event_attendee_junction.attendee_id from event_attendee_junction where event_attendee_junction.public_id =  $1",
+        [event_junction_pub_id]
+    );
+
+    const attending_lookup = await client.queryArray(
+        "SELECT attendee.attendee FROM event_attendee_junction INNER JOIN attendee ON event_attendee_junction.attendee_id=attendee.id  where event_attendee_junction.event_id = $1 AND event_attendee_junction.rsvp = 'attending' ORDER BY attendee.phone DESC",
+        [event_id_lookup.rows[0].event_id]
+    );
+
+    await client.end();
+    let attendingArray = attending_lookup.rows.flat();
+    attendingArray.forEach((element, index, attendingArray) => {
+        attendingArray[index] = element.split(" ")[0];
+    });
     try {
         const response = await context.next();
         const page = await response.text();
-        const jsonData = await SBresponse.json();
-        const jsonjsonData = JSON.parse(jsonData["data"]);
-
-        if ("error" in jsonjsonData) {
-            console.log(jsonjsonData["error"]);
-            const res = Response.redirect("/", 302);
-            return res;
-        }
 
         const updatedPage = page
-            .replace(/STATUS_UNKNOWN/i, jsonjsonData["status"])
-            .replace(/ATTENDEES_UNKNOWN/i, jsonjsonData["attendees"]);
+            .replace(
+                /STATUS_UNKNOWN/i,
+                status[event_id_lookup.rows[0]["rsvp"]] ?? "you are invited to attend"
+            )
+            .replace(/ATTENDEES_UNKNOWN/i, attendingArray);
 
         return new Response(updatedPage, response);
     } catch (err) {
