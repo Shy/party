@@ -25,7 +25,7 @@ def attendee_rsvp():
         if event.date >= now - time_diff and event.date <= now + time_diff:
             print(f"Generating rsvps for {event.event} on {event.date}")
             for rsvp in EventAttendeeJunction.query.filter_by(event_id=event.id).all():
-                print(f"Making rsvp {rsvp.public_id} for {rsvp.attendee.attendee}")
+                print(f"Making rsvp for {rsvp.attendee.attendee}")
                 yield {"event_junction_public_id": rsvp.public_id}
 
 
