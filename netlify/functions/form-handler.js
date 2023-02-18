@@ -1,6 +1,10 @@
 const { Pool } = require("pg");
 const dbOptions = {
-    connectionString: process.ENV.DATABASE_URL,
+    host: process.ENV.DB_HOST,
+    user: process.ENV.DATABASE_USER,
+    database: process.ENV.DB_DB,
+    password: process.ENV.DB_PW,
+    port: process.ENV.DB_PORT,
     ssl: true,
 };
 const pgPool = new Pool(dbOptions);
