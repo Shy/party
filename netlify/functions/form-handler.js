@@ -2,12 +2,13 @@ const { Client } = require("pg");
 const { parse } = require("querystring");
 
 const connectionString = process.env.DATABASE_URL_PG;
-const client = new Client({
-    connectionString,
-});
-client.connect();
 
 exports.handler = async (event, _context, callback) => {
+    const client = new Client({
+        connectionString,
+    });
+    client.connect();
+
     let body = {};
 
     try {
@@ -33,7 +34,7 @@ exports.handler = async (event, _context, callback) => {
         "UPDATE event_attendee_junction SET rsvp = $1 WHERE public_id = $2 RETURNING *";
     const values = [rsvp, junction_pub];
 
-    updatedRsvp = client
+    updatedRsvp = await client
         .query(query, values)
         .then((result) => {
             console.log(result.rows);
