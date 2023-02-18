@@ -38,8 +38,6 @@ exports.handler = async (event, _context, callback) => {
     updatedRsvp = await client
         .query(query, values)
         .then((result) => {
-            console.log(result.rows);
-            result.rows[0].rsvp;
         }) // your callback here
         .catch((e) => console.error(e.stack)); // your callback here
 
