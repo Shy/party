@@ -37,7 +37,6 @@ export default async (request, context) => {
     try {
         const response = await context.next();
         const page = await response.text();
-
         const updatedPage = page
             .replace(
                 /STATUS_UNKNOWN/i,

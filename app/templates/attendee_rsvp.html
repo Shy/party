@@ -67,7 +67,6 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                         ></button>
                     </div>
                 </div>
-
                 <div class="columns has-text-centered">
                     <div class="column">
                         <button
@@ -203,7 +202,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         lightMode: "dark",
         location: "{{event.location}}",
     };
-    const button = document.getElementById("successNotification");
+    const button = document.getElementById("successNotificationButton");
     button.addEventListener("click", () => atcb_action(config, button));
 
     /* Populate list of attendees. */
