@@ -20,12 +20,13 @@ exports.handler = async (event, _context, callback) => {
     if (!body.junction_pub || !body.rsvp) {
         console.log("[SPAM DETECTED] Required fields not defined.");
 
-        return callback(null, {
+        return {
             statusCode: 400,
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 error: "[SPAM DETECTED] Required fields not defined.",
             }),
-        });
+        };
     }
 
     const { junction_pub, rsvp } = body;
@@ -59,8 +60,9 @@ exports.handler = async (event, _context, callback) => {
             break;
     }
 
-    return callback(null, {
+    return {
         statusCode: 200,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message }),
-    });
+    };
 };
