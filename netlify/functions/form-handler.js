@@ -18,7 +18,6 @@ exports.handler = async (event, _context, callback) => {
 
     if (!body.junction_pub || !body.rsvp) {
         console.log("[SPAM DETECTED] Required fields not defined.");
-        console.log(body);
 
         return callback(null, {
             statusCode: 400,
@@ -36,9 +35,14 @@ exports.handler = async (event, _context, callback) => {
 
     updatedRsvp = client
         .query(query, values)
-        .then((result) => result.rows[0].rsvp) // your callback here
+        .then((result) => {
+            console.log(result.rows);
+            result.rows[0].rsvp;
+        }) // your callback here
         .catch((e) => console.error(e.stack)) // your callback here
         .then(() => client.end());
+
+    console.log(updatedRsvp);
 
     let message = "Error. Ping Shy to fix things.";
 
