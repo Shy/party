@@ -1,7 +1,6 @@
-const { Pool } = require('pg');
-
+const { Pool } = require("pg");
 const dbOptions = {
-    connectionString: process.ENV.DB_CONNECTION_STRING,
+    connectionString: process.ENV.DATABASE_URL,
     ssl: true,
 };
 const pgPool = new Pool(dbOptions);
@@ -29,20 +28,17 @@ exports.handler = async (event, _context, callback) => {
         });
     }
 
-    const {
-        junction_pub,
-        rsvp,
-    } = body;
+    const { junction_pub, rsvp } = body;
 
     console.log(junction_pub, rsvp);
 
     const { rows } = await pgPool.query(
-        'UPDATE event_attendee_junction SET rsvp = $1 WHERE public_id = $2 RETURNING *',
+        "UPDATE event_attendee_junction SET rsvp = $1 WHERE public_id = $2 RETURNING *",
         [rsvp, junction_pub]
     );
 
     const updatedRsvp = rows[0].rsvp;
-    let message = '';
+    let message = "";
 
     switch (updatedRsvp) {
         case "attending":
@@ -61,6 +57,6 @@ exports.handler = async (event, _context, callback) => {
 
     return callback(null, {
         statusCode: 200,
-        body: JSON.stringify({message}),
+        body: JSON.stringify({ message }),
     });
 };

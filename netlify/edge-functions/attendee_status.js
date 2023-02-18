@@ -1,6 +1,6 @@
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 const env_vars = Deno.env.toObject();
-const client = new Client(env_vars["DB_CONNECTION_STRING"]);
+const client = new Client(env_vars["DATABASE_URL"]);
 
 export default async (request, context) => {
     await client.connect();
