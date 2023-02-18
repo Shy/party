@@ -14,7 +14,7 @@ export default async (request, context) => {
     }
 
     const status = {
-        attending: "you are invited to attend",
+        attending: "you are attending",
         not_attending: "you are unable to attend",
         maybe: "you are a maybe for",
     };
