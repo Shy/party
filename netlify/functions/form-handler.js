@@ -1,8 +1,14 @@
-const axios = require("axios");
+const { Client } = require("pg");
 const { parse } = require("querystring");
-const webhook_url =
-    "https://app.superblocks.com/agent/v1/workflows/7bbfb2f0-3d67-43ac-983e-59885ece99e8?environment=production";
-exports.handler = (event, context, callback) => {
+
+const connectionString = process.env.DATABASE_URL_PG;
+
+exports.handler = async (event, _context, callback) => {
+    const client = new Client({
+        connectionString,
+    });
+    client.connect();
+
     let body = {};
 
     try {
@@ -13,69 +19,50 @@ exports.handler = (event, context, callback) => {
 
     if (!body.junction_pub || !body.rsvp) {
         console.log("[SPAM DETECTED] Required fields not defined.");
-        console.log(body);
-        return callback(null, {
+
+        return {
             statusCode: 400,
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 error: "[SPAM DETECTED] Required fields not defined.",
             }),
-        });
+        };
     }
-    console.log(body.junction_pub);
-    console.log(body.rsvp);
-    axios({
-        method: "post",
-        url: webhook_url,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + process.env.SUPERBLOCKS_PROD_WF,
-        },
-        data: JSON.stringify({
-            event_junction_public_id: body.junction_pub,
-            rsvp: body.rsvp,
-        }),
-    })
-        .then(function (response) {
-            console.log(`status:${response.status}`);
-            console.log(`success:${response.data.responseMeta.success}`);
 
-            if (response.data.responseMeta.success == true) {
-                switch (response.data.data[0].rsvp) {
-                    case "attending":
-                        message =
-                            "Your response was recorded successfully. I have you marked down as attending! 😍";
-                        break;
-                    case "maybe":
-                        message =
-                            "Your response was recorded successfully. I have you marked down as a maybe. Come back soon to let me know what's going on with you. 🤔";
-                        break;
-                    default:
-                        message =
-                            "Your response was recorded successfully. I have you marked down as not being able to make it. 😢. Feel free to change your mind anytime.";
-                }
+    const { junction_pub, rsvp } = body;
 
-                return callback(null, {
-                    statusCode: 200,
-                    body: JSON.stringify({
-                        message: message,
-                    }),
-                });
-            }
-        })
-        .catch(function (error) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                // The request was made but no response was received
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log("Error", error.message);
-            }
-            console.log(error.config);
-        });
+    const query =
+        "UPDATE event_attendee_junction SET rsvp = $1 WHERE public_id = $2 RETURNING *";
+    const values = [rsvp, junction_pub];
+
+    updatedRsvp = await client
+        .query(query, values)
+        .then((result) => {
+            console.log(result.rows);
+            result.rows[0].rsvp;
+        }) // your callback here
+        .catch((e) => console.error(e.stack)); // your callback here
+
+    let message = "Error. Ping Shy to fix things.";
+
+    switch (updatedRsvp) {
+        case "attending":
+            message =
+                "Your response was recorded successfully. I have you marked down as attending! 😍";
+            break;
+        case "maybe":
+            message =
+                "Your response was recorded successfully. I have you marked down as a maybe. Come back soon to let me know what's going on with you. 🤔";
+            break;
+        default:
+            message =
+                "Your response was recorded successfully. I have you marked down as not being able to make it. 😢. Feel free to change your mind anytime.";
+            break;
+    }
+
+    return {
+        statusCode: 200,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+    };
 };
