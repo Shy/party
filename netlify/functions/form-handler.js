@@ -1,8 +1,11 @@
-const { Pool } = require("pg");
-const connectionString = process.env.DATABASE_URL_PG;
-const pgPool = new Pool({ connectionString });
-
+const { Client } = require("pg");
 const { parse } = require("querystring");
+
+const connectionString = process.env.DATABASE_URL_PG;
+const client = new Client({
+    connectionString,
+});
+client.connect();
 
 exports.handler = async (event, _context, callback) => {
     let body = {};
@@ -27,15 +30,17 @@ exports.handler = async (event, _context, callback) => {
 
     const { junction_pub, rsvp } = body;
 
-    console.log(junction_pub, rsvp);
+    const query =
+        "UPDATE event_attendee_junction SET rsvp = $1 WHERE public_id = $2 RETURNING *";
+    const values = [rsvp, junction_pub];
 
-    const { rows } = await pgPool.query(
-        "UPDATE event_attendee_junction SET rsvp = $1 WHERE public_id = $2 RETURNING *",
-        [rsvp, junction_pub]
-    );
+    updatedRsvp = client
+        .query(query, values)
+        .then((result) => result.rows[0].rsvp) // your callback here
+        .catch((e) => console.error(e.stack)) // your callback here
+        .then(() => client.end());
 
-    const updatedRsvp = rows[0].rsvp;
-    let message = "";
+    let message = "Error. Ping Shy to fix things.";
 
     switch (updatedRsvp) {
         case "attending":
