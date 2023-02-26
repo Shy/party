@@ -19,7 +19,7 @@ def attendee_rsvp():
     utc = pytz.UTC
 
     now = utc.localize(datetime.now())
-    time_diff = timedelta(days=31)
+    time_diff = timedelta(days=14)
 
     for event in Event.query.all():
         if event.date >= now - time_diff and event.date <= now + time_diff:
