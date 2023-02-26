@@ -19,10 +19,10 @@ def attendee_rsvp():
     utc = pytz.UTC
 
     now = utc.localize(datetime.now())
-    time_diff = timedelta(days=14)
+    time_diff = timedelta(days=3)
 
     for event in Event.query.all():
-        if event.date >= now - time_diff and event.date <= now + time_diff:
+        if event.date >= now - time_diff:
             print(f"Generating rsvps for {event.event} on {event.date}")
             for rsvp in EventAttendeeJunction.query.filter_by(event_id=event.id).all():
                 print(f"Making rsvp for {rsvp.attendee.attendee}")
