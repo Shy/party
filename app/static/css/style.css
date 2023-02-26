@@ -444,10 +444,6 @@ ul{
 	 opacity: 1;
 }
 
-#submit_rsvp {
-	margin-top: 3rem;
-}
-
 @media only screen and (max-width: 600px) {
 	.hero-body {
 		padding-top: 1rem;
