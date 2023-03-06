@@ -20,7 +20,7 @@ pytz==2022.7.1
 rcssmin==1.1.1
 six==1.16.0
 SQLAlchemy==1.4.46
-sqlalchemy-cockroachdb==1.4.4
+sqlalchemy-cockroachdb==2.0.0
 tomli==2.0.1
 Werkzeug==2.2.3
 xxhash==3.2.0
