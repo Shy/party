@@ -206,6 +206,17 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     const button = document.getElementById("successNotificationButton");
     button.addEventListener("click", () => atcb_action(config, button));
 
+    // Select appropriate button based on attendee status
+    const ATTENDEE_STATUS = "ATTENDEE_STATUS";
+    switch (ATTENDEE_STATUS) {
+        case 'attending':
+            break;
+        case 'not_attending':
+            break;
+        case 'maybe':
+            break;
+    }
+
     /* Populate list of attendees. */
     const ATTENDEE_DATA = "ATTENDEES_UNKNOWN".split(",");
     const listEl = document.getElementById("attendees-list");
