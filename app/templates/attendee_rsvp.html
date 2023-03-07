@@ -16,7 +16,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             <p class="content is-size-4">
                 <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}}
                 <br /><i class="fa-solid fa-location-dot" style="margin: 0 1.5px"></i>
-                {{event.location}}
+                {{event.location}} | <a id="calLink">Add to Cal</a>
             </p>
             <p class="subtitle is-size-4">What am I inviting you too?</p>
             <p class="content">
@@ -58,16 +58,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                     id="junction_pub"
                     value="{{event_junction_public_id}}"
                 />
-                <div class="columns has-text-centered">
-                    <div class="column">
-                        <button
-                            type="button"
-                            id="successNotificationButton"
-                            hidden
-                            data-text=""
-                        ></button>
-                    </div>
-                </div>
+
                 <div class="columns has-text-centered">
                     <div class="column">
                         <button
@@ -116,33 +107,32 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 ></script>
 <script>
     const clearSelected = () => {
-        document.getElementById('submit_rsvp').querySelectorAll('button').forEach((el) => {
-            el.classList.remove('selected');
-        });
-    }
+        document
+            .getElementById("submit_rsvp")
+            .querySelectorAll("button")
+            .forEach((el) => {
+                el.classList.remove("selected");
+            });
+    };
 
     document.getElementById("attending").addEventListener("click", (event) => {
         event.preventDefault();
-        console.log("attending");
         clearSelected();
-        event.target.classList.add('selected');
+        event.target.classList.add("selected");
 
         submitRSVP("attending");
     });
     document.getElementById("maybe").addEventListener("click", (event) => {
         event.preventDefault();
-        console.log("maybe");
         clearSelected();
-        event.target.classList.add('selected');
+        event.target.classList.add("selected");
 
         submitRSVP("maybe");
     });
     document.getElementById("not_attending").addEventListener("click", (event) => {
         event.preventDefault();
-        console.log("not_attending");
         clearSelected();
-        event.target.classList.add('selected');
-
+        event.target.classList.add("selected");
         submitRSVP("not_attending");
     });
 
@@ -161,29 +151,19 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             })
             .then(function (data) {
                 console.log("data from function", data);
-
-                const successNotification = document.getElementById(
-                    "successNotificationButton"
-                );
-                successNotification.hidden = false;
-                successNotification.innerText =
-                    data.message + " Click me to add to your calendar!";
-                successNotification.setAttribute(
-                    "data-text",
-                    data.message + " Click me to add to your calendar!"
-                );
-
                 const attendeeStatus = document.getElementById("attendee_status");
-
                 switch (status) {
                     case "attending":
-                        attendeeStatus.innerText = "you are attending";
+                        consoleText([attendeeStatus.innerText, "you are attending"]);
                         break;
                     case "maybe":
-                        attendeeStatus.innerText = "you are a maybe for";
+                        consoleText([attendeeStatus.innerText, "you are a maybe for"]);
                         break;
                     case "not_attending":
-                        attendeeStatus.innerText = "you are unable to attend";
+                        consoleText([
+                            attendeeStatus.innerText,
+                            "you are unable to attend",
+                        ]);
                         break;
                 }
             });
@@ -219,7 +199,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         lightMode: "dark",
         location: "{{event.location}}",
     };
-    const button = document.getElementById("successNotificationButton");
+    const button = document.getElementById("calLink");
     button.addEventListener("click", () => atcb_action(config, button));
 
     // Select appropriate button based on attendee status
@@ -227,7 +207,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 
     if (ATTENDEE_STATUS) {
         const $button = document.querySelector(`[value="${ATTENDEE_STATUS}"]`);
-        $button && $button.classList.add('selected');
+        $button && $button.classList.add("selected");
     }
 
     /* Populate list of attendees. */
@@ -238,5 +218,44 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         li.innerText = attendee;
         listEl.appendChild(li);
     });
+
+    function consoleText(words, id, colors) {
+        if (id === undefined) id = "attendee_status";
+        if (colors === undefined) colors = ["#fff"];
+
+        var con = document.getElementById("console");
+        var letterCount = words[0].length;
+        var x = -1;
+        var waiting = false;
+        var target = document.getElementById(id);
+        target.setAttribute("style", "color:" + colors[0]);
+        var refreshIntervalId = window.setInterval(function () {
+            if (letterCount === 0 && waiting === false) {
+                waiting = true;
+                target.innerHTML = words[0].substring(0, letterCount);
+                window.setTimeout(function () {
+                    var usedColor = colors.shift();
+                    colors.push(usedColor);
+                    var usedWord = words.shift();
+                    words.push(usedWord);
+                    x = 1;
+                    target.setAttribute("style", "color:" + colors[0]);
+                    letterCount += x;
+                    waiting = false;
+                }, 1000);
+            } else if (letterCount === words[0].length + 1 && waiting === false) {
+                clearInterval(refreshIntervalId);
+                waiting = true;
+                window.setTimeout(function () {
+                    x = 1;
+                    letterCount += x;
+                    waiting = false;
+                }, 1000);
+            } else if (waiting === false) {
+                target.innerHTML = words[0].substring(0, letterCount);
+                letterCount += x;
+            }
+        }, 120);
+    }
 </script>
 {% endblock %}
