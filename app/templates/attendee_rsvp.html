@@ -223,6 +223,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     });
 
     function consoleText(words, id, colors) {
+        if (id === undefined) id = "attendee_status";
         if (colors === undefined) colors = ["#fff"];
 
         var con = document.getElementById("console");
