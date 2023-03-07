@@ -136,7 +136,6 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         console.log("not_attending");
         clearSelected();
         event.target.classList.add("selected");
-
         submitRSVP("not_attending");
     });
 
@@ -155,20 +154,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             })
             .then(function (data) {
                 console.log("data from function", data);
-
-                const successNotification = document.getElementById(
-                    "successNotificationButton"
-                );
-                successNotification.hidden = false;
-                successNotification.innerText =
-                    data.message + " Click me to add to your calendar!";
-                successNotification.setAttribute(
-                    "data-text",
-                    data.message + " Click me to add to your calendar!"
-                );
-
                 const attendeeStatus = document.getElementById("attendee_status");
-
                 switch (status) {
                     case "attending":
                         consoleText([attendeeStatus.innerText, "you are attending"]);
