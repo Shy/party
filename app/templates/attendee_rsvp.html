@@ -117,7 +117,6 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 
     document.getElementById("attending").addEventListener("click", (event) => {
         event.preventDefault();
-        console.log("attending");
         clearSelected();
         event.target.classList.add("selected");
 
@@ -125,7 +124,6 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     });
     document.getElementById("maybe").addEventListener("click", (event) => {
         event.preventDefault();
-        console.log("maybe");
         clearSelected();
         event.target.classList.add("selected");
 
@@ -133,7 +131,6 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     });
     document.getElementById("not_attending").addEventListener("click", (event) => {
         event.preventDefault();
-        console.log("not_attending");
         clearSelected();
         event.target.classList.add("selected");
         submitRSVP("not_attending");
@@ -233,13 +230,10 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         var target = document.getElementById(id);
         target.setAttribute("style", "color:" + colors[0]);
         var refreshIntervalId = window.setInterval(function () {
-            console.log({ letterCount, waiting, x, words });
-
             if (letterCount === 0 && waiting === false) {
                 waiting = true;
                 target.innerHTML = words[0].substring(0, letterCount);
                 window.setTimeout(function () {
-                    console.log(1);
                     var usedColor = colors.shift();
                     colors.push(usedColor);
                     var usedWord = words.shift();
