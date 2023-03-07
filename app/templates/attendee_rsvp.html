@@ -115,24 +115,40 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     defer
 ></script>
 <script>
+    const clearSelected = () => {
+        document.getElementById('submit_rsvp').querySelectorAll('button').forEach((el) => {
+            el.classList.remove('selected');
+        });
+    }
+
     document.getElementById("attending").addEventListener("click", (event) => {
         event.preventDefault();
         console.log("attending");
+        clearSelected();
+        event.target.classList.add('selected');
+
         submitRSVP("attending");
     });
     document.getElementById("maybe").addEventListener("click", (event) => {
         event.preventDefault();
         console.log("maybe");
+        clearSelected();
+        event.target.classList.add('selected');
+
         submitRSVP("maybe");
     });
     document.getElementById("not_attending").addEventListener("click", (event) => {
         event.preventDefault();
         console.log("not_attending");
+        clearSelected();
+        event.target.classList.add('selected');
+
         submitRSVP("not_attending");
     });
 
     function submitRSVP(status) {
-        junction_pub = document.getElementById("junction_pub").value;
+        const junction_pub = document.getElementById("junction_pub").value;
+
         fetch("/.netlify/functions/form-handler", {
             method: "post",
             body: JSON.stringify({
@@ -146,7 +162,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             .then(function (data) {
                 console.log("data from function", data);
 
-                successNotification = document.getElementById(
+                const successNotification = document.getElementById(
                     "successNotificationButton"
                 );
                 successNotification.hidden = false;
@@ -157,7 +173,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                     data.message + " Click me to add to your calendar!"
                 );
 
-                attendeeStatus = document.getElementById("attendee_status");
+                const attendeeStatus = document.getElementById("attendee_status");
 
                 switch (status) {
                     case "attending":
@@ -205,6 +221,14 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     };
     const button = document.getElementById("successNotificationButton");
     button.addEventListener("click", () => atcb_action(config, button));
+
+    // Select appropriate button based on attendee status
+    const ATTENDEE_STATUS = "ATTENDEE_STATUS_UNKNOWN";
+
+    if (ATTENDEE_STATUS) {
+        const $button = document.querySelector(`[value="${ATTENDEE_STATUS}"]`);
+        $button && $button.classList.add('selected');
+    }
 
     /* Populate list of attendees. */
     const ATTENDEE_DATA = "ATTENDEES_UNKNOWN".split(",");

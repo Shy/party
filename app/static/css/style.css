@@ -433,14 +433,18 @@ ul{
 		 background-position: 0% 50%;
 	}
 }
- button:hover:after {
+
+button.selected:after,
+button:hover:after {
 	 top: 0.8em;
 	 left: 0.8em;
 	 right: 0.8em;
 	 bottom: 0.8em;
 	 opacity: 0;
 }
- button:hover:before {
+
+button.selected:before,
+button:hover:before {
 	 opacity: 1;
 }
 

@@ -42,6 +42,7 @@ export default async (request, context) => {
                 /STATUS_UNKNOWN/i,
                 status[event_id_lookup.rows[0]["rsvp"]] ?? "you are invited to attend"
             )
+            .replace(/ATTENDEE_STATUS_UNKNOWN/i, event_id_lookup.rows[0]["rsvp"] || '')
             .replace(/ATTENDEES_UNKNOWN/i, attendingArray);
 
         return new Response(updatedPage, response);
