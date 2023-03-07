@@ -14,9 +14,12 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 {{event.event}}
             </p>
             <p class="content is-size-4">
-                <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}}
-                <br /><i class="fa-solid fa-location-dot" style="margin: 0 1.5px"></i>
-                {{event.location}} | <a id="calLink">Add to Cal</a>
+                <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}} |
+                <a id="calLink">Add to Cal</a> <br /><i
+                    class="fa-solid fa-location-dot"
+                    style="margin: 0 1.5px"
+                ></i>
+                {{event.location}}
             </p>
             <p class="subtitle is-size-4">What am I inviting you too?</p>
             <p class="content">
