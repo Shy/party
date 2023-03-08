@@ -14,9 +14,9 @@ export default async (request, context) => {
     }
 
     const status = {
-        attending: "you are attending",
-        not_attending: "you are unable to attend",
-        maybe: "you are a maybe for",
+        attending: "attending",
+        not_attending: "unable to attend",
+        maybe: "a maybe for",
     };
 
     const event_id_lookup = await client.queryObject(
@@ -40,9 +40,9 @@ export default async (request, context) => {
         const updatedPage = page
             .replace(
                 /STATUS_UNKNOWN/i,
-                status[event_id_lookup.rows[0]["rsvp"]] ?? "you are invited to attend"
+                status[event_id_lookup.rows[0]["rsvp"]] ?? "invited to attend"
             )
-            .replace(/ATTENDEE_STATUS_UNKNOWN/i, event_id_lookup.rows[0]["rsvp"] || '')
+            .replace(/ATTENDEE_STATUS_UNKNOWN/i, event_id_lookup.rows[0]["rsvp"] || "")
             .replace(/ATTENDEES_UNKNOWN/i, attendingArray);
 
         return new Response(updatedPage, response);

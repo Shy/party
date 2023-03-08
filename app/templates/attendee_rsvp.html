@@ -5,9 +5,8 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
     <div class="hero-body">
         <div class="">
             <p class="subtitle is-size-3">
-                {{attendee.attendee.split()[0]}},<span id="attendee_status"
-                    >STATUS_UNKNOWN</span
-                >
+                {{attendee.attendee.split()[0]}},you are
+                <span id="attendee_status">STATUS_UNKNOWN</span>
             </p>
 
             <p class="title is-size-1 glitch" data-text="{{event.event}}">
@@ -157,15 +156,15 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 const attendeeStatus = document.getElementById("attendee_status");
                 switch (status) {
                     case "attending":
-                        consoleText([attendeeStatus.innerText, "you are attending"]);
+                        consoleText([attendeeStatus.innerText, "attending"]);
                         break;
                     case "maybe":
-                        consoleText([attendeeStatus.innerText, "you are a maybe for"]);
+                        consoleText([attendeeStatus.innerText, "a maybe for"]);
                         break;
                     case "not_attending":
                         consoleText([
                             attendeeStatus.innerText,
-                            "you are unable to attend",
+                            "unable to make it for",
                         ]);
                         break;
                 }
@@ -233,7 +232,11 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
         var target = document.getElementById(id);
         target.setAttribute("style", "color:" + colors[0]);
         var refreshIntervalId = window.setInterval(function () {
-            if (letterCount === 0 && waiting === false) {
+            if (
+                words[0].substring(0, letterCount) ===
+                    words[1].substring(0, letterCount) &&
+                waiting === false
+            ) {
                 waiting = true;
                 target.innerHTML = words[0].substring(0, letterCount);
                 window.setTimeout(function () {
@@ -258,7 +261,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                 target.innerHTML = words[0].substring(0, letterCount);
                 letterCount += x;
             }
-        }, 120);
+        }, 100);
     }
 </script>
 {% endblock %}
