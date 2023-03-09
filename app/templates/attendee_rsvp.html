@@ -102,12 +102,16 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 </section>
 
 {% endblock %} {% block js %}
+<script src='{{url_for("static",filename="js/activate-power-mode.js") }}'></script>
+<script></script>
 <script
     src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1"
     async
     defer
 ></script>
 <script>
+    POWERMODE.colorful = true;
+
     const clearSelected = () => {
         document
             .getElementById("submit_rsvp")
@@ -248,7 +252,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                     target.setAttribute("style", "color:" + colors[0]);
                     letterCount += x;
                     waiting = false;
-                }, 1000);
+                }, 800);
             } else if (letterCount === words[0].length + 1 && waiting === false) {
                 clearInterval(refreshIntervalId);
                 waiting = true;
@@ -256,12 +260,13 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
                     x = 1;
                     letterCount += x;
                     waiting = false;
-                }, 1000);
+                }, 800);
             } else if (waiting === false) {
                 target.innerHTML = words[0].substring(0, letterCount);
                 letterCount += x;
             }
-        }, 100);
+            POWERMODE();
+        }, 40);
     }
 </script>
 {% endblock %}
