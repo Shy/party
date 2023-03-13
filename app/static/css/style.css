@@ -288,9 +288,7 @@ button {
 .atcb-list-item{
 	 font-family: 'DotGothic16', sans-serif;
 	 background: #040004;
-	 letter-spacing: 0.25em;
 	 color: white;
-
 }
 .atcb-dropoverlay .atcb-list .atcb-list-item:first-child, .atcb-dropup .atcb-list-item:first-child, .atcb-list.atcb-modal .atcb-list-item:first-child{
 	border-radius: 0.6em 0.6em 0 0;
