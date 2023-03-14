@@ -8,7 +8,6 @@ exports.handler = async (event, _context, callback) => {
         connectionString,
     });
     client.connect();
-
     let body = {};
 
     try {
@@ -44,29 +43,57 @@ exports.handler = async (event, _context, callback) => {
             console.error(e.stack);
             return { statusCode: 500 };
         });
-
     query =
-        "Select phone from attendee left join event_attendee_junction on attendee.id=event_attendee_junction.attendee_id WHERE public_id = $1";
-    phone = await client
-        .query(query, values)
+        "Select attendee.phone, events.event from event_attendee_junction left join attendee on attendee.id=event_attendee_junction.attendee_id right join events on events.id = event_attendee_junction.event_id WHERE event_attendee_junction.public_id = $1";
+    phoneAndEvent = await client
+        .query(query, [junction_pub])
         .then((result) => {
-            return result.rows[0].phone;
+            return result.rows[0];
         })
         .catch((e) => {
             console.error(e.stack);
             return { statusCode: 500 };
         });
+    console.log(phone);
+    let message = "Error. Ping Shy to fix things.";
+    switch (updatedRsvp) {
+        case "attending":
+            message =
+                "🙌 You're going to " +
+                phoneAndEvent.event +
+                "! View details / update your RSVP 👀 -   https://shy.party/rsvp/" +
+                junction_pub +
+                "/";
+            break;
+        case "maybe":
+            message =
+                "🙏 Thanks for RSVPing Maybe to " +
+                phoneAndEvent.event +
+                ". Once you know if you can go, update your status 👉  https://shy.party/rsvp/" +
+                junction_pub +
+                "/";
+            break;
+        default:
+            message =
+                "😞 Sorry you can't make it to " +
+                phoneAndEvent.event +
+                ". If things change, update your status 👉 https://shy.party/rsvp/" +
+                junction_pub +
+                "/";
+    }
 
-    pbStatus = await fetch("https://api.pushbullet.com/v2/texts", {
+    pbMessage = await fetch("https://api.pushbullet.com/v2/texts", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + env_vars["PUSHBULLET_AUTH_TOKEN"],
+            Authorization: "Bearer " + process.env.PUSHBULLET_AUTH_TOKEN,
         },
         body: JSON.stringify({
-            addresses: [phone],
-            message: "Your RSVP for " + junction_pub + " has been updated to " + rsvp,
-            target_device_iden: env_vars["PUSHBULLET_IDEN"],
+            data: {
+                addresses: [phoneAndEvent.phone],
+                message: message,
+                target_device_iden: process.env.PUSHBULLET_IDEN,
+            },
         }),
     });
 
