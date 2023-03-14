@@ -1,6 +1,6 @@
 const { Client } = require("pg");
 const { parse } = require("querystring");
-import fetch from "node-fetch";
+const axios = require("axios");
 
 const connectionString = process.env.DATABASE_URL_PG;
 
@@ -82,26 +82,28 @@ exports.handler = async (event, _context, callback) => {
                 "/";
     }
 
-    pbMessage = await fetch("https://api.pushbullet.com/v2/texts", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + process.env.PUSHBULLET_AUTH_TOKEN,
-        },
-        body: JSON.stringify({
-            data: {
-                addresses: [phoneAndEvent.phone],
-                message: message,
-                target_device_iden: process.env.PUSHBULLET_IDEN,
+    const response = axios
+        .post(
+            "https://api.pushbullet.com/v2/texts",
+            {
+                data: {
+                    addresses: [phoneAndEvent.phone],
+                    message: message,
+                    target_device_iden: process.env.PUSHBULLET_IDEN,
+                },
             },
-        }),
-    });
-
-    return {
-        statusCode: 200,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            updatedRsvp,
-        }),
-    };
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + process.env.PUSHBULLET_AUTH_TOKEN,
+                },
+            }
+        )
+        .then(function (response) {
+            return response;
+        })
+        .catch(function (error) {
+            return { statusCode: 500, body: JSON.stringify(error) };
+        });
+    return { statusCode: 200, body: JSON.stringify(response) };
 };
