@@ -1,5 +1,6 @@
 const { Client } = require("pg");
 const { parse } = require("querystring");
+const axios = require("axios");
 
 const connectionString = process.env.DATABASE_URL_PG;
 
@@ -8,7 +9,6 @@ exports.handler = async (event, _context, callback) => {
         connectionString,
     });
     client.connect();
-
     let body = {};
 
     try {
@@ -31,36 +31,79 @@ exports.handler = async (event, _context, callback) => {
 
     const { junction_pub, rsvp } = body;
 
-    const query =
+    let query =
         "UPDATE event_attendee_junction SET rsvp = $1 WHERE public_id = $2 RETURNING *";
-    const values = [rsvp, junction_pub];
+    let values = [rsvp, junction_pub];
 
     updatedRsvp = await client
         .query(query, values)
         .then((result) => {
             return result.rows[0].rsvp;
-        }) // your callback here
-        .catch((e) => console.error(e.stack)); // your callback here
-
+        })
+        .catch((e) => {
+            console.error(e.stack);
+            return { statusCode: 500 };
+        });
+    query =
+        "Select attendee.phone, events.event from event_attendee_junction left join attendee on attendee.id=event_attendee_junction.attendee_id right join events on events.id = event_attendee_junction.event_id WHERE event_attendee_junction.public_id = $1";
+    phoneAndEvent = await client
+        .query(query, [junction_pub])
+        .then((result) => {
+            return result.rows[0];
+        })
+        .catch((e) => {
+            console.error(e.stack);
+            return { statusCode: 500 };
+        });
     let message = "Error. Ping Shy to fix things.";
     switch (updatedRsvp) {
         case "attending":
             message =
-                "Your response was recorded successfully. I have you marked down as attending! 😍";
+                "🙌 You're going to " +
+                phoneAndEvent.event +
+                "! \nView details / update your RSVP 👀 -   https://shy.party/rsvp/" +
+                junction_pub +
+                "/";
             break;
         case "maybe":
             message =
-                "Your response was recorded successfully. I have you marked down as a maybe. Come back soon to let me know what's going on with you. 🤔";
+                "🙏 Thanks for RSVPing Maybe to " +
+                phoneAndEvent.event +
+                ". \nOnce you know if you can go, update your status 👉  https://shy.party/rsvp/" +
+                junction_pub +
+                "/";
             break;
         default:
             message =
-                "Your response was recorded successfully. I have you marked down as not being able to make it. 😢. Feel free to change your mind anytime.";
-            break;
+                "😞 Sorry you can't make it to " +
+                phoneAndEvent.event +
+                ". \nIf things change, update your status 👉 https://shy.party/rsvp/" +
+                junction_pub +
+                "/";
     }
 
-    return {
-        statusCode: 200,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
-    };
+    const response = axios
+        .post(
+            "https://api.pushbullet.com/v2/texts",
+            {
+                data: {
+                    addresses: [phoneAndEvent.phone],
+                    message: message,
+                    target_device_iden: process.env.PUSHBULLET_IDEN,
+                },
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + process.env.PUSHBULLET_AUTH_TOKEN,
+                },
+            }
+        )
+        .then(function (response) {
+            return response;
+        })
+        .catch(function (error) {
+            return { statusCode: 500, body: JSON.stringify(error) };
+        });
+    return { statusCode: 200, body: JSON.stringify(response) };
 };
