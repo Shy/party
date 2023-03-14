@@ -40,27 +40,16 @@ exports.handler = async (event, _context, callback) => {
         .then((result) => {
             return result.rows[0].rsvp;
         }) // your callback here
-        .catch((e) => console.error(e.stack)); // your callback here
-
-    let message = "Error. Ping Shy to fix things.";
-    switch (updatedRsvp) {
-        case "attending":
-            message =
-                "Your response was recorded successfully. I have you marked down as attending! 😍";
-            break;
-        case "maybe":
-            message =
-                "Your response was recorded successfully. I have you marked down as a maybe. Come back soon to let me know what's going on with you. 🤔";
-            break;
-        default:
-            message =
-                "Your response was recorded successfully. I have you marked down as not being able to make it. 😢. Feel free to change your mind anytime.";
-            break;
-    }
+        .catch((e) => {
+            console.error(e.stack);
+            return { statusCode: 500 };
+        }); // your callback here
 
     return {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({
+            updatedRsvp,
+        }),
     };
 };
