@@ -31,19 +31,44 @@ exports.handler = async (event, _context, callback) => {
 
     const { junction_pub, rsvp } = body;
 
-    const query =
+    let query =
         "UPDATE event_attendee_junction SET rsvp = $1 WHERE public_id = $2 RETURNING *";
-    const values = [rsvp, junction_pub];
+    let values = [rsvp, junction_pub];
 
     updatedRsvp = await client
         .query(query, values)
         .then((result) => {
             return result.rows[0].rsvp;
-        }) // your callback here
+        })
         .catch((e) => {
             console.error(e.stack);
             return { statusCode: 500 };
-        }); // your callback here
+        });
+
+    query =
+        "Select phone from attendee left join event_attendee_junction on attendee.id=event_attendee_junction.attendee_id WHERE public_id = $1";
+    phone = await client
+        .query(query, values)
+        .then((result) => {
+            return result.rows[0].phone;
+        })
+        .catch((e) => {
+            console.error(e.stack);
+            return { statusCode: 500 };
+        });
+
+    pbStatus = await fetch("https://api.pushbullet.com/v2/texts", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + env_vars["PUSHBULLET_AUTH_TOKEN"],
+        },
+        body: JSON.stringify({
+            addresses: [phone],
+            message: "Your RSVP for " + junction_pub + " has been updated to " + rsvp,
+            target_device_iden: env_vars["PUSHBULLET_IDEN"],
+        }),
+    });
 
     return {
         statusCode: 200,
