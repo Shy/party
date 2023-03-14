@@ -61,7 +61,7 @@ exports.handler = async (event, _context, callback) => {
             message =
                 "🙌 You're going to " +
                 phoneAndEvent.event +
-                "! View details / update your RSVP 👀 -   https://shy.party/rsvp/" +
+                "! \nView details / update your RSVP 👀 -   https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
             break;
@@ -69,7 +69,7 @@ exports.handler = async (event, _context, callback) => {
             message =
                 "🙏 Thanks for RSVPing Maybe to " +
                 phoneAndEvent.event +
-                ". Once you know if you can go, update your status 👉  https://shy.party/rsvp/" +
+                ". \nOnce you know if you can go, update your status 👉  https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
             break;
@@ -77,7 +77,7 @@ exports.handler = async (event, _context, callback) => {
             message =
                 "😞 Sorry you can't make it to " +
                 phoneAndEvent.event +
-                ". If things change, update your status 👉 https://shy.party/rsvp/" +
+                ". \nIf things change, update your status 👉 https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
     }
