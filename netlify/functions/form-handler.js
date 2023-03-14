@@ -1,5 +1,6 @@
 const { Client } = require("pg");
 const { parse } = require("querystring");
+const fetch = import("node-fetch");
 
 const connectionString = process.env.DATABASE_URL_PG;
 
