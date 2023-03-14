@@ -54,7 +54,6 @@ exports.handler = async (event, _context, callback) => {
             console.error(e.stack);
             return { statusCode: 500 };
         });
-    console.log(phone);
     let message = "Error. Ping Shy to fix things.";
     switch (updatedRsvp) {
         case "attending":
