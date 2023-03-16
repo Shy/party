@@ -134,7 +134,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
 
     function submitRSVP(status) {
         const junction_pub = document.getElementById("junction_pub").value;
-
+        const attendeeStatus = document.getElementById("attendee_status");
         fetch("/.netlify/functions/form-handler", {
             method: "post",
             body: JSON.stringify({
@@ -147,7 +147,7 @@ url_for("static",filename="images/index.jpg") }}{% endblock %} {% block content 
             })
             .then(function (data) {
                 console.log("data from function", data);
-                const attendeeStatus = document.getElementById("attendee_status");
+
                 switch (status) {
                     case "attending":
                         consoleText([attendeeStatus.innerText, "attending"]);

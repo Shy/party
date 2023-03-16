@@ -1,6 +1,9 @@
 const { Client } = require("pg");
 const { parse } = require("querystring");
-const axios = require("axios");
+const twilio_client = require("twilio")(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
+);
 
 const connectionString = process.env.DATABASE_URL_PG;
 
@@ -59,49 +62,37 @@ exports.handler = async (event, _context, callback) => {
     switch (updatedRsvp) {
         case "attending":
             message =
-                "🙌 You're going to " +
+                "You're going to " +
                 phoneAndEvent.event +
-                "! \nView details / update your RSVP 👀 -   https://shy.party/rsvp/" +
+                "! :) \nView details / update your RSVP -   https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
             break;
         case "maybe":
             message =
-                "🙏 Thanks for RSVPing Maybe to " +
+                "Thanks for RSVPing Maybe to " +
                 phoneAndEvent.event +
-                ". \nOnce you know if you can go, update your status 👉  https://shy.party/rsvp/" +
+                ". \nOnce you know if you can go, update your status: https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
             break;
         default:
             message =
-                "😞 Sorry you can't make it to " +
+                ":| Sorry you can't make it to " +
                 phoneAndEvent.event +
-                ". \nIf things change, update your status 👉 https://shy.party/rsvp/" +
+                ". I've turned off the reminder texts for you.\nIf things change, update your status: https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
     }
 
-    const response = axios
-        .post(
-            "https://api.pushbullet.com/v2/texts",
-            {
-                data: {
-                    addresses: [phoneAndEvent.phone],
-                    message: message,
-                    target_device_iden: process.env.PUSHBULLET_IDEN,
-                },
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + process.env.PUSHBULLET_AUTH_TOKEN,
-                },
-            }
-        )
-        .then(function (response) {
-            return response;
+    response = twilio_client.messages
+        .create({
+            body: message,
+            from: process.env.TWILIO_FROM_Number,
+            to: phoneAndEvent.phone,
         })
+        .then((message) => console.log(message.sid))
+
         .catch(function (error) {
             return { statusCode: 500, body: JSON.stringify(error) };
         });
