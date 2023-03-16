@@ -91,7 +91,9 @@ exports.handler = async (event, _context, callback) => {
             from: process.env.TWILIO_FROM_Number,
             to: phoneAndEvent.phone,
         })
-        .then((message) => console.log(message.sid))
+        .then((message) => {
+            return message.sid;
+        })
 
         .catch(function (error) {
             return { statusCode: 500, body: JSON.stringify(error) };
