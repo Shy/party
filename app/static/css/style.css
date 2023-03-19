@@ -462,6 +462,9 @@ button:hover:before {
 	#submit_rsvp .column {
 		padding: 0.5rem;
 	}
+	#attendee_container{
+  		min-height: 1.5em;
+	}
 }
 
 a {
