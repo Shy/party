@@ -1,9 +1,10 @@
 const { Client } = require("pg");
 const { parse } = require("querystring");
-const twilio_client = require("twilio")(
-    process.env.TWILIO_ACCOUNT_SID,
-    process.env.TWILIO_AUTH_TOKEN
-);
+// const twilio_client = require("twilio")(
+//     process.env.TWILIO_ACCOUNT_SID,
+//     process.env.TWILIO_AUTH_TOKEN
+// );
+const fetch = require("node-fetch");
 
 const connectionString = process.env.DATABASE_URL_PG;
 
@@ -84,19 +85,45 @@ exports.handler = async (event, _context, callback) => {
                 junction_pub +
                 "/";
     }
-
-    response = twilio_client.messages
-        .create({
-            body: message,
-            from: process.env.TWILIO_FROM_Number,
-            to: phoneAndEvent.phone,
+    let response = await fetch("https://api.pushbullet.com/v2/texts", {
+        method: "POST",
+        headers: {
+            "Access-Token": process.env.PUSHBULLET_AUTH_TOKEN,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            data: {
+                address: phoneAndEvent.phone,
+                message: message,
+                target_device_iden: process.env.PUSHBULLET_IDEN,
+            },
+        }),
+    })
+        .then((response) => response.text())
+        .then((output) => {
+            return {
+                statusCode: 200,
+                body: output,
+            };
         })
-        .then((message) => {
-            return message.sid;
-        })
+        .catch((error) => ({
+            statusCode: 422,
+            body: `Oops! Something went wrong. ${error}`,
+        }));
+    console.log(response);
+    return response;
+    // response = twilio_client.messages
+    //     .create({
+    //         body: message,
+    //         from: process.env.TWILIO_FROM_Number,
+    //         to: phoneAndEvent.phone,
+    //     })
+    //     .then((message) => {
+    //         return message.sid;
+    //     })
 
-        .catch(function (error) {
-            return { statusCode: 500, body: JSON.stringify(error) };
-        });
-    return { statusCode: 200, body: JSON.stringify(response) };
+    //     .catch(function (error) {
+    //         return { statusCode: 500, body: JSON.stringify(error) };
+    //     });
+    // return { statusCode: 200, body: JSON.stringify(response) };
 };
