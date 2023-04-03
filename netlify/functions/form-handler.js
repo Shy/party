@@ -83,7 +83,8 @@ exports.handler = async (event, _context, callback) => {
                 junction_pub +
                 "/";
     }
-    return twilio_client.messages
+
+    return await twilio_client.messages
         .create({
             body: message,
             from: process.env.TWILIO_FROM_Number,
