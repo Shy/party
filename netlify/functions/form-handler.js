@@ -83,18 +83,16 @@ exports.handler = async (event, _context, callback) => {
                 junction_pub +
                 "/";
     }
-    response = twilio_client.messages
+    return twilio_client.messages
         .create({
             body: message,
             from: process.env.TWILIO_FROM_Number,
             to: phoneAndEvent.phone,
         })
         .then((message) => {
-            return message.sid;
+            return { statusCode: 200, body: JSON.stringify(message.sid) };
         })
-
         .catch(function (error) {
             return { statusCode: 500, body: JSON.stringify(error) };
         });
-    return { statusCode: 200, body: JSON.stringify(response) };
 };
