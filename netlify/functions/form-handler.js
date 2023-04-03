@@ -96,5 +96,5 @@ exports.handler = async (event, _context, callback) => {
         .catch(function (error) {
             return { statusCode: 500, body: JSON.stringify(error) };
         });
-    return { statusCode: 200, body: await JSON.stringify(response) };
+    return { statusCode: 200, body: JSON.stringify(response) };
 };
