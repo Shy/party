@@ -10,3 +10,4 @@ class Config(object):
     ) or "sqlite:///" + os.path.join(basedir, "app.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DOMAIN = os.environ.get("DOMAIN") or "http://localhost:5000"
+    PARTY_NAME = os.environ.get("PARTY_NAME") or "Shy"

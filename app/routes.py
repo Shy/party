@@ -1,13 +1,7 @@
-from flask import (
-    render_template,
-    send_from_directory,
-    request,
-)
-
+from flask import render_template, send_from_directory, request, current_app, abort
 from app import app
 from app.models import Event, Attendee, EventAttendeeJunction
 from functools import wraps
-from flask import current_app, abort
 
 
 def debug_only(f):

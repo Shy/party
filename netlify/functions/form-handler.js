@@ -4,8 +4,8 @@ const twilio_client = require("twilio")(
     process.env.TWILIO_ACCOUNT_SID,
     process.env.TWILIO_AUTH_TOKEN
 );
-const connectionString = process.env.DATABASE_URL_PG;
-
+const connectionString =
+    process.env.DATABASE_URL.replace("cockroachdb", "postgresql") + "?sslmode=require";
 exports.handler = async (event, _context, callback) => {
     const client = new Client({
         connectionString,

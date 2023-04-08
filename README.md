@@ -1,6 +1,6 @@
 # Shy.party
 
-This is a worse version of partiful I use to run events. To deploy this you'll need a PSQL DB. Create an .flaskenv file and add a `DATABASE_URL` to that file.
+This is a worse version of partiful I use to run events. To deploy this you'll need a PSQL DB. Save the `.flaskenv.sample` locally as  `.flaskenv` and replace all the creds.
 
 Install with
 
