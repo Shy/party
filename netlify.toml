@@ -20,3 +20,11 @@
 
     # Enable/disable compression of inlined content.
     compress = true
+
+[template.environment]
+  DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
+  PARTY_NAME="What party are you hosting?"
+  TWILIO_ACCOUNT_SID="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  TWILIO_AUTH_TOKEN="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  TWILIO_FROM_Number="+1xxxxxxxxxx"
+  SUPERBLOCKS_PROD_WF="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
