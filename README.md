@@ -36,7 +36,7 @@ CREATE TABLE public.event_attendee_junction (
   public_id VARCHAR(12) NOT NULL,
   event_id UUID NULL,
   attendee_id UUID NULL,
-  rsvp defaultdb.public.rsvp NULL,
+  rsvp VARCHAR(13) NULL,
   created_at TIMESTAMPTZ NULL DEFAULT current_timestamp():::TIMESTAMPTZ,
   updated_at TIMESTAMPTZ NULL DEFAULT current_timestamp():::TIMESTAMPTZ ON UPDATE current_timestamp():::TIMESTAMPTZ,
   sms_status INT8 NULL DEFAULT 0:::INT8,
