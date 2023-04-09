@@ -7,16 +7,16 @@ This is a worse version of partiful I use to run events. To deploy this you'll n
 I'm using a postgres instance hosted on cockroachdb's serverless free tier to handle data. You can create the needed tables with:
 
 ```psql
-CREATE TABLE public.events (
+CREATE TABLE public.attendee (
   id UUID NOT NULL DEFAULT gen_random_uuid(),
   public_id VARCHAR(12) NOT NULL,
-  event VARCHAR(255) NOT NULL,
-  date TIMESTAMPTZ(6) NOT NULL,
-  location VARCHAR(600) NOT NULL,
-  description VARCHAR(1000) NOT NULL,
+  attendee VARCHAR(255) NOT NULL,
+  phone VARCHAR(15) NOT NULL,
+  dietary_restrictions VARCHAR(255) NULL,
   created_at TIMESTAMPTZ NULL DEFAULT current_timestamp():::TIMESTAMPTZ,
   updated_at TIMESTAMPTZ NULL DEFAULT current_timestamp():::TIMESTAMPTZ ON UPDATE current_timestamp():::TIMESTAMPTZ,
-  CONSTRAINT events_pkey PRIMARY KEY (id ASC)
+  invited BOOL NOT NULL DEFAULT true,
+  CONSTRAINT attendee_pkey PRIMARY KEY (id ASC)
 )
 
 CREATE TABLE public.events (
