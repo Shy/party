@@ -60,18 +60,18 @@
 
         <style>
             body {
-
-                            background: linear-gradient(rgba(10, 10, 10, 0.6), rgba(0, 0, 0, 0.9)),
-                                repeating-linear-gradient(
-                                    0,
-                                    transparent,
-                                    transparent 2px,
-                                    black 3px,
-                                    black 3px
-                                ),{% block coverimage %}{% endblock %}");
-                            background-size: cover;
-                            background-position: top;
-                            z-index: 1;
+                background: linear-gradient(rgba(10, 10, 10, 0.6), rgba(0, 0, 0, 0.9)),
+                    repeating-linear-gradient(
+                        0,
+                        transparent,
+                        transparent 2px,
+                        black 3px,
+                        black 3px
+                    ),
+                    url("https://i.imgur.com/{% block coverimage %}{% endblock %}.jpg");
+                background-size: cover;
+                background-position: top;
+                z-index: 1;
             }
         </style>
         <script

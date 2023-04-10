@@ -17,7 +17,8 @@ def debug_only(f):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    event = Event.query.order_by(Event.date.desc()).first_or_404()
+    return render_template("index.html", image_id=event.image_id)
 
 
 @app.route("/robots.txt")

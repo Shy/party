@@ -40,6 +40,7 @@ class Event(db.Model):
     updated_at = db.Column(
         db.DateTime, server_default=db.text("current_timestamp():::TIMESTAMPTZ")
     )
+    image_id = db.Column(db.String(30), nullable=False)
 
     def __repr__(self):
         return f"<Event {self.event}>"
