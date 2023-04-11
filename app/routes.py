@@ -2,6 +2,7 @@ from flask import render_template, send_from_directory, request, current_app, ab
 from app import app
 from app.models import Event, Attendee, EventAttendeeJunction
 from functools import wraps
+from datetime import datetime
 
 
 def debug_only(f):
@@ -17,7 +18,12 @@ def debug_only(f):
 
 @app.route("/")
 def index():
-    event = Event.query.order_by(Event.date.desc()).first_or_404()
+    event = (
+        Event.query.filter(Event.date >= datetime.now())
+        .order_by(Event.date.asc())
+        .first_or_404()
+    )
+    print(event.image_id)
     return render_template("index.html", image_id=event.image_id)
 
 
