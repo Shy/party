@@ -63,23 +63,23 @@ exports.handler = async (event, _context, callback) => {
             message =
                 "You're going to " +
                 phoneAndEvent.event +
-                "! :) \nView details / update your RSVP -   https://shy.party/rsvp/" +
+                "! :) \nView details: https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
             break;
         case "maybe":
             message =
-                "Thanks for RSVPing Maybe to " +
+                "You RSVP-ed Maybe to " +
                 phoneAndEvent.event +
-                ". \nOnce you know if you can go, update your status: https://shy.party/rsvp/" +
+                ". :| \nOnce you know if you can go, update your RSVP: https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
             break;
         default:
             message =
-                ":| Sorry you can't make it to " +
+                ":( Sorry you can't make it to " +
                 phoneAndEvent.event +
-                ". I've turned off the reminder texts for you.\nIf things change, update your status: https://shy.party/rsvp/" +
+                ". I've turned off the reminder texts.\nChange your mind anytime: https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
     }
