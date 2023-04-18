@@ -73,7 +73,7 @@ exports.handler = async (event, _context, callback) => {
                 phoneAndEvent.event +
                 ". :| \nOnce you know if you can go, update your RSVP: https://shy.party/rsvp/" +
                 junction_pub +
-                "/";
+            "/";
             break;
         default:
             message =
