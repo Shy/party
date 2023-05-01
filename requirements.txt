@@ -22,5 +22,5 @@ six==1.16.0
 SQLAlchemy==2.0.9
 sqlalchemy-cockroachdb==2.0.1
 tomli==2.0.1
-Werkzeug==2.2.3
+Werkzeug==2.3.3
 xxhash==3.2.0
