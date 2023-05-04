@@ -10,7 +10,7 @@ jobs:
     post:
         runs-on: ubuntu-latest
         steps:
-            - uses: shy/bluesky-post
+            - uses: shy/bluesky-post@v.1
               with:
                   text: "Good Morning! https://shy.dev/images/GOODMORNING.png"
                   embed: "https://shy.dev/images/GOODMORNING.png"
