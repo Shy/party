@@ -10,8 +10,9 @@ jobs:
     post:
         runs-on: ubuntu-latest
         steps:
-            - uses: myConsciousness/bluesky-post@v2
+            - uses: shy/bluesky-post@v2
               with:
                   text: "Good Morning! https://shy.dev/images/GOODMORNING.png"
+                  embed: "https://shy.dev/images/GOODMORNING.png"
                   identifier: ${{ secrets.BLUESKY_IDENTIFIER }}
                   password: ${{ secrets.BLUESKY_PASSWORD }}
