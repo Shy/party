@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
 
     schedule:
-        - cron: "45 9 * * *"
+        - cron: "45 5 * * *"
 
 jobs:
     post:
@@ -13,6 +13,6 @@ jobs:
             - uses: shy/bluesky-post@v.1
               with:
                   text: "Good Morning! https://shy.dev/images/GOODMORNING.png"
-                  embed: "https://shy.dev/images/GOODMORNING.png"
+                  imageURL: "https://shy.dev/images/GOODMORNING.png"
                   identifier: ${{ secrets.BLUESKY_IDENTIFIER }}
                   password: ${{ secrets.BLUESKY_PASSWORD }}
