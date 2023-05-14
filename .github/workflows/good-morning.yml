@@ -10,9 +10,13 @@ jobs:
     post:
         runs-on: ubuntu-latest
         steps:
-            - uses: shy/bluesky-post@v.1
+            # You must checkout resources
+            - uses: actions/checkout@v3
+
+            - uses: myConsciousness/bluesky-post@v3
               with:
-                  text: "Good Morning! https://shy.dev/images/GOODMORNING.png"
-                  imageURL: "https://shy.dev/images/GOODMORNING.png"
+                  text: "Good Morning!"
+                  media: GOODMORNING.png
+                  media-alt: "Good Morning!"
                   identifier: ${{ secrets.BLUESKY_IDENTIFIER }}
                   password: ${{ secrets.BLUESKY_PASSWORD }}
