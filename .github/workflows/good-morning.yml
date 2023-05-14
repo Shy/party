@@ -16,7 +16,7 @@ jobs:
             - uses: myConsciousness/bluesky-post@v3
               with:
                   text: "Good Morning!"
-                  media: "https://shy.dev/images/GOODMORNING.png"
+                  media: .github/workflows/GOODMORNING.png
                   media-alt: "Good Morning!"
                   identifier: ${{ secrets.BLUESKY_IDENTIFIER }}
                   password: ${{ secrets.BLUESKY_PASSWORD }}
