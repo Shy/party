@@ -1,0 +1,21 @@
+name: Bluesky Good Night
+
+on:
+    workflow_dispatch:
+
+    schedule:
+        - cron: "0 4 * * *"
+
+jobs:
+    post:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: myConsciousness/bluesky-post@v3
+              with:
+                  text: "Good Night!"
+                  media: .github/workflows/GOODNIGHT.png
+                  media-alt: "Good Night!"
+                  identifier: ${{ secrets.BLUESKY_IDENTIFIER }}
+                  password: ${{  secrets.BLUESKY_PASSWORD }}
