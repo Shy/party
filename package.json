@@ -17,7 +17,7 @@
   "homepage": "https://github.com/shy/party#readme",
   "devDependencies": {
     "axois": "^0.0.1-security",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.1.4"
   },
   "dependencies": {
     "netlify-cli": "^15.4.2",
