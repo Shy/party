@@ -132,6 +132,16 @@ block content %}
         submitRSVP("not_attending");
     });
 
+    function removeSelfFromList() {
+        const li = [...$attendeesList.children].find((el) => {
+            return el.innerText === "{{attendee.attendee.split()[0]}}";
+        });
+
+        if (li) {
+            $attendeesList.removeChild(li);
+        }
+    }
+
     function submitRSVP(status) {
         const junction_pub = document.getElementById("junction_pub").value;
         const attendeeStatus = document.getElementById("attendee_status");
@@ -150,12 +160,18 @@ block content %}
 
                 switch (status) {
                     case "attending":
+                        removeSelfFromList();
+                        const li = document.createElement("li");
+                        li.innerText = "{{attendee.attendee.split()[0]}}";
+                        $attendeesList.appendChild(li);
                         consoleText([attendeeStatus.innerText, "attending"]);
                         break;
                     case "maybe":
+                        removeSelfFromList();
                         consoleText([attendeeStatus.innerText, "a maybe for"]);
                         break;
                     case "not_attending":
+                        removeSelfFromList();
                         consoleText([
                             attendeeStatus.innerText,
                             "unable to make it for",
@@ -208,11 +224,11 @@ block content %}
 
     /* Populate list of attendees. */
     const ATTENDEE_DATA = "ATTENDEES_UNKNOWN".split(",");
-    const listEl = document.getElementById("attendees-list");
+    const $attendeesList = document.getElementById("attendees-list");
     ATTENDEE_DATA.forEach((attendee) => {
         const li = document.createElement("li");
         li.innerText = attendee;
-        listEl.appendChild(li);
+        $attendeesList.appendChild(li);
     });
 
     function consoleText(words, id, colors) {
