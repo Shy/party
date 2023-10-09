@@ -22,6 +22,6 @@
   "dependencies": {
     "netlify-cli": "^15.9.0",
     "pg": "^8.11.0",
-    "twilio": "^4.11.2"
+    "twilio": "^4.18.1"
   }
 }
