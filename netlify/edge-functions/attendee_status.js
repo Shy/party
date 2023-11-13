@@ -27,15 +27,18 @@ export default async (request, context) => {
     );
 
     const attending_lookup = await client.queryArray(
-        'SELECT CASE WHEN event_attendee_junction."plus_one" <> 0 THEN attendee.attendee || ' +
-            ' || event_attendee_junction."plus_one" ELSE attendee.attendee END AS attendee FROM event_attendee_junction INNER JOIN attendee ON event_attendee_junction.attendee_id = attendee.id WHERE event_attendee_junction.event_id = $1 AND event_attendee_junction.rsvp = "attending" ORDER BY attendee.phone DESC',
+        "SELECT attendee.attendee,event_attendee_junction.plus_one FROM event_attendee_junction INNER JOIN attendee ON event_attendee_junction.attendee_id=attendee.id  where event_attendee_junction.event_id = $1 AND event_attendee_junction.rsvp = 'attending' ORDER BY attendee.phone DESC",
         [event_id_lookup.rows[0].event_id]
     );
 
     await client.end();
-    let attendingArray = attending_lookup.rows.flat();
+    let attendingArray = attending_lookup.rows;
     attendingArray.forEach((element, index, attendingArray) => {
-        attendingArray[index] = element.split(" ")[0];
+        if (attendingArray[index][1] > 0) {
+            attendingArray[index] = element[0].split(" ")[0] + "+" + element[1];
+        } else {
+            attendingArray[index] = element[0].split(" ")[0];
+        }
     });
     try {
         const response = await context.next();
