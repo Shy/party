@@ -2,7 +2,7 @@ click==8.1.7
 Flask==2.3.2
 Flask-Minify==0.42
 Flask-SQLAlchemy==3.0.5
-Frozen-Flask==0.18
+Frozen-Flask==1.0.1
 gunicorn==21.2.0
 htmlmin==0.1.12
 itsdangerous==2.1.2
