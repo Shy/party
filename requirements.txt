@@ -17,7 +17,7 @@ platformdirs==3.11.0
 ply==3.11
 psycopg2-binary==2.9.6
 pytz==2023.3
-rcssmin==1.1.1
+rcssmin==1.1.2
 six==1.16.0
 SQLAlchemy==2.0.18
 sqlalchemy-cockroachdb==2.0.1
