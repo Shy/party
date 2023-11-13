@@ -27,7 +27,8 @@ export default async (request, context) => {
     );
 
     const attending_lookup = await client.queryArray(
-        "SELECT attendee.attendee FROM event_attendee_junction INNER JOIN attendee ON event_attendee_junction.attendee_id=attendee.id  where event_attendee_junction.event_id = $1 AND event_attendee_junction.rsvp = 'attending' ORDER BY attendee.phone DESC",
+        'SELECT CASE WHEN event_attendee_junction."plus_one" <> 0 THEN attendee.attendee || ' +
+            ' || event_attendee_junction."plus_one" ELSE attendee.attendee END AS attendee FROM event_attendee_junction INNER JOIN attendee ON event_attendee_junction.attendee_id = attendee.id WHERE event_attendee_junction.event_id = $1 AND event_attendee_junction.rsvp = "attending" ORDER BY attendee.phone DESC',
         [event_id_lookup.rows[0].event_id]
     );
 
