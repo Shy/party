@@ -31,13 +31,14 @@ exports.handler = async (event, _context, callback) => {
 
     const { junction_pub, rsvp } = body;
 
+    let message = "Error. Ping Shy to fix things.";
     updatedRsvp = await supabase
         .from("event_attendee_junction")
         .update({ rsvp: rsvp })
         .eq("public_id", junction_pub)
         .select("rsvp")
         .then((result) => {
-            return result.data[0].rsvp;
+            return result.data[0]["rsvp"];
         })
         .catch((e) => {
             console.error(e.stack);
@@ -56,8 +57,6 @@ exports.handler = async (event, _context, callback) => {
             return { statusCode: 500 };
         });
 
-    let message = "Error. Ping Shy to fix things.";
-
     switch (updatedRsvp) {
         case "attending":
             message =
@@ -75,18 +74,17 @@ exports.handler = async (event, _context, callback) => {
                 junction_pub +
                 "/";
             break;
-        default:
+        case "not_attending":
             message =
                 ":( Sorry you can't make it to " +
                 phoneAndEvent["events"]["event"] +
-                ". I've turned off the reminder texts.\nChange your mind anytime: https://shy.party/rsvp/" +
+                ". I've turned off the reminder texts for this one.\nChange your mind anytime: https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
     }
-
     return await twilio_client.messages
         .create({
-            body: message,
+            body: await message,
             from: process.env.TWILIO_FROM_Number,
             to: phoneAndEvent["attendee"]["phone"],
         })

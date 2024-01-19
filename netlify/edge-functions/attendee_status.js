@@ -23,7 +23,6 @@ export default async (request, context) => {
         .from("event_attendee_junction")
         .select("event_id, rsvp", "attendee_id, attendee(attendee)")
         .eq("public_id", event_junction_pub_id);
-
     const attending_lookup = await supabase
         .from("event_attendee_junction")
         .select("plus_one, rsvp, attendee(attendee)")
@@ -33,7 +32,7 @@ export default async (request, context) => {
 
     let attendingArray = [];
     attending_lookup.data.forEach((attendee) => {
-        attendingArray.push(attendee.attendee.attendee);
+        attendingArray.push(attendee.attendee.attendee.split(" ")[0]);
     }, attendingArray);
 
     try {
