@@ -12,7 +12,7 @@ exceptiongroup==1.1.1
 Flask==2.3.2
 Flask-Minify==0.42
 Flask-SQLAlchemy==3.0.5
-fonttools==4.39.0
+fonttools==4.43.0
 Frozen-Flask==1.0.1
 gunicorn==21.2.0
 h11==0.14.0
