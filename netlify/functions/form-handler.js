@@ -1,15 +1,14 @@
-const { Client } = require("pg");
-const { parse } = require("querystring");
-const twilio_client = require("twilio")(
-    process.env.TWILIO_ACCOUNT_SID,
-    process.env.TWILIO_AUTH_TOKEN
-);
-const connectionString = process.env.DATABASE_URL;
+import { createClient } from "supabase";
+import parse from "querystring";
+
+const env_vars = Deno.env.toObject();
+const supabase = createClient(env_vars["supabaseUrl"], env_vars["supabaseKey"]);
+
+// const twilio_client = require("twilio")(
+//     process.env.TWILIO_ACCOUNT_SID,
+//     process.env.TWILIO_AUTH_TOKEN
+// );
 exports.handler = async (event, _context, callback) => {
-    const client = new Client({
-        connectionString,
-    });
-    client.connect();
     let body = {};
 
     try {
@@ -32,25 +31,26 @@ exports.handler = async (event, _context, callback) => {
 
     const { junction_pub, rsvp } = body;
 
-    let query =
-        "UPDATE event_attendee_junction SET rsvp = $1 WHERE public_id = $2 RETURNING *";
-    let values = [rsvp, junction_pub];
-
-    updatedRsvp = await client
-        .query(query, values)
+    updatedRsvp = supabase
+        .from("event_attendee_junction")
+        .update({ rsvp: rsvp })
+        .eq("public_id", junction_pub)
+        .select("rsvp")
         .then((result) => {
-            return result.rows[0].rsvp;
+            return result.data[0].rsvp;
         })
         .catch((e) => {
             console.error(e.stack);
             return { statusCode: 500 };
         });
-    query =
-        "Select attendee.phone, events.event from event_attendee_junction left join attendee on attendee.id=event_attendee_junction.attendee_id right join events on events.id = event_attendee_junction.event_id WHERE event_attendee_junction.public_id = $1";
-    phoneAndEvent = await client
-        .query(query, [junction_pub])
+
+    phoneAndEvent = supabase
+        .from("event_attendee_junction")
+        .select("attendee(phone), events(event)")
+        .eq("public_id", junction_pub)
         .then((result) => {
-            return result.rows[0];
+            console.log(result.data[0]);
+            return result.data[0];
         })
         .catch((e) => {
             console.error(e.stack);
@@ -83,16 +83,16 @@ exports.handler = async (event, _context, callback) => {
                 "/";
     }
 
-    return await twilio_client.messages
-        .create({
-            body: message,
-            from: process.env.TWILIO_FROM_Number,
-            to: phoneAndEvent.phone,
-        })
-        .then((message) => {
-            return { statusCode: 200, body: JSON.stringify(message.sid) };
-        })
-        .catch(function (error) {
-            return { statusCode: 500, body: JSON.stringify(error) };
-        });
+    // return await twilio_client.messages
+    //     .create({
+    //         body: message,
+    //         from: process.env.TWILIO_FROM_Number,
+    //         to: phoneAndEvent.phone,
+    //     })
+    //     .then((message) => {
+    //         return { statusCode: 200, body: JSON.stringify(message.sid) };
+    //     })
+    //     .catch(function (error) {
+    //         return { statusCode: 500, body: JSON.stringify(error) };
+    //     });
 };

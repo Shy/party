@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "supabase": "https://esm.sh/@supabase/supabase-js@2"
+    ,"querystring": "https://deno.land/x/querystring@v1.0.2/mod.js"
+  }
+
+}

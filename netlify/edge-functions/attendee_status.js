@@ -1,9 +1,9 @@
-import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
 const env_vars = Deno.env.toObject();
-const client = new Client(env_vars["DATABASE_URL"]);
+const supabase = createClient(env_vars["supabaseUrl"], env_vars["supabaseKey"]);
 
 export default async (request, context) => {
-    await client.connect();
     const url = new URL(request.url);
     const split_path = url.pathname.split("/");
     let event_junction_pub_id;
@@ -19,34 +19,32 @@ export default async (request, context) => {
         maybe: "a maybe for",
     };
 
-    const event_id_lookup = await client.queryObject(
-        "select event_attendee_junction.event_id, event_attendee_junction.rsvp, event_attendee_junction.attendee_id from event_attendee_junction where event_attendee_junction.public_id =  $1",
-        [event_junction_pub_id]
-    );
+    const event_id_lookup = await supabase
+        .from("event_attendee_junction")
+        .select("event_id, rsvp", "attendee_id, attendee(attendee)")
+        .eq("public_id", event_junction_pub_id);
 
-    const attending_lookup = await client.queryArray(
-        "SELECT attendee.attendee,event_attendee_junction.plus_one FROM event_attendee_junction INNER JOIN attendee ON event_attendee_junction.attendee_id=attendee.id  where event_attendee_junction.event_id = $1 AND event_attendee_junction.rsvp = 'attending' ORDER BY attendee.phone DESC",
-        [event_id_lookup.rows[0].event_id]
-    );
+    const attending_lookup = await supabase
+        .from("event_attendee_junction")
+        .select("plus_one, rsvp, attendee(attendee)")
+        .eq("event_id", event_id_lookup.data[0].event_id)
+        .eq("rsvp", "attending")
+        .order("updated_at", { ascending: true });
 
-    await client.end();
-    let attendingArray = attending_lookup.rows;
-    attendingArray.forEach((element, index, attendingArray) => {
-        if (attendingArray[index][1] > 0) {
-            attendingArray[index] = element[0].split(" ")[0] + "+" + element[1];
-        } else {
-            attendingArray[index] = element[0].split(" ")[0];
-        }
-    });
+    let attendingArray = [];
+    attending_lookup.data.forEach((attendee) => {
+        attendingArray.push(attendee.attendee.attendee);
+    }, attendingArray);
+
     try {
         const response = await context.next();
         const page = await response.text();
         const updatedPage = page
             .replace(
                 /STATUS_UNKNOWN/i,
-                status[event_id_lookup.rows[0]["rsvp"]] ?? "invited to attend"
+                status[event_id_lookup.data[0]["rsvp"]] ?? "invited to attend"
             )
-            .replace(/ATTENDEE_STATUS_UNKNOWN/i, event_id_lookup.rows[0]["rsvp"] || "")
+            .replace(/ATTENDEE_STATUS_UNKNOWN/i, event_id_lookup.data[0]["rsvp"] || "")
             .replace(/ATTENDEES_UNKNOWN/i, attendingArray);
 
         return new Response(updatedPage, response);
