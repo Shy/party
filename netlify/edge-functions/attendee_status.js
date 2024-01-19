@@ -27,7 +27,7 @@ export default async (request, context) => {
     const attending_lookup = await supabase
         .from("event_attendee_junction")
         .select("plus_one, rsvp, attendee(attendee)")
-        .eq("event_id", event_id_lookup.data[0].event_id)
+        .eq("event_id", event_id_lookup.data[0]["event_id"])
         .eq("rsvp", "attending")
         .order("updated_at", { ascending: true });
 

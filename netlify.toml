@@ -8,7 +8,7 @@
 
 [functions]
   node_bundler = "esbuild"
-  deno_import_map = "netlify/deno.json"
+
 
 [build]
 	functions = "netlify/functions/"

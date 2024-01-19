@@ -1,13 +1,13 @@
-import { createClient } from "supabase";
+import { createClient } from "@supabase/supabase-js";
+
 import parse from "querystring";
 
-const env_vars = Deno.env.toObject();
-const supabase = createClient(env_vars["supabaseUrl"], env_vars["supabaseKey"]);
+const supabase = createClient(process.env["supabaseUrl"], process.env["supabaseKey"]);
 
-// const twilio_client = require("twilio")(
-//     process.env.TWILIO_ACCOUNT_SID,
-//     process.env.TWILIO_AUTH_TOKEN
-// );
+const twilio_client = require("twilio")(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
+);
 exports.handler = async (event, _context, callback) => {
     let body = {};
 
@@ -83,16 +83,16 @@ exports.handler = async (event, _context, callback) => {
                 "/";
     }
 
-    // return await twilio_client.messages
-    //     .create({
-    //         body: message,
-    //         from: process.env.TWILIO_FROM_Number,
-    //         to: phoneAndEvent.phone,
-    //     })
-    //     .then((message) => {
-    //         return { statusCode: 200, body: JSON.stringify(message.sid) };
-    //     })
-    //     .catch(function (error) {
-    //         return { statusCode: 500, body: JSON.stringify(error) };
-    //     });
+    return await twilio_client.messages
+        .create({
+            body: message,
+            from: process.env.TWILIO_FROM_Number,
+            to: phoneAndEvent.phone,
+        })
+        .then((message) => {
+            return { statusCode: 200, body: JSON.stringify(message.sid) };
+        })
+        .catch(function (error) {
+            return { statusCode: 500, body: JSON.stringify(error) };
+        });
 };
