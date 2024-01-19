@@ -61,7 +61,7 @@ exports.handler = async (event, _context, callback) => {
         case "attending":
             message =
                 "You're going to " +
-                phoneAndEvent.event +
+                phoneAndEvent.events.event +
                 "! :) \nView details: https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
@@ -69,7 +69,7 @@ exports.handler = async (event, _context, callback) => {
         case "maybe":
             message =
                 "You RSVP-ed Maybe to " +
-                phoneAndEvent.event +
+                phoneAndEvent.events.event +
                 ". :| \nOnce you know if you can go, update your RSVP: https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
@@ -77,7 +77,7 @@ exports.handler = async (event, _context, callback) => {
         default:
             message =
                 ":( Sorry you can't make it to " +
-                phoneAndEvent.event +
+                phoneAndEvent.events.event +
                 ". I've turned off the reminder texts.\nChange your mind anytime: https://shy.party/rsvp/" +
                 junction_pub +
                 "/";
@@ -87,7 +87,7 @@ exports.handler = async (event, _context, callback) => {
         .create({
             body: message,
             from: process.env.TWILIO_FROM_Number,
-            to: phoneAndEvent.phone,
+            to: phoneAndEvent.attendee.phone,
         })
         .then((message) => {
             return { statusCode: 200, body: JSON.stringify(message.sid) };
