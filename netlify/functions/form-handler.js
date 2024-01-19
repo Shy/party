@@ -4,8 +4,7 @@ const twilio_client = require("twilio")(
     process.env.TWILIO_ACCOUNT_SID,
     process.env.TWILIO_AUTH_TOKEN
 );
-const connectionString =
-    process.env.DATABASE_URL.replace("cockroachdb", "postgresql") + "?sslmode=require";
+const connectionString = process.env.DATABASE_URL;
 exports.handler = async (event, _context, callback) => {
     const client = new Client({
         connectionString,
@@ -73,7 +72,7 @@ exports.handler = async (event, _context, callback) => {
                 phoneAndEvent.event +
                 ". :| \nOnce you know if you can go, update your RSVP: https://shy.party/rsvp/" +
                 junction_pub +
-            "/";
+                "/";
             break;
         default:
             message =
