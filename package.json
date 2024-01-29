@@ -7,7 +7,7 @@
     "license": "ISC",
     "bugs": {"url": "https://github.com/shy/party/issues"},
     "homepage": "https://github.com/shy/party#readme",
-    "devDependencies": {"axois": "^0.0.1-security", "dotenv": "^16.3.1"},
+    "devDependencies": {"axois": "^0.0.1-security", "dotenv": "^16.4.1"},
     "dependencies": {
         "@supabase/supabase-js": "^2.39.3",
         "netlify-cli": "^16.5.1",
