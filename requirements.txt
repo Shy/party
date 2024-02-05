@@ -40,7 +40,7 @@ pydyf==0.5.0
 pyphen==0.13.2
 PySocks==1.7.1
 python-dotenv==1.0.0
-pytz==2023.3
+pytz==2024.1
 rcssmin==1.1.2
 requests==2.28.2
 selenium==4.8.2
