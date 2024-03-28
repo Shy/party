@@ -13,12 +13,6 @@ export default async (request, context) => {
     event_junction_pub_id = split_path[split_path.length - 1];
   }
 
-  let status = {
-    attending: "",
-    not_attending: "unable to attend",
-    maybe: "a maybe for",
-  };
-
   const help = {
     "🧽": "attending and washing the dishes after the main course",
     "🧹": "attending and staying to clean",
@@ -44,19 +38,21 @@ export default async (request, context) => {
     attendingArray.push(attendee.attendee.attendee.split(" ")[0]);
   }, attendingArray);
 
-  let rsvpMessage = "invited to attend";
-  if (status[event_id_lookup.data[0]["rsvp"]] == "attending") {
-    status["attending"] = help[event_id_lookup.data[0]["help"]];
+  if (event_id_lookup.data[0]["rsvp"] == "attending") {
+    statusKnown = help[event_id_lookup.data[0]["help"]];
+  } else if (event_id_lookup.data[0]["rsvp"] == "not_attending") {
+    statusKnown = "unable to attend";
+  } else if (event_id_lookup.data[0]["rsvp"] == "maybe") {
+    statusKnown = "undecided about attending";
+  } else {
+    statusKnown = "invited to attend";
   }
 
   try {
     const response = await context.next();
     const page = await response.text();
     const updatedPage = page
-      .replace(
-        /STATUS_UNKNOWN/i,
-        status[event_id_lookup.data[0]["rsvp"]] || "invited to attend"
-      )
+      .replace(/STATUS_UNKNOWN/i, statusKnown)
       .replace(
         /ATTENDEE_STATUS_UNKNOWN/i,
         event_id_lookup.data[0]["rsvp"] || ""
