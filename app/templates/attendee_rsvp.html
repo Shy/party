@@ -168,49 +168,22 @@
       })
       .then(function (data) {
         console.log("data from function", data);
-
         switch (status) {
           case "attending":
             removeSelfFromList();
             const li = document.createElement("li");
             li.innerText = "{{attendee.attendee.split()[0]}}";
             $attendeesList.appendChild(li);
-            console.log(help)
-            switch (help) {
-              case "🧹":
-                consoleText([
-                  attendeeStatus.innerText,
-                  "attending and staying to clean",
-                ]);
-              case "🧽":
-                consoleText([
-                  attendeeStatus.innerText,
-                  "attending and washing the dishes after the main course",
-                ]);
-              case "🧤":
-                consoleText([
-                  attendeeStatus.innerText,
-                  "attending and washing the dishes after desert",
-                ]);
-              case "🗑️":
-                consoleText([
-                  attendeeStatus.innerText,
-                  "attending and will take the trash down to the scary basement whenever it gets full",
-                ]);
-              case "🪵":
-                consoleText([
-                  attendeeStatus.innerText,
-                  "attending and doing assorted woodworking projects around the home",
-                ]);
-              case "🧑‍🍼":
-                consoleText([
-                  attendeeStatus.innerText,
-                  "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
-                ]);
-              default:
-                consoleText([attendeeStatus.innerText, "attending"]);
-            }
-            consoleText([attendeeStatus.innerText, "attending"]);
+            helpMessage = {
+              "🧽": "attending and washing the dishes after the main course",
+              "🧹": "attending and staying to clean",
+              "🧤": "attending and washing the dishes after desert",
+              "🗑️": "attending and will take the trash down to the scary basement whenever it gets full",
+              "🪵": "attending and doing assorted woodworking projects around the home",
+              "🧑‍🍼": "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
+            };
+            console.log(helpMessage[help]);
+            consoleText([attendeeStatus.innerText, helpMessage[help]]);
             break;
           case "maybe":
             removeSelfFromList();
@@ -266,7 +239,9 @@
     const $button = document.querySelector(`[value="${ATTENDEE_STATUS}"]`);
     $button && $button.classList.add("selected");
     if (ATTENDEE_STATUS =='attending'){
-      button.innerHTML = button.innerHTML  + " " + ATTENDEE_STATUS_HELP
+      document.getElementById('attending').innerHTML = document.getElementById('attending').innerHTML +  " " + ATTENDEE_STATUS_HELP
+
+    
     }
   }
 
