@@ -487,6 +487,9 @@ a:hover {
 .dropdown {
   display: block;
 }
+.atcb-list-item:hover {
+  background: #00d4ff;
+}
 
 .dropdown-content {
   background-color: rgba(255, 255, 255, 0.3);
@@ -510,4 +513,6 @@ a:hover {
   animation: AnimationName 4s ease infinite;
 }
 
-.dropdown-item {  color: white;}
+.dropdown-item {
+  color: white;
+}

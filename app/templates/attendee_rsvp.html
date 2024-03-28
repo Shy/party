@@ -14,7 +14,10 @@
       </p>
       <p class="content is-size-4">
         <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}} |
-        <a id="calLink">Add to Cal</a> <br /><i class="fa-solid fa-location-dot" style="margin: 0 1.5px"></i>
+        <a id="calLink">Add to Cal</a> <br /><i
+          class="fa-solid fa-location-dot"
+          style="margin: 0 1.5px"
+        ></i>
         {{event.location}}
       </p>
       <p class="subtitle is-size-4">What am I inviting you to?</p>
@@ -30,8 +33,9 @@
 
       <p class="subtitle is-size-4">What is this website?</p>
       <p class="content">
-        <a href="https://youtu.be/gu0SjNfSzyQ">{{PARTY_NAME}}.Party is a worse version of partiful</a>. This page
-        specifically is your private event page for
+        <a href="https://youtu.be/gu0SjNfSzyQ"
+          >{{PARTY_NAME}}.Party is a worse version of partiful</a
+        >. This page specifically is your private event page for
         {{event.event}}. Revisit this link to update your RSVP.
       </p>
       <p class="content">
@@ -39,15 +43,32 @@
         take you off the texting list.
       </p>
 
-      <form id="submit_rsvp" action="/.netlify/functions/form-handler" method="post">
-        <input type="hidden" name="junction_pub" id="junction_pub" value="{{event_junction_public_id}}" />
+      <form
+        id="submit_rsvp"
+        action="/.netlify/functions/form-handler"
+        method="post"
+      >
+        <input
+          type="hidden"
+          name="junction_pub"
+          id="junction_pub"
+          value="{{event_junction_public_id}}"
+        />
 
         <div class="columns">
           <div class="column has-text-centered">
-            <div class="dropdown is-hoverable is-up">
+            <div id="attending-dropdown" class="dropdown is-up">
               <div class="dropdown-trigger">
-                <button aria-haspopup="true" type="button" aria-controls="dropdown-menu" value="attending"
-                  id="attending" data-text="Attending">😍 ATTENDEE_STATUS_HELP_UNKNOWN</button>
+                <button
+                  aria-haspopup="true"
+                  type="button"
+                  aria-controls="dropdown-menu"
+                  value="attending"
+                  id="attending"
+                  data-text="Attending"
+                >
+                  😍 ATTENDEE_STATUS_HELP_UNKNOWN
+                </button>
               </div>
               <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content">
@@ -89,12 +110,24 @@
             </div>
           </div>
           <div class="column has-text-centered">
-            <button type="submit" id="maybe" name="rsvp" value="maybe" data-text="Maybe">
+            <button
+              type="submit"
+              id="maybe"
+              name="rsvp"
+              value="maybe"
+              data-text="Maybe"
+            >
               &#129300;
             </button>
           </div>
           <div class="column has-text-centered">
-            <button type="submit" id="not_attending" name="rsvp" value="not_attending" data-text="Can't go.">
+            <button
+              type="submit"
+              id="not_attending"
+              name="rsvp"
+              value="not_attending"
+              data-text="Can't go."
+            >
               &#128546;
             </button>
           </div>
@@ -105,7 +138,11 @@
 </section>
 
 {% endblock %} {% block js %}
-<script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1" async defer></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1"
+  async
+  defer
+></script>
 <script>
   const clearSelected = () => {
     document
@@ -119,11 +156,20 @@
     el.addEventListener("click", (event) => {
       event.preventDefault();
       clearSelected();
-      document.getElementById("attending").innerHTML = "🥰 " +event.target.getAttribute("data-el");
+      document.getElementById("attending").innerHTML =
+        "🥰 " + event.target.getAttribute("data-el");
       document.getElementById("attending").classList.add("selected");
+      document
+        .getElementById("attending-dropdown")
+        .classList.remove("is-active");
       submitRSVP("attending", event.target.getAttribute("data-el"));
     })
   );
+
+  document.getElementById("attending").addEventListener("click", (event) => {
+    event.preventDefault();
+    document.getElementById("attending-dropdown").classList.toggle("is-active");
+  });
 
   document.getElementById("maybe").addEventListener("click", (event) => {
     event.preventDefault();
@@ -230,8 +276,6 @@
 
   // Select appropriate button based on attendee status
   const ATTENDEE_STATUS = "ATTENDEE_STATUS_UNKNOWN";
-  
-
 
   if (ATTENDEE_STATUS) {
     const $button = document.querySelector(`[value="${ATTENDEE_STATUS}"]`);
@@ -260,7 +304,7 @@
     var refreshIntervalId = window.setInterval(function () {
       if (
         words[0].substring(0, letterCount) ===
-        words[1].substring(0, letterCount) &&
+          words[1].substring(0, letterCount) &&
         waiting === false
       ) {
         waiting = true;
