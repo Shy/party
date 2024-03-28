@@ -18,7 +18,7 @@ export default async (request, context) => {
     not_attending: "unable to attend",
     maybe: "a maybe for",
   };
-  const rsvpMessage = "invited to attend";
+
 
   const event_id_lookup = await supabase
     .from("event_attendee_junction")
@@ -35,7 +35,7 @@ export default async (request, context) => {
   attending_lookup.data.forEach((attendee) => {
     attendingArray.push(attendee.attendee.attendee.split(" ")[0]);
   }, attendingArray);
-
+  let rsvpMessage = "invited to attend";
   switch (status[event_id_lookup.data[0]["rsvp"]]) {
     case "attending":
       switch (status[event_id_lookup.data[0]["help"]]) {
@@ -56,7 +56,7 @@ export default async (request, context) => {
           rsvpMessage =
             "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months";
         default:
-          consoleText([attendeeStatus.innerText, "attending"]);
+             rsvpMessage = "invited to attend";
       }
     case "maybe":
       rsvpMessage = "a maybe for";
@@ -75,7 +75,10 @@ export default async (request, context) => {
         /ATTENDEE_STATUS_UNKNOWN/i,
         event_id_lookup.data[0]["rsvp"] || ""
       )
-      .replace(/ATTENDEES_UNKNOWN/i, attendingArray);
+      .replace(/ATTENDEES_UNKNOWN/i, attendingArray)
+      .replace(
+        /ATTENDEE_STATUS_HELP_UNKNOWN/i,
+        event_id_lookup.data[0]["help"] || "");
 
     return new Response(updatedPage, response);
   } catch (err) {

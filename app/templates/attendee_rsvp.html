@@ -121,6 +121,7 @@
     el.addEventListener("click", (event) => {
       event.preventDefault();
       clearSelected();
+      document.getElementById("attending").innerHTML = "🥰 " +event.target.getAttribute("data-el");
       document.getElementById("attending").classList.add("selected");
       submitRSVP("attending", event.target.getAttribute("data-el"));
     })
@@ -257,10 +258,14 @@
 
   // Select appropriate button based on attendee status
   const ATTENDEE_STATUS = "ATTENDEE_STATUS_UNKNOWN";
+  const ATTENDEE_STATUS_HELP = "ATTENDEE_STATUS_HELP_UNKNOWN";
 
   if (ATTENDEE_STATUS) {
     const $button = document.querySelector(`[value="${ATTENDEE_STATUS}"]`);
     $button && $button.classList.add("selected");
+    if (ATTENDEE_STATUS =='attending'){
+      button.innerHTML = button.innerHTML  + " " + ATTENDEE_STATUS_HELP
+    }
   }
 
   /* Populate list of attendees. */
