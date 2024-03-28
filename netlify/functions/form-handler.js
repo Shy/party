@@ -16,8 +16,8 @@ exports.handler = async (event, _context, callback) => {
     } catch (e) {
         body = parse(event.body);
     }
-
-    if (!body.junction_pub || !body.rsvp) {
+    
+    if (!body.junction_pub || !body.rsvp || (body.rsvp =="attending" & !body.help) ){
         console.log("[SPAM DETECTED] Required fields not defined.");
 
         return {
@@ -29,12 +29,12 @@ exports.handler = async (event, _context, callback) => {
         };
     }
 
-    const { junction_pub, rsvp } = body;
+    const { junction_pub, rsvp ,  help} = body;
 
     let message = "Error. Ping Shy to fix things.";
     updatedRsvp = await supabase
         .from("event_attendee_junction")
-        .update({ rsvp: rsvp })
+        .update({ rsvp: rsvp , help:help})
         .eq("public_id", junction_pub)
         .select("rsvp")
         .then((result) => {
