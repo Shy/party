@@ -14,10 +14,7 @@
       </p>
       <p class="content is-size-4">
         <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}} |
-        <a id="calLink">Add to Cal</a> <br /><i
-          class="fa-solid fa-location-dot"
-          style="margin: 0 1.5px"
-        ></i>
+        <a id="calLink">Add to Cal</a> <br /><i class="fa-solid fa-location-dot" style="margin: 0 1.5px"></i>
         {{event.location}}
       </p>
       <p class="subtitle is-size-4">What am I inviting you to?</p>
@@ -33,9 +30,8 @@
 
       <p class="subtitle is-size-4">What is this website?</p>
       <p class="content">
-        <a href="https://youtu.be/gu0SjNfSzyQ"
-          >{{PARTY_NAME}}.Party is a worse version of partiful</a
-        >. This page specifically is your private event page for
+        <a href="https://youtu.be/gu0SjNfSzyQ">{{PARTY_NAME}}.Party is a worse version of partiful</a>. This page
+        specifically is your private event page for
         {{event.event}}. Revisit this link to update your RSVP.
       </p>
       <p class="content">
@@ -43,30 +39,15 @@
         take you off the texting list.
       </p>
 
-      <form
-        id="submit_rsvp"
-        action="/.netlify/functions/form-handler"
-        method="post"
-      >
-        <input
-          type="hidden"
-          name="junction_pub"
-          id="junction_pub"
-          value="{{event_junction_public_id}}"
-        />
+      <form id="submit_rsvp" action="/.netlify/functions/form-handler" method="post">
+        <input type="hidden" name="junction_pub" id="junction_pub" value="{{event_junction_public_id}}" />
 
         <div class="columns">
           <div class="column has-text-centered">
             <div class="dropdown is-hoverable is-up">
               <div class="dropdown-trigger">
-                <button
-                  aria-haspopup="true"
-                  type="button"
-                  aria-controls="dropdown-menu"
-                  value="attending"
-                  id="attending"
-                  data-text="Attending"
-                >
+                <button aria-haspopup="true" type="button" aria-controls="dropdown-menu" value="attending"
+                  id="attending" data-text="Attending">
                   &#128525;
                 </button>
               </div>
@@ -110,24 +91,12 @@
             </div>
           </div>
           <div class="column has-text-centered">
-            <button
-              type="submit"
-              id="maybe"
-              name="rsvp"
-              value="maybe"
-              data-text="Maybe"
-            >
+            <button type="submit" id="maybe" name="rsvp" value="maybe" data-text="Maybe">
               &#129300;
             </button>
           </div>
           <div class="column has-text-centered">
-            <button
-              type="submit"
-              id="not_attending"
-              name="rsvp"
-              value="not_attending"
-              data-text="Can't go."
-            >
+            <button type="submit" id="not_attending" name="rsvp" value="not_attending" data-text="Can't go.">
               &#128546;
             </button>
           </div>
@@ -138,184 +107,212 @@
 </section>
 
 {% endblock %} {% block js %}
-<script
-  src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1"
-  async
-  defer
-></script>
+<script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1" async defer></script>
 <script>
-    const clearSelected = () => {
-      document
-        .getElementById("submit_rsvp")
-        .querySelectorAll("button")
-        .forEach((el) => {
-          el.classList.remove("selected");
-        });
-    };
-    document.querySelectorAll('.dropdown-item').forEach(el => el.addEventListener('click', event => {
-
+  const clearSelected = () => {
+    document
+      .getElementById("submit_rsvp")
+      .querySelectorAll("button")
+      .forEach((el) => {
+        el.classList.remove("selected");
+      });
+  };
+  document.querySelectorAll(".dropdown-item").forEach((el) =>
+    el.addEventListener("click", (event) => {
       event.preventDefault();
       clearSelected();
-      document.getElementById("attending").classList.add("selected")
-      submitRSVP( "attending",  event.target.getAttribute("data-el"));
+      document.getElementById("attending").classList.add("selected");
+      submitRSVP("attending", event.target.getAttribute("data-el"));
+    })
+  );
 
-    }));
-
-
-    document.getElementById("maybe").addEventListener("click", (event) => {
+  document.getElementById("maybe").addEventListener("click", (event) => {
+    event.preventDefault();
+    clearSelected();
+    event.target.classList.add("selected");
+    submitRSVP("maybe");
+  });
+  document
+    .getElementById("not_attending")
+    .addEventListener("click", (event) => {
       event.preventDefault();
       clearSelected();
       event.target.classList.add("selected");
-      submitRSVP("maybe");
-
+      submitRSVP("not_attending");
     });
-    document
-      .getElementById("not_attending")
-      .addEventListener("click", (event) => {
-        event.preventDefault();
-        clearSelected();
-        event.target.classList.add("selected");
-        submitRSVP("not_attending");
-      });
 
-    function removeSelfFromList() {
-      const li = [...$attendeesList.children].find((el) => {
-        return el.innerText === "{{attendee.attendee.split()[0]}}";
-      });
+  function removeSelfFromList() {
+    const li = [...$attendeesList.children].find((el) => {
+      return el.innerText === "{{attendee.attendee.split()[0]}}";
+    });
 
-      if (li) {
-        $attendeesList.removeChild(li);
-      }
+    if (li) {
+      $attendeesList.removeChild(li);
     }
+  }
 
-    function submitRSVP(status,help) {
-      const junction_pub = document.getElementById("junction_pub").value;
-      const attendeeStatus = document.getElementById("attendee_status");
-      fetch("/.netlify/functions/form-handler", {
-        method: "post",
-        body: JSON.stringify({
-          rsvp: status,
-          help: help || null,
-          junction_pub: junction_pub,
-        }),
+  function submitRSVP(status, help) {
+    const junction_pub = document.getElementById("junction_pub").value;
+    const attendeeStatus = document.getElementById("attendee_status");
+    fetch("/.netlify/functions/form-handler", {
+      method: "post",
+      body: JSON.stringify({
+        rsvp: status,
+        help: help || null,
+        junction_pub: junction_pub,
+      }),
+    })
+      .then(function (response) {
+        return response.json();
       })
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (data) {
-          console.log("data from function", data);
+      .then(function (data) {
+        console.log("data from function", data);
 
-          switch (status) {
-            case "attending":
-              removeSelfFromList();
-              const li = document.createElement("li");
-              li.innerText = "{{attendee.attendee.split()[0]}}";
-              $attendeesList.appendChild(li);
-              consoleText([attendeeStatus.innerText, "attending"]);
-              break;
-            case "maybe":
-              removeSelfFromList();
-              consoleText([attendeeStatus.innerText, "a maybe for"]);
-              break;
-            case "not_attending":
-              removeSelfFromList();
-              consoleText([attendeeStatus.innerText, "unable to make it for"]);
-              break;
-          }
+        switch (status) {
+          case "attending":
+            removeSelfFromList();
+            const li = document.createElement("li");
+            li.innerText = "{{attendee.attendee.split()[0]}}";
+            $attendeesList.appendChild(li);
+            switch (help) {
+              case "🧹":
+                consoleText([
+                  attendeeStatus.innerText,
+                  "attending and staying to clean",
+                ]);
+              case "🧽":
+                consoleText([
+                  attendeeStatus.innerText,
+                  "attending and washing the dishes after the main course",
+                ]);
+              case "🧤":
+                consoleText([
+                  attendeeStatus.innerText,
+                  "attending and washing the dishes after desert",
+                ]);
+              case "🗑️":
+                consoleText([
+                  attendeeStatus.innerText,
+                  "attending and will take the trash down to the scary basement whenever it gets full",
+                ]);
+              case "🪵":
+                consoleText([
+                  attendeeStatus.innerText,
+                  "attending and doing assorted woodworking projects around the home",
+                ]);
+              case "🧑‍🍼":
+                consoleText([
+                  attendeeStatus.innerText,
+                  "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
+                ]);
+              default:
+                consoleText([attendeeStatus.innerText, "attending"]);
+            }
+            consoleText([attendeeStatus.innerText, "attending"]);
+            break;
+          case "maybe":
+            removeSelfFromList();
+            consoleText([attendeeStatus.innerText, "a maybe for"]);
+            break;
+          case "not_attending":
+            removeSelfFromList();
+            consoleText([attendeeStatus.innerText, "unable to make it for"]);
+            break;
+        }
+      });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    (document.querySelectorAll(".notification .delete") || []).forEach(
+      ($delete) => {
+        const $notification = $delete.parentNode;
+
+        $delete.addEventListener("click", () => {
+          $notification.parentNode.removeChild($notification);
         });
-    }
+      }
+    );
+  });
 
-    document.addEventListener("DOMContentLoaded", () => {
-      (document.querySelectorAll(".notification .delete") || []).forEach(
-        ($delete) => {
-          const $notification = $delete.parentNode;
+  const config = {
+    name: "{{event.event}}",
+    description:
+      "Update your RSVP at https://shy.party/rsvp/{{event_junction_public_id}}",
+    startDate: "{{ event.date | humanize_cal_date }}",
+    endDate: "{{ event.date | humanize_cal_date_end }}",
+    startTime: "{{ event.date | humanize_cal_time }}",
+    endTime: "{{ event.date | humanize_cal_time_end }}",
+    hideBranding: true,
+    options: ["Google", "Apple", "iCal"],
+    timeZone: "US/Eastern",
+    trigger: "click",
+    inline: true,
+    listStyle: "modal",
+    label: "Add to Calendar",
+    lightMode: "dark",
+    location: "{{event.location}}",
+  };
+  const button = document.getElementById("calLink");
+  button.addEventListener("click", () => atcb_action(config, button));
 
-          $delete.addEventListener("click", () => {
-            $notification.parentNode.removeChild($notification);
-          });
-        }
-      );
-    });
+  // Select appropriate button based on attendee status
+  const ATTENDEE_STATUS = "ATTENDEE_STATUS_UNKNOWN";
 
-    const config = {
-      name: "{{event.event}}",
-      description:
-        "Update your RSVP at https://shy.party/rsvp/{{event_junction_public_id}}",
-      startDate: "{{ event.date | humanize_cal_date }}",
-      endDate: "{{ event.date | humanize_cal_date_end }}",
-      startTime: "{{ event.date | humanize_cal_time }}",
-      endTime: "{{ event.date | humanize_cal_time_end }}",
-      hideBranding: true,
-      options: ["Google", "Apple", "iCal"],
-      timeZone: "US/Eastern",
-      trigger: "click",
-      inline: true,
-      listStyle: "modal",
-      label: "Add to Calendar",
-      lightMode: "dark",
-      location: "{{event.location}}",
-    };
-    const button = document.getElementById("calLink");
-    button.addEventListener("click", () => atcb_action(config, button));
+  if (ATTENDEE_STATUS) {
+    const $button = document.querySelector(`[value="${ATTENDEE_STATUS}"]`);
+    $button && $button.classList.add("selected");
+  }
 
-    // Select appropriate button based on attendee status
-    const ATTENDEE_STATUS = "ATTENDEE_STATUS_UNKNOWN";
+  /* Populate list of attendees. */
+  const ATTENDEE_DATA = "ATTENDEES_UNKNOWN".split(",");
+  const $attendeesList = document.getElementById("attendees-list");
+  ATTENDEE_DATA.forEach((attendee) => {
+    const li = document.createElement("li");
+    li.innerText = attendee;
+    $attendeesList.appendChild(li);
+  });
 
-    if (ATTENDEE_STATUS) {
-      const $button = document.querySelector(`[value="${ATTENDEE_STATUS}"]`);
-      $button && $button.classList.add("selected");
-    }
+  function consoleText(words, id, colors) {
+    if (id === undefined) id = "attendee_status";
+    if (colors === undefined) colors = ["#fff", "#00d4ff"];
 
-    /* Populate list of attendees. */
-    const ATTENDEE_DATA = "ATTENDEES_UNKNOWN".split(",");
-    const $attendeesList = document.getElementById("attendees-list");
-    ATTENDEE_DATA.forEach((attendee) => {
-      const li = document.createElement("li");
-      li.innerText = attendee;
-      $attendeesList.appendChild(li);
-    });
-
-    function consoleText(words, id, colors) {
-      if (id === undefined) id = "attendee_status";
-      if (colors === undefined) colors = ["#fff", "#00d4ff"];
-
-      var con = document.getElementById("console");
-      var letterCount = words[0].length;
-      var x = -1;
-      var waiting = false;
-      var target = document.getElementById(id);
-      target.setAttribute("style", "color:" + colors[0]);
-      var refreshIntervalId = window.setInterval(function () {
-        if (
-          words[0].substring(0, letterCount) ===
-          words[1].substring(0, letterCount) &&
-          waiting === false
-        ) {
-          waiting = true;
-          target.innerHTML = words[0].substring(0, letterCount);
-          window.setTimeout(function () {
-            var usedColor = colors.shift();
-            colors.push(usedColor);
-            var usedWord = words.shift();
-            words.push(usedWord);
-            x = 1;
-            target.setAttribute("style", "color:" + colors[0]);
-            letterCount += x;
-            waiting = false;
-          }, 1000);
-        } else if (letterCount === words[0].length + 1 && waiting === false) {
-          clearInterval(refreshIntervalId);
-          waiting = true;
-          window.setTimeout(function () {
-            x = 1;
-            letterCount += x;
-            waiting = false;
-          }, 1000);
-        } else if (waiting === false) {
-          target.innerHTML = words[0].substring(0, letterCount);
+    var con = document.getElementById("console");
+    var letterCount = words[0].length;
+    var x = -1;
+    var waiting = false;
+    var target = document.getElementById(id);
+    target.setAttribute("style", "color:" + colors[0]);
+    var refreshIntervalId = window.setInterval(function () {
+      if (
+        words[0].substring(0, letterCount) ===
+        words[1].substring(0, letterCount) &&
+        waiting === false
+      ) {
+        waiting = true;
+        target.innerHTML = words[0].substring(0, letterCount);
+        window.setTimeout(function () {
+          var usedColor = colors.shift();
+          colors.push(usedColor);
+          var usedWord = words.shift();
+          words.push(usedWord);
+          x = 1;
+          target.setAttribute("style", "color:" + colors[0]);
           letterCount += x;
-        }
-      }, 100);
-    }
+          waiting = false;
+        }, 1000);
+      } else if (letterCount === words[0].length + 1 && waiting === false) {
+        clearInterval(refreshIntervalId);
+        waiting = true;
+        window.setTimeout(function () {
+          x = 1;
+          letterCount += x;
+          waiting = false;
+        }, 1000);
+      } else if (waiting === false) {
+        target.innerHTML = words[0].substring(0, letterCount);
+        letterCount += x;
+      }
+    }, 100);
+  }
 </script>
 {% endblock %}
