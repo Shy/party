@@ -175,6 +175,7 @@
             const li = document.createElement("li");
             li.innerText = "{{attendee.attendee.split()[0]}}";
             $attendeesList.appendChild(li);
+            console.log(help)
             switch (help) {
               case "🧹":
                 consoleText([
@@ -259,6 +260,7 @@
   // Select appropriate button based on attendee status
   const ATTENDEE_STATUS = "ATTENDEE_STATUS_UNKNOWN";
   const ATTENDEE_STATUS_HELP = "ATTENDEE_STATUS_HELP_UNKNOWN";
+  console.log(ATTENDEE_STATUS_HELP)
 
   if (ATTENDEE_STATUS) {
     const $button = document.querySelector(`[value="${ATTENDEE_STATUS}"]`);
