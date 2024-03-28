@@ -18,7 +18,7 @@ export default async (request, context) => {
     "🧹": "attending and staying to clean",
     "🧤": "attending and washing the dishes after desert",
     "🗑️": "attending and will take the trash down to the scary basement whenever it gets full",
-    "🪵": "attending and doing assorted woodworking projects around the home",
+    "🪵": "attending and doing assorted woodworking projects around my home",
     "🧑‍🍼": "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
   };
 
@@ -38,6 +38,7 @@ export default async (request, context) => {
     attendingArray.push(attendee.attendee.attendee.split(" ")[0]);
   }, attendingArray);
 
+  let statusKnown = ''
   if (event_id_lookup.data[0]["rsvp"] == "attending") {
     statusKnown = help[event_id_lookup.data[0]["help"]];
   } else if (event_id_lookup.data[0]["rsvp"] == "not_attending") {
@@ -47,7 +48,6 @@ export default async (request, context) => {
   } else {
     statusKnown = "invited to attend";
   }
-
   try {
     const response = await context.next();
     const page = await response.text();

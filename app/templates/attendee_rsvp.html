@@ -47,9 +47,7 @@
             <div class="dropdown is-hoverable is-up">
               <div class="dropdown-trigger">
                 <button aria-haspopup="true" type="button" aria-controls="dropdown-menu" value="attending"
-                  id="attending" data-text="Attending">
-                  &#128525;
-                </button>
+                  id="attending" data-text="Attending">😍 ATTENDEE_STATUS_HELP_UNKNOWN</button>
               </div>
               <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content">
@@ -79,7 +77,7 @@
                   <hr class="dropdown-divider" />
                   <p data-el="🪵" class="dropdown-item">
                     I'm attending, and I'm gonna do assorted woodworking
-                    projects around your apartment.
+                    projects around my apartment
                   </p>
                   <hr class="dropdown-divider" />
                   <p data-el="🧑‍🍼" class="dropdown-item">
@@ -232,17 +230,12 @@
 
   // Select appropriate button based on attendee status
   const ATTENDEE_STATUS = "ATTENDEE_STATUS_UNKNOWN";
-  const ATTENDEE_STATUS_HELP = "ATTENDEE_STATUS_HELP_UNKNOWN";
-  console.log(ATTENDEE_STATUS_HELP)
+  
+
 
   if (ATTENDEE_STATUS) {
     const $button = document.querySelector(`[value="${ATTENDEE_STATUS}"]`);
     $button && $button.classList.add("selected");
-    if (ATTENDEE_STATUS =='attending'){
-      document.getElementById('attending').innerHTML = document.getElementById('attending').innerHTML +  " " + ATTENDEE_STATUS_HELP
-
-    
-    }
   }
 
   /* Populate list of attendees. */
