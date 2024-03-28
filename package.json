@@ -20,6 +20,6 @@
         "@supabase/supabase-js": "^2.39.3",
         "netlify-cli": "^15.0.2",
         "pg": "^8.11.0",
-        "twilio": "^4.22.0"
+        "twilio": "^5.0.1"
     }
 }
