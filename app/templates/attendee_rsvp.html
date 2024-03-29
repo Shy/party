@@ -42,7 +42,7 @@
       <form id="submit_rsvp" action="/.netlify/functions/form-handler" method="post">
         <input type="hidden" name="junction_pub" id="junction_pub" value="{{event_junction_public_id}}" />
 
-        <div class="columns  ">
+        <div class="columns">
           <div class="column has-text-centered">
             <div id="attending-dropdown" class="dropdown is-up">
               <div class="dropdown-trigger">
@@ -56,7 +56,6 @@
                   Pick a chore to confirm your attendance
                 </p>
                 <div class="dropdown-content">
-
                   <p data-el="🧹" class="dropdown-item">
                     I'm attending, and I'm gonna stay to help clean after the
                     event ends.
@@ -86,7 +85,7 @@
                     projects around my apartment
                   </p>
                   <hr class="dropdown-divider" />
-                  <p data-el="🧑‍🍼" class="dropdown-item">
+                  <p data-el="🧑‍🍼" class="dropdown-item" id="forParents">
                     Shy, I have a 10 month old baby at home. You're lucky to get
                     me to leave my apartment.
                   </p>
@@ -113,6 +112,13 @@
 {% endblock %} {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1" async defer></script>
 <script>
+  document.getElementById("forParents").innerHTML =
+    "Shy, I have an " +
+    (new Date().getMonth() -
+      new Date("2023-05-07").getMonth() +
+      12 * (new Date().getFullYear() - new Date("2023-05-07").getFullYear())) +
+    " month old baby at home. You're lucky to get me to leave my apartment.";
+
   const clearSelected = () => {
     document
       .getElementById("submit_rsvp")
@@ -180,7 +186,6 @@
         return response.json();
       })
       .then(function (data) {
-        console.log("data from function", data);
         switch (status) {
           case "attending":
             removeSelfFromList();
@@ -195,7 +200,6 @@
               "🪵": "doing home improvement projects around my home in exchange for meals at",
               "🧑‍🍼": "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
             };
-            console.log(helpMessage[help]);
             consoleText([attendeeStatus.innerText, helpMessage[help]]);
             break;
           case "maybe":

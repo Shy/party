@@ -38,7 +38,11 @@ export default async (request, context) => {
 
   let attendingArray = [];
   attending_lookup.data.forEach((attendee) => {
-    console.log(attendee.help);
+    if (attendee.help){
+    console.log(attendee.help + " " + attendee.attendee.attendee + " is visiting.");
+  }else {
+    console.log(attendee.attendee.attendee + " is visiting.");
+  }
     attendingArray.push(
       attendee.help + " " + attendee.attendee.attendee.split(" ")[0],
     );
