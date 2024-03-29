@@ -14,10 +14,7 @@
       </p>
       <p class="content is-size-4">
         <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}} |
-        <a id="calLink">Add to Cal</a> <br /><i
-          class="fa-solid fa-location-dot"
-          style="margin: 0 1.5px"
-        ></i>
+        <a id="calLink">Add to Cal</a> <br /><i class="fa-solid fa-location-dot" style="margin: 0 1.5px"></i>
         {{event.location}}
       </p>
       <p class="subtitle is-size-4">What am I inviting you to?</p>
@@ -33,9 +30,8 @@
 
       <p class="subtitle is-size-4">What is this website?</p>
       <p class="content">
-        <a href="https://youtu.be/gu0SjNfSzyQ"
-          >{{PARTY_NAME}}.Party is a worse version of partiful</a
-        >. This page specifically is your private event page for
+        <a href="https://youtu.be/gu0SjNfSzyQ">{{PARTY_NAME}}.Party is a worse version of partiful</a>. This page
+        specifically is your private event page for
         {{event.event}}. Revisit this link to update your RSVP.
       </p>
       <p class="content">
@@ -43,35 +39,24 @@
         take you off the texting list.
       </p>
 
-      <form
-        id="submit_rsvp"
-        action="/.netlify/functions/form-handler"
-        method="post"
-      >
-        <input
-          type="hidden"
-          name="junction_pub"
-          id="junction_pub"
-          value="{{event_junction_public_id}}"
-        />
+      <form id="submit_rsvp" action="/.netlify/functions/form-handler" method="post">
+        <input type="hidden" name="junction_pub" id="junction_pub" value="{{event_junction_public_id}}" />
 
-        <div class="columns">
+        <div class="columns  ">
           <div class="column has-text-centered">
             <div id="attending-dropdown" class="dropdown is-up">
               <div class="dropdown-trigger">
-                <button
-                  aria-haspopup="true"
-                  type="button"
-                  aria-controls="dropdown-menu"
-                  value="attending"
-                  id="attending"
-                  data-text="Attending"
-                >
+                <button aria-haspopup="true" type="button" aria-controls="dropdown-menu" value="attending"
+                  id="attending" data-text="Attending">
                   😍 ATTENDEE_STATUS_HELP_UNKNOWN
                 </button>
               </div>
               <div class="dropdown-menu" role="menu">
+                <p class="title-dropdown">
+                  Pick a chore to confirm your attendance
+                </p>
                 <div class="dropdown-content">
+
                   <p data-el="🧹" class="dropdown-item">
                     I'm attending, and I'm gonna stay to help clean after the
                     event ends.
@@ -110,24 +95,12 @@
             </div>
           </div>
           <div class="column has-text-centered">
-            <button
-              type="submit"
-              id="maybe"
-              name="rsvp"
-              value="maybe"
-              data-text="Maybe"
-            >
+            <button type="submit" id="maybe" name="rsvp" value="maybe" data-text="Maybe">
               &#129300;
             </button>
           </div>
           <div class="column has-text-centered">
-            <button
-              type="submit"
-              id="not_attending"
-              name="rsvp"
-              value="not_attending"
-              data-text="Can't go."
-            >
+            <button type="submit" id="not_attending" name="rsvp" value="not_attending" data-text="Can't go.">
               &#128546;
             </button>
           </div>
@@ -138,11 +111,7 @@
 </section>
 
 {% endblock %} {% block js %}
-<script
-  src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1"
-  async
-  defer
-></script>
+<script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1" async defer></script>
 <script>
   const clearSelected = () => {
     document
@@ -219,11 +188,11 @@
             li.innerText = "{{attendee.attendee.split()[0]}}";
             $attendeesList.appendChild(li);
             helpMessage = {
-              "🧽": "attending and washing the dishes after the main course",
-              "🧹": "attending and staying to clean",
-              "🧤": "attending and washing the dishes after desert",
-              "🗑️": "attending and will take the trash down to the scary basement whenever it gets full",
-              "🪵": "attending and doing assorted woodworking projects around the home",
+              "🧽": "washing the dishes after the main course at",
+              "🧹": "staying to clean after attending",
+              "🧤": "washing the dishes after desert at",
+              "🗑️": "taking the trash down to the scary basement whenever it gets full at",
+              "🪵": "doing home improvement projects around my home in exchange for meals at",
               "🧑‍🍼": "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
             };
             console.log(helpMessage[help]);
@@ -304,7 +273,7 @@
     var refreshIntervalId = window.setInterval(function () {
       if (
         words[0].substring(0, letterCount) ===
-          words[1].substring(0, letterCount) &&
+        words[1].substring(0, letterCount) &&
         waiting === false
       ) {
         waiting = true;

@@ -5,7 +5,8 @@
 
 [dev]
 # Just run netlify dev -d app/build/
-  
+  command = "flask run"
+  targetPort = 5000
 
 
 [functions]
