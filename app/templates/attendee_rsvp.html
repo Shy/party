@@ -112,7 +112,7 @@
 {% endblock %} {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1" async defer></script>
 <script>
-  document.getElementById("forParents").innerHTML =
+  document.getElementById("forParents").innerText =
     "Shy, I have an " +
     (new Date().getMonth() -
       new Date("2023-05-07").getMonth() +
@@ -162,13 +162,11 @@
     });
 
   function removeSelfFromList() {
-    const li = [...$attendeesList.children].find((el) => {
-      return el.innerText === "{{attendee.attendee.split()[0]}}";
+    [...$attendeesList.children].find((el) => {
+      if (el.innerText.split(' ')[1] == "{{attendee.attendee.split()[0]}}"){
+        $attendeesList.removeChild(el)
+      }
     });
-
-    if (li) {
-      $attendeesList.removeChild(li);
-    }
   }
 
   function submitRSVP(status, help) {
@@ -190,7 +188,7 @@
           case "attending":
             removeSelfFromList();
             const li = document.createElement("li");
-            li.innerText = "{{attendee.attendee.split()[0]}}";
+            li.innerText = help +" {{attendee.attendee.split()[0]}}";
             $attendeesList.appendChild(li);
             helpMessage = {
               "🧽": "washing the dishes after the main course at",

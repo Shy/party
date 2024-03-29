@@ -61,10 +61,9 @@ exports.handler = async (event, _context, callback) => {
           return { statusCode: 500 };
         });
     });
-  console.log( currentRsvp);
-  console.log( rsvp);
   if (currentRsvp == rsvp) {
-    return { statusCode: 200 };
+    return { statusCode: 200,body: JSON.stringify(200), };      
+
   }
 
   phoneAndEvent = await supabase
@@ -76,7 +75,7 @@ exports.handler = async (event, _context, callback) => {
     })
     .catch((e) => {
       console.error(e.stack);
-      return { statusCode: 500 };
+      return { statusCode: 500, body: JSON.stringify(error) };
     });
 
   switch (updatedRsvp) {
