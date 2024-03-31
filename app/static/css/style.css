@@ -22,7 +22,7 @@ p.content {
   color: aliceblue;
 }
 
-.subtitle:not(.is-spaced)+.title {
+.subtitle:not(.is-spaced) + .title {
   margin-top: -1.75rem;
 }
 
@@ -533,6 +533,19 @@ button:hover:before {
 }
 
 @media only screen and (max-width: 600px) {
+  .dropdown-menu .is-active {
+    overflow-y: scroll;
+  }
+
+  .dropdown-content {
+    max-height: 50vh;
+  }
+
+  .dropdown-item {
+    color: white;
+    padding: 0.4em;
+  }
+
   .hero-body {
     padding-top: 1rem;
     padding-bottom: calc(206px + 3rem);
@@ -552,6 +565,7 @@ button:hover:before {
   }
 
   #submit_rsvp .column {
+    max-height: 11vh;
     padding: 0.5rem;
   }
 }
@@ -581,8 +595,6 @@ a:hover {
 .title-dropdown {
   font-size: 20px;
   font-family: "DotGothic16", sans-serif;
-  text-transform: underline;
-  background-color: rgba(0, 0, 0, 0.8);
   color: white;
   margin: 0.5em;
 }
@@ -590,8 +602,9 @@ a:hover {
 .dropdown-menu {
   width: 100%;
   border-radius: 0.6em;
+  margin-bottom: 0.6em;
   border: none;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgb(0, 0, 0);
 }
 
 .atcb-list-item:hover {

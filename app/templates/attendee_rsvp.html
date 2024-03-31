@@ -42,7 +42,7 @@
       <form id="submit_rsvp" action="/.netlify/functions/form-handler" method="post">
         <input type="hidden" name="junction_pub" id="junction_pub" value="{{event_junction_public_id}}" />
 
-        <div class="columns">
+        <div class="columns" id="rsvp-columns">
           <div class="column has-text-centered">
             <div id="attending-dropdown" class="dropdown is-up">
               <div class="dropdown-trigger">
@@ -52,6 +52,8 @@
                 </button>
               </div>
               <div class="dropdown-menu" role="menu">
+            
+                
                 <p class="title-dropdown">
                   Pick a chore to confirm your attendance
                 </p>
@@ -59,6 +61,11 @@
                   <p data-el="🧹" class="dropdown-item">
                     I'm attending, and I'm gonna stay to help clean after the
                     event ends.
+                  </p>
+
+                  <hr class="dropdown-divider" />
+                  <p data-el="🍽️" class="dropdown-item">
+                    I'm attending, and I'm gonna move the furniture so folks can eat. 
                   </p>
 
                   <hr class="dropdown-divider" />
@@ -195,8 +202,9 @@
               "🧹": "staying to clean after attending",
               "🧤": "washing the dishes after desert at",
               "🗑️": "taking the trash down to the scary basement whenever it gets full at",
-              "🪵": "doing home improvement projects around my home in exchange for meals at",
-              "🧑‍🍼": "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
+              "🪵": "doing home improvement projects in exchange for meals at",
+              "🧑‍🍼": "attending and bringing a cute baby for people to hang out with",
+              "🍽️": "attending and moving furniture so people can eat at"
             };
             consoleText([attendeeStatus.innerText, helpMessage[help]]);
             break;

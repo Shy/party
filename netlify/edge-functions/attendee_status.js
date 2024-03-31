@@ -22,7 +22,8 @@ export default async (request, context) => {
     "🪵": "attending and doing assorted woodworking projects around my home",
     "🧑‍🍼":
       "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
-    "🍳": "hosting",
+    "🍳": "hosting",     
+    "🍽️": "attending and moving furniture so people can eat at"
   };
 
   const event_id_lookup = await supabase
