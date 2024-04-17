@@ -17,13 +17,12 @@ export default async (request, context) => {
     "🧽": "attending and washing the dishes after the main course",
     "🧹": "attending and staying to clean",
     "🧤": "attending and washing the dishes after desert",
-    "🗑️":
-      "attending and will take the trash down to the scary basement whenever it gets full",
+    "🗑️": "attending and will take the trash down to the scary basement whenever it gets full",
     "🪵": "attending and doing assorted woodworking projects around my home",
-    "🧑‍🍼":
-      "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
-    "🍳": "hosting",     
-    "🍽️": "attending and moving furniture so people can eat at"
+    "🧑‍🍼": "attending and I should feel thankful that I've managed to get you out of your apartment for the first time in months",
+    "🍳": "hosting",
+    "🍽️": "attending and moving furniture so people can eat at",
+    "☕": "attending and just enjoying good food and good friends",
   };
 
   const event_id_lookup = await supabase
@@ -39,13 +38,8 @@ export default async (request, context) => {
 
   let attendingArray = [];
   attending_lookup.data.forEach((attendee) => {
-    if (attendee.help){
-    console.log(attendee.help + " " + attendee.attendee.attendee + " is visiting.");
-  }else {
-    console.log(attendee.attendee.attendee + " is visiting.");
-  }
     attendingArray.push(
-      attendee.help + " " + attendee.attendee.attendee.split(" ")[0],
+      attendee.help + " " + attendee.attendee.attendee.split(" ")[0]
     );
   }, attendingArray);
 
@@ -66,12 +60,12 @@ export default async (request, context) => {
       .replace(/STATUS_UNKNOWN/i, statusKnown)
       .replace(
         /ATTENDEE_STATUS_UNKNOWN/i,
-        event_id_lookup.data[0]["rsvp"] || "",
+        event_id_lookup.data[0]["rsvp"] || ""
       )
       .replace(/ATTENDEES_UNKNOWN/i, attendingArray)
       .replace(
         /ATTENDEE_STATUS_HELP_UNKNOWN/i,
-        event_id_lookup.data[0]["help"] || "",
+        event_id_lookup.data[0]["help"] || ""
       );
 
     return new Response(updatedPage, response);
