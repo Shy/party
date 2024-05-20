@@ -52,7 +52,7 @@ SQLAlchemy==2.0.18
 sqlalchemy-cockroachdb==2.0.1
 tinycss2==1.2.1
 tomli==2.0.1
-trio==0.22.0
+trio==0.25.1
 trio-websocket==0.10.0
 typing_extensions==4.5.0
 urllib3==1.26.18
