@@ -614,16 +614,13 @@ a:hover {
 
 .dropdown-content {
   background-color: unset;
-  /* background-color: rgba(255, 255, 255, 0.3); */
   font-family: "DotGothic16", sans-serif;
   overflow: auto;
   cursor: pointer;
   z-index: 10;
   color: white;
-  /* border-radius: var(--radius); */
   border: none;
   position: relative;
-  /* background-size: 600% 600%; */
 }
 
 .dropdown-item {
