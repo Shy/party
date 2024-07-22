@@ -15,7 +15,7 @@ export default async (request, context) => {
 
   const help = {
     "🧽": "attending and washing the dishes after the main course",
-    "🧹": "attending and staying to clean",
+    "🧹": "attending and gonna make sure the apartment looks as clean as it did before folks arrived",
     "🧤": "attending and washing the dishes after desert",
     "🗑️": "attending and will take the trash down to the scary basement whenever it gets full",
     "🪵": "attending and doing assorted woodworking projects around my home",

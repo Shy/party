@@ -14,10 +14,7 @@
       </p>
       <p class="content is-size-4">
         <i class="fa-regular fa-calendar"></i> {{event.date | humanize_ts}} |
-        <a id="calLink">Add to Cal</a> <br /><i
-          class="fa-solid fa-location-dot"
-          style="margin: 0 1.5px"
-        ></i>
+        <a id="calLink">Add to Cal</a> <br /><i class="fa-solid fa-location-dot" style="margin: 0 1.5px"></i>
         {{event.location}}
       </p>
       <p class="subtitle is-size-4">What am I inviting you to?</p>
@@ -33,9 +30,8 @@
 
       <p class="subtitle is-size-4">What is this website?</p>
       <p class="content">
-        <a href="https://youtu.be/gu0SjNfSzyQ"
-          >{{PARTY_NAME}}.Party is a worse version of partiful</a
-        >. This page specifically is your private event page for
+        <a href="https://youtu.be/gu0SjNfSzyQ">{{PARTY_NAME}}.Party is a worse version of partiful</a>. This page
+        specifically is your private event page for
         {{event.event}}. Revisit this link to update your RSVP.
       </p>
       <p class="content">
@@ -43,30 +39,15 @@
         take you off the texting list.
       </p>
 
-      <form
-        id="submit_rsvp"
-        action="/.netlify/functions/form-handler"
-        method="post"
-      >
-        <input
-          type="hidden"
-          name="junction_pub"
-          id="junction_pub"
-          value="{{event_junction_public_id}}"
-        />
+      <form id="submit_rsvp" action="/.netlify/functions/form-handler" method="post">
+        <input type="hidden" name="junction_pub" id="junction_pub" value="{{event_junction_public_id}}" />
 
         <div class="columns" id="rsvp-columns">
           <div class="column has-text-centered">
             <div id="attending-dropdown" class="dropdown is-up">
               <div class="dropdown-trigger">
-                <button
-                  aria-haspopup="true"
-                  type="button"
-                  aria-controls="dropdown-menu"
-                  value="attending"
-                  id="attending"
-                  data-text="Attending"
-                >
+                <button aria-haspopup="true" type="button" aria-controls="dropdown-menu" value="attending"
+                  id="attending" data-text="Attending">
                   😍 ATTENDEE_STATUS_HELP_UNKNOWN
                 </button>
               </div>
@@ -76,46 +57,22 @@
                 </p>
                 <div class="dropdown-content">
                   <p data-el="🧹" class="dropdown-item">
-                    I'm attending, and I'm gonna stay to help clean after the
-                    event ends.
+                    I'm attending, and I'm gonna help out with setup, cleaning and/or tear down. I'm gonna make sure
+                    that
+                    either the apartment is clean or that folks are staying to help make sure the apartment is clean
+                    before leaving.
                   </p>
 
-                  <hr class="dropdown-divider" />
-                  <p data-el="🍽️" class="dropdown-item">
-                    I'm attending, and I'm gonna move the furniture so folks can
-                    eat.
-                  </p>
-
-                  <hr class="dropdown-divider" />
-
-                  <p data-el="🧽" class="dropdown-item">
-                    I'm attending, and I'm gonna wash dishes after the main
-                    course.
-                  </p>
-
-                  <hr class="dropdown-divider" />
-                  <p data-el="🧤" class="dropdown-item">
-                    I'm attending, and I'm gonna wash dishes after dessert.
-                  </p>
-
-                  <hr class="dropdown-divider" />
-                  <p data-el="🗑️" class="dropdown-item">
-                    I'm attending, and I'm gonna take the garbage down into the
-                    creepy basement.
-                  </p>
-                  <hr class="dropdown-divider" />
-                  <p data-el="🪵" class="dropdown-item">
-                    I'm attending, and I'm gonna do assorted woodworking
-                    projects around my apartment
-                  </p>
                   <hr class="dropdown-divider" />
                   <p data-el="☕" class="dropdown-item">
                     Shy, I work in food services. If I helped I would be
                     breaking one of your silly dinner party rules so I'm just
                     gonna enjoy myself.
                   </p>
-                  <hr class="dropdown-divider" />
-                  <p data-el="🧑‍🍼" class="dropdown-item" id="forParents">
+                  <hr class="droce
+                  
+                  pdown-divider" />
+                  <p data-el="ls🧑‍🍼" class="dropdown-item" id="forParents">
                     Shy, I have a 10 month old baby at home. You're lucky to get
                     me to leave my apartment.
                   </p>
@@ -124,24 +81,12 @@
             </div>
           </div>
           <div class="column has-text-centered">
-            <button
-              type="submit"
-              id="maybe"
-              name="rsvp"
-              value="maybe"
-              data-text="Maybe"
-            >
+            <button type="submit" id="maybe" name="rsvp" value="maybe" data-text="Maybe">
               &#129300;
             </button>
           </div>
           <div class="column has-text-centered">
-            <button
-              type="submit"
-              id="not_attending"
-              name="rsvp"
-              value="not_attending"
-              data-text="Can't go."
-            >
+            <button type="submit" id="not_attending" name="rsvp" value="not_attending" data-text="Can't go.">
               &#128546;
             </button>
           </div>
@@ -152,11 +97,7 @@
 </section>
 
 {% endblock %} {% block js %}
-<script
-  src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1"
-  async
-  defer
-></script>
+<script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1" async defer></script>
 <script>
   document.getElementById("forParents").innerText =
     "Shy, I have an " +
@@ -237,13 +178,9 @@
             li.innerText = help + " {{attendee.attendee.split()[0]}}";
             $attendeesList.appendChild(li);
             helpMessage = {
-              "🧽": "washing the dishes after the main course at",
-              "🧹": "staying to clean after attending",
-              "🧤": "washing the dishes after desert at",
-              "🗑️": "taking the trash down to the scary basement whenever it gets full at",
-              "🪵": "doing home improvement projects in exchange for meals at",
+
+              "🧹": "attending and gonna make sure the apartment looks as clean as it did before folks arrived",
               "🧑‍🍼": "attending and bringing a cute baby for people to hang out with",
-              "🍽️": "attending and moving furniture so people can eat at",
               "☕": "attending and just enjoying good food and good friends",
             };
             consoleText([attendeeStatus.innerText, helpMessage[help]]);
@@ -323,7 +260,7 @@
     var refreshIntervalId = window.setInterval(function () {
       if (
         words[0].substring(0, letterCount) ===
-          words[1].substring(0, letterCount) &&
+        words[1].substring(0, letterCount) &&
         waiting === false
       ) {
         waiting = true;
