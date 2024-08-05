@@ -1,5 +1,5 @@
 async-generator==1.10
-attrs==22.2.0
+attrs==24.1.0
 black==24.3.0
 blinker==1.7.0
 Brotli==1.0.9
