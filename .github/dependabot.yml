@@ -4,15 +4,8 @@ updates:
     directory: /
     schedule:
       interval: daily
-    groups:
-      - development-dependencies:
-          patterns:
-            - "*"
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: daily
-    groups:
-      update-types:
-        - minor
-        - patch
+  
