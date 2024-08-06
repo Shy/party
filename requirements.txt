@@ -14,7 +14,7 @@ Flask-Minify==0.42
 Flask-SQLAlchemy==3.0.5
 fonttools==4.43.0
 Frozen-Flask==1.0.1
-gunicorn==21.2.0
+gunicorn==22.0.0
 h11==0.14.0
 html5lib==1.1
 htmlmin==0.1.12
