@@ -1,21 +1,18 @@
 version: 2
 updates:
-  - package-ecosystem: "pip"
-    directory: "/"
-        schedule:
-      interval: "daily"
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: daily
     groups:
-       - development-dependencies:
+      - development-dependencies:
           patterns:
-          - "*"
-
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+            - "*"
+  - package-ecosystem: npm
+    directory: /
     schedule:
       interval: daily
     groups:
       update-types:
-      - "minor"
-      - "patch"
-      
-
+        - minor
+        - patch
