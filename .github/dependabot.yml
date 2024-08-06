@@ -4,8 +4,15 @@ updates:
     directory: /
     schedule:
       interval: daily
+    groups:
+      python-packages:
+        patterns:
+          - "*"
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: daily
-  
+    groups:
+      npm-packages:
+        patterns:
+          - "*"
