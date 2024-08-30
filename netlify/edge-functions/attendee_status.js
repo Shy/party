@@ -39,7 +39,7 @@ export default async (request, context) => {
   let attendingArray = [];
   attending_lookup.data.forEach((attendee) => {
     attendingArray.push(
-      attendee.help + " " + attendee.attendee.attendee.split(" ")[0]
+      attendee.attendee.attendee.split(" ")[0]
     );
   }, attendingArray);
 
