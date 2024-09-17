@@ -36,12 +36,11 @@ export default async (request, context) => {
     .eq("rsvp", "attending")
     .order("updated_at", { ascending: true });
 
-  let attendingArray = [];
-  attending_lookup.data.forEach((attendee) => {
-    attendingArray.push(
-      attendee.attendee.attendee.split(" ")[0]
-    );
-  }, attendingArray);
+  const attendingArray = attending_lookup.data.map(attendee => {
+    const plusOne = attendee.plus_one;
+    const attendeeName = attendee.attendee.attendee.split(" ")[0];
+    return plusOne === 0 ? attendeeName : `${attendeeName} + ${plusOne}`;
+  });
 
   let statusKnown = "";
   if (event_id_lookup.data[0]["rsvp"] == "attending") {
