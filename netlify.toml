@@ -15,7 +15,6 @@
 
 [build]
 	functions = "netlify/functions/"
-	environment = { PYTHON_VERSION = "3.8" }
 	command = "mise use -g python@3.8"
 
 [template.environment]
