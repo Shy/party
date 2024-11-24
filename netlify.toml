@@ -16,7 +16,7 @@
 [build]
 	functions = "netlify/functions/"
 	environment = { PYTHON_VERSION = "3.8" }
-
+	command = "mise use"
 
 [template.environment]
   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
