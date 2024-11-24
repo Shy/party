@@ -16,6 +16,8 @@
 [build]
 	functions = "netlify/functions/"
 	MISE_VERBOSE=1
+	command = "python freeze.py"
+	publish = "app/build"
 	environment = { PYTHON_VERSION = "3.8" }
 
 
