@@ -16,9 +16,6 @@
 [build]
 	functions = "netlify/functions/"
 	MISE_VERBOSE=1
- 	command = "mise install"
-	command = "mise use -g python@3.8"
- 	command = "mise install"
 
 [template.environment]
   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
