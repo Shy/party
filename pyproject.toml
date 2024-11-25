@@ -1,0 +1,15 @@
+[project]
+name = "party"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask-minify>=0.48",
+    "flask-sqlalchemy>=3.1.1",
+    "flask>=3.1.0",
+    "frozen-flask>=1.0.2",
+    "psycopg2>=2.9.10",
+    "python-dotenv>=1.0.1",
+    "pytz>=2024.2",
+]
