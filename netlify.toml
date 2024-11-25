@@ -18,7 +18,7 @@
 	MISE_VERBOSE=1
 	command = "python freeze.py"
 	publish = "app/build"
-	environment = { PYTHON_VERSION = "3.8" }
+	environment = { PYTHON_VERSION = "3.10.0" }
 
 
 [template.environment]
