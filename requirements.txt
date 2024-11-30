@@ -58,7 +58,7 @@ typing_extensions==4.5.0
 urllib3==1.26.19
 weasyprint==58.1
 webencodings==0.5.1
-Werkzeug==2.3.8
+Werkzeug==3.0.6
 wsproto==1.2.0
 xxhash==3.2.0
 zopfli==0.2.2
