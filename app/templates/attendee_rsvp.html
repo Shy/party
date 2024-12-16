@@ -74,18 +74,10 @@
                   <hr class="droce
                   
                   pdown-divider" />
-                  <p data-el="ls🧑‍🍼" class="dropdown-item" id="forParents">
-                    Shy, I have a 10 month old baby at home. You're lucky to get
-                    me to leave my apartment.
-                  </p>
+
                 </div>
               </div>
             </div>
-          </div>
-          <div class="column has-text-centered">
-            <button type="submit" id="maybe" name="rsvp" value="maybe" data-text="Maybe">
-              &#129300;
-            </button>
           </div>
           <div class="column has-text-centered">
             <button type="submit" id="not_attending" name="rsvp" value="not_attending" data-text="Can't go.">
@@ -101,21 +93,7 @@
 {% endblock %} {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1" async defer></script>
 <script>
-  document.getElementById("forParents").innerText =
-    "Shy, I have an " +
-    (new Date().getMonth() -
-      new Date("2023-05-07").getMonth() +
-      12 * (new Date().getFullYear() - new Date("2023-05-07").getFullYear())) +
-    " month old baby at home. You're lucky to get me to leave my apartment.";
 
-  const clearSelected = () => {
-    document
-      .getElementById("submit_rsvp")
-      .querySelectorAll("button")
-      .forEach((el) => {
-        el.classList.remove("selected");
-      });
-  };
   document.querySelectorAll(".dropdown-item").forEach((el) =>
     el.addEventListener("click", (event) => {
       event.preventDefault();
@@ -133,13 +111,6 @@
   document.getElementById("attending").addEventListener("click", (event) => {
     event.preventDefault();
     document.getElementById("attending-dropdown").classList.toggle("is-active");
-  });
-
-  document.getElementById("maybe").addEventListener("click", (event) => {
-    event.preventDefault();
-    clearSelected();
-    event.target.classList.add("selected");
-    submitRSVP("maybe");
   });
   document
     .getElementById("not_attending")
@@ -182,15 +153,12 @@
             helpMessage = {
 
               "🧹": "attending and gonna make sure the apartment looks as clean as it did before folks arrived",
-              "🧑‍🍼": "attending and bringing a cute baby for people to hang out with",
+
               "☕": "attending and just enjoying good food and good friends",
             };
             consoleText([attendeeStatus.innerText, helpMessage[help]]);
             break;
-          case "maybe":
-            removeSelfFromList();
-            consoleText([attendeeStatus.innerText, "a maybe for"]);
-            break;
+
           case "not_attending":
             removeSelfFromList();
             consoleText([attendeeStatus.innerText, "unable to make it for"]);
