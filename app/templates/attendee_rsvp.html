@@ -154,15 +154,11 @@
             helpMessage = {
 
               "🧹": "attending and gonna make sure the apartment looks as clean as it did before folks arrived",
-              "🧑‍🍼": "attending and bringing a cute baby for people to hang out with",
               "☕": "attending and just enjoying good food and good friends",
             };
             consoleText([attendeeStatus.innerText, helpMessage[help]]);
             break;
-          case "maybe":
-            removeSelfFromList();
-            consoleText([attendeeStatus.innerText, "a maybe for"]);
-            break;
+
           case "not_attending":
             removeSelfFromList();
             consoleText([attendeeStatus.innerText, "unable to make it for"]);
