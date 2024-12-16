@@ -52,8 +52,6 @@
                 </button>
               </div>
               <div class="dropdown-menu" role="menu">
-                <span data-glow="true"></span>
-
                 <p class="title-dropdown">
                   Pick a chore to confirm your attendance
                 </p>
@@ -89,7 +87,14 @@
 {% endblock %} {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1" async defer></script>
 <script>
-
+  const clearSelected = () => {
+    document
+      .getElementById("submit_rsvp")
+      .querySelectorAll("button")
+      .forEach((el) => {
+        el.classList.remove("selected");
+      });
+  };
   document.querySelectorAll(".dropdown-item").forEach((el) =>
     el.addEventListener("click", (event) => {
       event.preventDefault();
@@ -149,12 +154,15 @@
             helpMessage = {
 
               "🧹": "attending and gonna make sure the apartment looks as clean as it did before folks arrived",
-
+              "🧑‍🍼": "attending and bringing a cute baby for people to hang out with",
               "☕": "attending and just enjoying good food and good friends",
             };
             consoleText([attendeeStatus.innerText, helpMessage[help]]);
             break;
-
+          case "maybe":
+            removeSelfFromList();
+            consoleText([attendeeStatus.innerText, "a maybe for"]);
+            break;
           case "not_attending":
             removeSelfFromList();
             consoleText([attendeeStatus.innerText, "unable to make it for"]);
