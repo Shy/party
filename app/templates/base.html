@@ -1,93 +1,64 @@
 <!DOCTYPE html>
 <html lang="en-us">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charset="UTF-8" />
 
-        <!-- HTML Meta Tags -->
-        <title>{{PARTY_NAME}}.Party</title>
-        <meta
-            name="description"
-            content="{{PARTY_NAME}}.Party is a worse version of Partiful. "
-        />
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
 
-        <!-- Facebook Meta Tags -->
-        <meta property="og:url" content="https://www.shy.party/" />
-        <meta property="og:type" content="website" />
-        <meta
-            property="og:description"
-            content="{{PARTY_NAME}}.Party is a worse version of Partiful."
-        />
-        <meta
-            property="og:image"
-            content="{{ url_for('static', filename='images/image.png') }}"
-        />
+    <!-- HTML Meta Tags -->
+    <title>{{PARTY_NAME}}.Party</title>
+    <meta name="description" content="{{PARTY_NAME}}.Party is a worse version of Partiful. " />
 
-        <!-- Twitter Meta Tags -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="{{PARTY_NAME}}.party" />
-        <meta property="twitter:url" content="https://www.shy.party/" />
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://www.shy.party/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{PARTY_NAME}}.Party is a worse version of Partiful." />
+    <meta property="og:image" content="{{ url_for('static', filename='images/image.png') }}" />
 
-        <meta
-            name="twitter:description"
-            content="{{PARTY_NAME}}.Party is a worse version of Partiful. "
-        />
-        <meta
-            name="twitter:image"
-            content="{{ url_for('static', filename='images/image.png') }}"
-        />
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="{{PARTY_NAME}}.party" />
+    <meta property="twitter:url" content="https://www.shy.party/" />
 
-        {% if title %}
-        <meta property="og:title" content="{{ title }}" />
-        <title>{{ title }}</title>
-        <meta name="twitter:title" content="{{ title }}" />
-        <link
-            inline
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1/assets/css/atcb-3d.min.css"
-        />
-        {% else %}
-        <title>{{PARTY_NAME}}.Party</title>
-        <meta property="og:title" content="{{PARTY_NAME}}.party" />
-        <meta name="twitter:title" content="{{PARTY_NAME}}.Party" />
-        {% endif %}
-        <link inline rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-            inline
-            rel="stylesheet"
-            href="{{ url_for('static', filename='css/style.css') }}"
-        />
+    <meta name="twitter:description" content="{{PARTY_NAME}}.Party is a worse version of Partiful. " />
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/image.png') }}" />
 
-        <style inline>
-            body {
-                background: linear-gradient(rgba(10, 10, 10, 0.6), rgba(0, 0, 0, 0.9)),
-                    repeating-linear-gradient(
-                        0,
-                        transparent,
-                        transparent 2px,
-                        black 3px,
-                        black 3px
-                    ),
-                    url("https://i.imgur.com/{% block coverimage %}{% endblock %}.jpg");
-                background-size: cover;
-                background-position: top;
-                z-index: 1;
-            }
-        </style>
-        <script
-            inline
-            src="https://kit.fontawesome.com/e3bcf5a3ec.js"
-            crossorigin="anonymous"
-        ></script>
-        <link
-            rel="icon"
-            type="image/x-icon"
-            href="{{ url_for('static', filename='images/favicon.ico') }}"
-        />
-    </head>
-    <body>
-        <div class="container">{% block content %}{% endblock %}</div>
+    {% if title %}
+    <meta property="og:title" content="{{ title }}" />
+    <title>{{ title }}</title>
+    <meta name="twitter:title" content="{{ title }}" />
+    <link inline rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1/assets/css/atcb-3d.min.css" />
+    {% else %}
+    <title>{{PARTY_NAME}}.Party</title>
+    <meta property="og:title" content="{{PARTY_NAME}}.party" />
+    <meta name="twitter:title" content="{{PARTY_NAME}}.Party" />
+    {% endif %}
+    <link inline rel="preconnect" href="https://fonts.gstatic.com" />
+    <link inline rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 
-        {% block js %}{% endblock %}
-    </body>
+    <style inline>
+        body {
+            background: linear-gradient(rgba(10, 10, 10, 0.6), rgba(0, 0, 0, 0.9)),
+            repeating-linear-gradient(0,
+                transparent,
+                transparent 2px,
+                black 3px,
+                black 3px),
+            url("https://i.imgur.com/{% block coverimage %}{% endblock %}.jpeg/");
+            background-size: cover;
+            background-position: top;
+            z-index: 1;
+        }
+    </style>
+    <script inline src="https://kit.fontawesome.com/e3bcf5a3ec.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+</head>
+
+<body>
+    <div class="container">{% block content %}{% endblock %}</div>
+
+    {% block js %}{% endblock %}
+</body>
+
 </html>

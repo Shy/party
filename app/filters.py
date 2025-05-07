@@ -5,6 +5,8 @@ from datetime import timedelta
 
 @app.template_filter()
 def humanize_ts(time, timestamp=False):
+    print("time")
+    print(time)
     est = pytz.timezone("US/Eastern")
     fmt = "%A %B %-d at %-I:%M %p"
     return time.astimezone(est).strftime(fmt)

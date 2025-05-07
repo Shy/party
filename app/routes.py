@@ -1,8 +1,13 @@
+from uuid import uuid4
+import asyncio
 from flask import render_template, send_from_directory, request, current_app, abort
-from app import app
+from app import app, get_client  # noqa: F401, E402
 from app.models import Event, Attendee, EventAttendeeJunction
 from functools import wraps
 from datetime import datetime
+import asyncio
+
+from temporalio import workflow
 
 
 def debug_only(f):
@@ -32,28 +37,60 @@ def static_from_root():
     return send_from_directory(app.static_folder, request.path[1:])
 
 
-@app.route("/events/<event_public_id>/", methods=["GET"])
-def event(event_public_id):
-    event = Event.query.filter_by(public_id=event_public_id).first_or_404()
-    return render_template(
-        "event.html",
-        title=event.event,
-        event=event,
-    )
+# Nobody uses this route so it's commented out.
+# @app.route("/events/<event_public_id>/", methods=["GET"])
+# def event(event_public_id):
+#     event = Event.query.filter_by(public_id=event_public_id).first_or_404()
+#     return render_template(
+#         "event.html",
+#         title=event.event,
+#         event=event,
+#     )
 
 
 @app.route("/rsvp/<event_junction_public_id>/", methods=["GET"])
-def attendee_rsvp(event_junction_public_id):
-    event_junction = EventAttendeeJunction.query.filter_by(
-        public_id=event_junction_public_id
-    ).first_or_404()
-    attendee = Attendee.query.filter_by(id=event_junction.attendee_id).first_or_404()
-    event = Event.query.filter_by(id=event_junction.event_id).first_or_404()
+async def attendee_rsvp(event_junction_public_id):
+    client = get_client()
+    handle = await client.start_workflow(
+        "getAttendeeStatusInfo",
+        event_junction_public_id,
+        id="shy.party/rsvp/" + event_junction_public_id,
+        task_queue="shy-party",
+    )
+
+    result = await handle.result()
 
     return render_template(
         "attendee_rsvp.html",
-        event=event,
-        attendee=attendee,
+        event=result["EventJunction"]["event"],
+        attendee=result["EventJunction"]["attendee"],
+        attendees=result["EventAttendees"],
+        help=result["EventJunction"]["help"],
+        humanReadableStatus=result["EventJunction"]["humanReadableStatus"],
         event_junction_public_id=event_junction_public_id,
-        title=f"{attendee.attendee}'s private invite to {event.event}.,",
+        title=f"{result['EventJunction']['attendee']}'s private invite to {result['EventJunction']['event']['event']}.,",
     )
+
+
+@app.route("/form-handler", methods=["POST"])
+async def updateRSVP():
+
+    data = request.get_json()
+    app.logger.info([data["junction_pub"], data["rsvp"], data["help"]])
+    # send data as a sequence of arguments
+    # to the workflow function
+
+    client = get_client()
+    handle = await client.start_workflow(
+        "updateAttendeeRSVP",
+        args=[
+            data["junction_pub"],
+            data["rsvp"],
+            data["help"],
+        ],
+        # pass the data as a sequence of arguments
+        id="Update RSVP/" + data["junction_pub"] + str(uuid4()),
+        task_queue="shy-party",
+    )
+
+    return await handle.result()
