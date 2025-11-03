@@ -14,14 +14,11 @@
     "homepage": "https://github.com/shy/party#readme",
     "devDependencies": {
         "@netlify/plugin-sitemap": "^0.8.1",
-        "axois": "^0.0.1-security",
-        "dotenv": "^17.2.3",
         "netlify-plugin-cache": "^1.0.3"
     },
     "dependencies": {
         "@supabase/supabase-js": "^2.39.3",
         "netlify-cli": "^23.9.5",
-        "pg": "^8.16.3",
         "twilio": "^5.10.4"
     }
 }

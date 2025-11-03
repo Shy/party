@@ -7,7 +7,6 @@ Frozen-Flask==1.0.2
 # Database
 psycopg2-binary==2.9.11
 SQLAlchemy==2.0.44
-sqlalchemy-cockroachdb==2.0.3
 
 # Utilities
 pytz==2025.2
