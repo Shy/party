@@ -23,7 +23,6 @@
         "twilio": "^5.3.3",
         "@netlify/plugin-sitemap": "^0.8.1",
         "netlify-plugin-cache": "^1.0.3",
-        "netlify-plugin-image-optim": "^1.2.1",
-        "netlify-plugin-minify-html": "^0.5.2"
+        "netlify-plugin-image-optim": "^0.4.0"
     }
 }

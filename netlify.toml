@@ -28,11 +28,6 @@
     quality = 80
 
 [[plugins]]
-  package = "netlify-plugin-minify-html"
-  [plugins.inputs]
-    contexts = ["production"]
-
-[[plugins]]
   package = "netlify-plugin-cache"
   [plugins.inputs]
     # Cache Python packages and event images between builds
