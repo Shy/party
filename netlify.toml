@@ -23,9 +23,6 @@
 
 [[plugins]]
   package = "netlify-plugin-image-optim"
-  [plugins.inputs]
-    # Optimize cached event images for mobile
-    quality = 80
 
 [[plugins]]
   package = "netlify-plugin-cache"
