@@ -4,6 +4,8 @@ import os
 import requests
 from pathlib import Path
 import time
+from io import BytesIO
+from PIL import Image
 
 # Load environment variables from .flaskenv if it exists
 if os.path.exists('.flaskenv'):
@@ -19,7 +21,7 @@ freezer = Freezer(app)
 
 
 def cache_event_images():
-    """Download and cache event images from Imgur during build"""
+    """Download, optimize, and cache event images from Imgur during build"""
     utc = pytz.UTC
     now = datetime.now(utc)
     time_diff = timedelta(days=1)
@@ -54,11 +56,25 @@ def cache_event_images():
                     response = requests.get(imgur_url, headers=headers, timeout=15)
                     response.raise_for_status()
 
-                    # Save image
-                    with open(image_path, 'wb') as f:
-                        f.write(response.content)
+                    original_size = len(response.content)
 
-                    print(f'✓ Cached image: {event.image_id}.jpg ({len(response.content) / 1024:.1f}KB)')
+                    # Optimize image with Pillow for better mobile quality
+                    img = Image.open(BytesIO(response.content))
+
+                    # Convert to RGB if necessary (for PNG with transparency)
+                    if img.mode in ('RGBA', 'LA', 'P'):
+                        background = Image.new('RGB', img.size, (0, 0, 0))
+                        if img.mode == 'P':
+                            img = img.convert('RGBA')
+                        background.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
+                        img = background
+
+                    # Save with high quality (90) for hero images - better for mobile
+                    img.save(image_path, 'JPEG', quality=90, optimize=True)
+
+                    optimized_size = image_path.stat().st_size
+                    print(f'✓ Cached & optimized image: {event.image_id}.jpg')
+                    print(f'  Original: {original_size / 1024:.1f}KB → Optimized: {optimized_size / 1024:.1f}KB (quality=90)')
                     break
                 except requests.exceptions.RequestException as e:
                     if attempt < 2:
@@ -67,6 +83,13 @@ def cache_event_images():
                         time.sleep(wait_time)
                     else:
                         print(f'✗ Failed to download after 3 attempts: {e}')
+                except Exception as e:
+                    print(f'✗ Failed to optimize image: {e}')
+                    # Fallback: save raw image if optimization fails
+                    with open(image_path, 'wb') as f:
+                        f.write(response.content)
+                    print(f'  Saved unoptimized image: {event.image_id}.jpg ({original_size / 1024:.1f}KB)')
+                    break
 
 
 @freezer.register_generator

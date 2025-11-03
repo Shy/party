@@ -10,20 +10,57 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Better desktop layout with max-width */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 1400px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
 p.title {
   font-family: "DotGothic16", sans-serif;
   color: aliceblue;
+  /* Better readability with text shadow */
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8),
+               0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Responsive typography for better scaling */
+.title.is-size-1 {
+  font-size: clamp(2rem, 8vw, 3rem) !important;
 }
 
 p.subtitle {
   font-family: "DotGothic16", sans-serif;
   color: aliceblue;
+  /* Better readability with text shadow */
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8),
+               0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.subtitle.is-size-3 {
+  font-size: clamp(1.25rem, 4vw, 1.5rem) !important;
+}
+
+.subtitle.is-size-4 {
+  font-size: clamp(1rem, 3vw, 1.25rem) !important;
 }
 
 div.content,
 p.content {
   font-family: "Source Code Pro", sans-serif;
   color: aliceblue;
+  /* Subtle text shadow for better readability */
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.content.is-size-4 {
+  font-size: clamp(1rem, 3vw, 1.25rem) !important;
 }
 
 .subtitle:not(.is-spaced) + .title {
@@ -378,10 +415,27 @@ button {
   border-radius: 0 0 0.6em 0.6em;
 }
 
+/* Responsive columns for attendee list */
 ul {
-  columns: 3;
-  -webkit-columns: 3;
-  -moz-columns: 3;
+  columns: 1;
+  -webkit-columns: 1;
+  -moz-columns: 1;
+}
+
+@media only screen and (min-width: 600px) {
+  ul {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  ul {
+    columns: 3;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+  }
 }
 
 @-webkit-keyframes AnimationName {
@@ -558,7 +612,14 @@ button:hover:before {
 
   .dropdown-item {
     color: white;
-    padding: 0.4em;
+    padding: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .title-dropdown {
+    font-size: 18px;
+    padding: 0.75rem;
   }
 
   .hero-body {
@@ -579,9 +640,36 @@ button:hover:before {
     margin-left: -2.2rem;
   }
 
+  #submit_rsvp .columns {
+    gap: 0.75rem;
+  }
+
   #submit_rsvp .column {
     max-height: 11vh;
     padding: 0.5rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.9em 1.5em;
+    /* Slower animations on mobile to save battery */
+    animation-duration: 6s !important;
+  }
+
+  button:before {
+    animation-duration: 6s !important;
+  }
+
+  .glitch {
+    animation-duration: 2s !important;
+  }
+
+  .glitch::before {
+    animation-duration: 8s !important;
+  }
+
+  .glitch::after {
+    animation-duration: 2s !important;
   }
 }
 

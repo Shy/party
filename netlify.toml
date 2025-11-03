@@ -22,9 +22,6 @@
 
 
 [[plugins]]
-  package = "netlify-plugin-image-optim"
-
-[[plugins]]
   package = "netlify-plugin-cache"
   [plugins.inputs]
     # Cache Python packages and event images between builds
