@@ -17,20 +17,28 @@ freezer = Freezer(app)
 
 @freezer.register_generator
 def event():
-    for event in Event.query.all():
+    utc = pytz.UTC
+    now = datetime.now(utc)
+
+    # Only generate event pages for upcoming or recent events (within last day)
+    time_diff = timedelta(days=1)
+    active_events = Event.query.filter(Event.date >= now - time_diff).all()
+
+    for event in active_events:
+        print(f"Generating event page for {event.event}")
         yield {"event_public_id": event.public_id}
 
 
 @freezer.register_generator
 def attendee_rsvp():
     utc = pytz.UTC
-    now = utc.localize(datetime.now())
+    now = datetime.now(utc)
     time_diff = timedelta(days=1)
 
-    # Filter events in the database instead of in Python
-    recent_events = Event.query.filter(Event.date >= now - time_diff).all()
+    # Only generate RSVP pages for active events (upcoming or within last day)
+    active_events = Event.query.filter(Event.date >= now - time_diff).all()
 
-    for event in recent_events:
+    for event in active_events:
         print(f"Generating rsvps for {event.event} on {event.date}")
         # Use more efficient query with join to avoid N+1 problem
         rsvps = EventAttendeeJunction.query.filter_by(event_id=event.id).all()
