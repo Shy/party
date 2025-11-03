@@ -12,6 +12,7 @@ sqlalchemy-cockroachdb==2.0.2
 # Utilities
 pytz==2025.2
 python-dotenv==1.1.0
+requests==2.32.3
 
 # Production server (optional for local dev)
 gunicorn==23.0.0

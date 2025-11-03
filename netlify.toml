@@ -21,6 +21,30 @@
 	environment = { PYTHON_VERSION = "3.12" }
 
 
+[[plugins]]
+  package = "netlify-plugin-image-optim"
+  [plugins.inputs]
+    # Optimize cached event images for mobile
+    quality = 80
+
+[[plugins]]
+  package = "netlify-plugin-minify-html"
+  [plugins.inputs]
+    contexts = ["production"]
+
+[[plugins]]
+  package = "netlify-plugin-cache"
+  [plugins.inputs]
+    # Cache Python packages and event images between builds
+    paths = [
+      ".cache/pip",
+      "app/static/images/events"
+    ]
+
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+
+
 [[headers]]
   for = "/static/*"
   [headers.values]

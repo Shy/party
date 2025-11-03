@@ -67,6 +67,9 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
+# Cached event images (downloaded during build)
+app/static/images/events/
+
 # Scrapy stuff:
 .scrapy
 

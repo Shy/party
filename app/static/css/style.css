@@ -1,5 +1,13 @@
 html {
   height: 100%;
+  /* Mobile optimizations */
+  -webkit-tap-highlight-color: rgba(0, 212, 255, 0.3);
+  -webkit-touch-callout: none;
+}
+
+body {
+  /* Improve mobile scrolling */
+  -webkit-overflow-scrolling: touch;
 }
 
 p.title {
@@ -28,6 +36,11 @@ p.content {
 
   /* Animation provies a slight random skew. Check bottom of doc for more information on how to random skew. */
   animation: glitch-skew 1s infinite linear alternate-reverse;
+  /* Optimize for mobile GPU acceleration */
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .glitch::before {
@@ -322,6 +335,8 @@ button {
   font-family: "DotGothic16", sans-serif;
   padding: 1em 2em;
   min-width: 100%;
+  /* Mobile-friendly touch target (min 44x44px) */
+  min-height: 44px;
   cursor: pointer;
   z-index: 10;
   background: none;
@@ -333,10 +348,14 @@ button {
   position: relative;
   background: linear-gradient(270deg, #020024, #64dcdc, #00d4ff);
   background-size: 600% 600%;
+  /* Optimize animations for mobile performance */
+  will-change: transform;
   -webkit-animation: AnimationName 4s ease infinite;
   -moz-animation: AnimationName 4s ease infinite;
   -o-animation: AnimationName 4s ease infinite;
   animation: AnimationName 4s ease infinite;
+  /* Better touch feedback */
+  touch-action: manipulation;
 }
 
 .atcb-list-item {
@@ -586,6 +605,17 @@ a:hover {
 
 #attendees-list {
   margin: 0 0 1em 1em;
+}
+
+/* Respect user's motion preferences (accessibility + mobile performance) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .title-dropdown {

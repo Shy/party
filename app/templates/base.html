@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta charset="UTF-8" />
+
+        <!-- Mobile optimizations -->
+        <meta name="theme-color" content="#040004" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
         <!-- HTML Meta Tags -->
         <title>{{PARTY_NAME}}.Party</title>
@@ -82,7 +88,7 @@
                         black 3px,
                         black 3px
                     ),
-                    url("https://i.imgur.com/{% block coverimage %}{% endblock %}.jpg");
+                    url("/static/images/events/{% block coverimage %}{% endblock %}.jpg");
                 background-size: cover;
                 background-position: top;
                 z-index: 1;
@@ -92,6 +98,7 @@
             inline
             src="https://kit.fontawesome.com/e3bcf5a3ec.js"
             crossorigin="anonymous"
+            defer
         ></script>
         <link
             rel="icon"
