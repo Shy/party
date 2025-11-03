@@ -11,7 +11,7 @@ const twilio_client = require("twilio")(
   process.env.TWILIO_ACCOUNT_SID,
   process.env.TWILIO_AUTH_TOKEN,
 );
-exports.handler = async (event, _context, callback) => {
+exports.handler = async (event, _context) => {
   let body = {};
 
   try {
@@ -21,7 +21,7 @@ exports.handler = async (event, _context, callback) => {
   }
 
   if (
-    !body.junction_pub || !body.rsvp || (body.rsvp == "attending" & !body.help)
+    !body.junction_pub || !body.rsvp || (body.rsvp == "attending" && !body.help)
   ) {
     console.log("[SPAM DETECTED] Required fields not defined.");
 
@@ -66,7 +66,7 @@ exports.handler = async (event, _context, callback) => {
 
   }
 
-  phoneAndEvent = await supabase
+  const phoneAndEvent = await supabase
     .from("event_attendee_junction")
     .select("attendee(phone), events(event)")
     .eq("public_id", junction_pub)
@@ -102,7 +102,7 @@ exports.handler = async (event, _context, callback) => {
   }
   return await twilio_client.messages
     .create({
-      body: await message,
+      body: message,
       from: process.env.TWILIO_FROM_Number,
       to: phoneAndEvent["attendee"]["phone"],
     })

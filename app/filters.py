@@ -2,41 +2,38 @@ from app import app
 import pytz
 from datetime import timedelta
 
+# Initialize timezone once at module level instead of in every function call
+EST = pytz.timezone("US/Eastern")
+EVENT_DURATION = timedelta(hours=4)
+
 
 @app.template_filter()
 def humanize_ts(time, timestamp=False):
-    est = pytz.timezone("US/Eastern")
     fmt = "%A %B %-d at %-I:%M %p"
-    return time.astimezone(est).strftime(fmt)
+    return time.astimezone(EST).strftime(fmt)
 
 
 @app.template_filter()
 def humanize_cal_date(time, timestamp=False):
-    est = pytz.timezone("US/Eastern")
     date_fmt = "%Y-%m-%d"
-    return time.astimezone(est).strftime(date_fmt)
+    return time.astimezone(EST).strftime(date_fmt)
 
 
 @app.template_filter()
 def humanize_cal_time(time, timestamp=False):
-    est = pytz.timezone("US/Eastern")
     time_fmt = "%H:%M"
-    return time.astimezone(est).strftime(time_fmt)
+    return time.astimezone(EST).strftime(time_fmt)
 
 
 @app.template_filter()
 def humanize_cal_time_end(time, timestamp=False):
-    est = pytz.timezone("US/Eastern")
     time_fmt = "%H:%M"
-    diff = timedelta(hours=4)
-    endtime = time + diff
-    return endtime.astimezone(est).strftime(time_fmt)
+    endtime = time + EVENT_DURATION
+    return endtime.astimezone(EST).strftime(time_fmt)
 
 
 @app.template_filter()
 def humanize_cal_date_end(time, timestamp=False):
-    est = pytz.timezone("US/Eastern")
     date_fmt = "%Y-%m-%d"
-    diff = timedelta(hours=4)
-    endtime = time + diff
-    return endtime.astimezone(est).strftime(date_fmt)
+    endtime = time + EVENT_DURATION
+    return endtime.astimezone(EST).strftime(date_fmt)

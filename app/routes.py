@@ -57,3 +57,13 @@ def attendee_rsvp(event_junction_public_id):
         event_junction_public_id=event_junction_public_id,
         title=f"{attendee.attendee}'s private invite to {event.event}.,",
     )
+
+
+@app.route("/404.html")
+def not_found_page():
+    event = (
+        Event.query.filter(Event.date >= datetime.now())
+        .order_by(Event.date.asc())
+        .first_or_404()
+    )
+    return render_template("index.html", image_id=event.image_id)

@@ -18,7 +18,25 @@
 	MISE_VERBOSE=1
 	command = "python freeze.py"
 	publish = "app/build"
-	environment = { PYTHON_VERSION = "3.10.0" }
+	environment = { PYTHON_VERSION = "3.12" }
+
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=1209600, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
 
 
 [template.environment]
