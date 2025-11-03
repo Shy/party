@@ -55,8 +55,6 @@ export default async (request, context) => {
     statusKnown = help[userData.help];
   } else if (userData.rsvp == "not_attending") {
     statusKnown = "unable to attend";
-  } else if (userData.rsvp == "maybe") {
-    statusKnown = "undecided about attending";
   } else {
     statusKnown = "invited to attend";
   }

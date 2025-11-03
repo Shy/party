@@ -86,13 +86,6 @@ exports.handler = async (event, _context) => {
         junction_pub +
         "/";
       break;
-    case "maybe":
-      message = "You RSVP-ed Maybe to " +
-        phoneAndEvent["events"]["event"] +
-        ". :| \nOnce you know if you can go, update your RSVP: https://shy.party/rsvp/" +
-        junction_pub +
-        "/";
-      break;
     case "not_attending":
       message = ":( Sorry you can't make it to " +
         phoneAndEvent["events"]["event"] +
