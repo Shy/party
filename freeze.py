@@ -1,4 +1,11 @@
 from flask_frozen import Freezer
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .flaskenv if it exists
+if os.path.exists('.flaskenv'):
+    load_dotenv('.flaskenv')
+
 from app import app
 from app.models import EventAttendeeJunction, Event
 from datetime import datetime, timedelta

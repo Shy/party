@@ -3,6 +3,7 @@ from app import app
 from app.models import Event, Attendee, EventAttendeeJunction
 from functools import wraps
 from datetime import datetime
+import pytz
 
 
 def debug_only(f):
@@ -18,11 +19,19 @@ def debug_only(f):
 
 @app.route("/")
 def index():
+    now = datetime.now(pytz.UTC)
+    # Try to get an upcoming event first
     event = (
-        Event.query.filter(Event.date >= datetime.now())
+        Event.query.filter(Event.date >= now)
         .order_by(Event.date.asc())
-        .first_or_404()
+        .first()
     )
+    # If no upcoming events, get the most recent past event
+    if not event:
+        event = (
+            Event.query.order_by(Event.date.desc())
+            .first_or_404()
+        )
     print(event.image_id)
     return render_template("index.html", image_id=event.image_id)
 
@@ -61,9 +70,17 @@ def attendee_rsvp(event_junction_public_id):
 
 @app.route("/404.html")
 def not_found_page():
+    now = datetime.now(pytz.UTC)
+    # Try to get an upcoming event first
     event = (
-        Event.query.filter(Event.date >= datetime.now())
+        Event.query.filter(Event.date >= now)
         .order_by(Event.date.asc())
-        .first_or_404()
+        .first()
     )
+    # If no upcoming events, get the most recent past event
+    if not event:
+        event = (
+            Event.query.order_by(Event.date.desc())
+            .first_or_404()
+        )
     return render_template("index.html", image_id=event.image_id)
