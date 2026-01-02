@@ -1,6 +1,5 @@
 # Core Flask and extensions
 Flask==3.1.2
-Flask-Minify==0.50
 Flask-SQLAlchemy==3.1.1
 Frozen-Flask==1.0.2
 
