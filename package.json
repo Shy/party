@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "@supabase/supabase-js": "^2.81.1",
-        "netlify-cli": "^23.10.0",
+        "netlify-cli": "^23.15.1",
         "twilio": "^5.10.5"
     }
 }
