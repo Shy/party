@@ -134,62 +134,6 @@ def attendee_rsvp():
 def not_found_page():
     yield {}
 
-def setup_dummy_event():
-    """Create a dummy event and invite 'Shy Ruparel' to verify OG generation"""
-    from app import db
-    from app.models import Event, Attendee, EventAttendeeJunction
-    import random
-    import string
-    
-    db.create_all()
-
-    dummy_attendee = Attendee.query.filter_by(attendee="Shy Ruparel").first()
-    if not dummy_attendee:
-        def rand_str(length=12):
-            return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
-        
-        dummy_attendee = Attendee(
-            public_id=rand_str(12),
-            attendee="Shy Ruparel",
-            phone="1234567890",
-            invited=True
-        )
-        db.session.add(dummy_attendee)
-        db.session.commit()
-    
-    dummy_event = Event.query.filter_by(event="Shy's Special Housewarming").first()
-    if not dummy_event:
-        def rand_str(length=12):
-            return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
-        
-        dummy_event = Event(
-            public_id=rand_str(12),
-            event="Shy's Special Housewarming",
-            date=datetime.now(pytz.UTC) + timedelta(days=7),
-            location="Shy's Place",
-            description="Come celebrate the new place!",
-            image_id="image"
-        )
-        db.session.add(dummy_event)
-        db.session.commit()
-        
-    junction = EventAttendeeJunction.query.filter_by(
-        event_id=dummy_event.id, 
-        attendee_id=dummy_attendee.id
-    ).first()
-    
-    if not junction:
-        def rand_str(length=12):
-            return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
-            
-        junction = EventAttendeeJunction(
-            public_id=rand_str(12),
-            event_id=dummy_event.id,
-            attendee_id=dummy_attendee.id
-        )
-        db.session.add(junction)
-        db.session.commit()
-
 def generate_og_images():
     """Generate custom Open Graph images for all active RSVPs"""
     from PIL import ImageDraw, ImageFont
@@ -258,7 +202,6 @@ def generate_og_images():
 if __name__ == "__main__":
     # Cache images before freezing
     with app.app_context():
-        setup_dummy_event()
         
         print("Caching event images...")
         cache_event_images()
