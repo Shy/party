@@ -4,7 +4,8 @@ import parse from "querystring";
 
 const supabase = createClient(
   process.env["supabaseUrl"],
-  process.env["supabaseKey"],
+  process.env["SUPABASE_SERVICE_ROLE_KEY"] || process.env["supabaseKey"],
+  { auth: { persistSession: false } }
 );
 
 const twilio_client = require("twilio")(
