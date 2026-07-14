@@ -43,7 +43,12 @@ CREATE TABLE public.event_attendee_junction (
   CONSTRAINT event_attendee_junction_pkey PRIMARY KEY (id ASC),
   CONSTRAINT event_attendee_junction_event_id_fkey FOREIGN KEY (event_id) REFERENCES public.events(id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT event_attendee_junction_attendee_id_fkey FOREIGN KEY (attendee_id) REFERENCES public.attendee(id) ON UPDATE CASCADE
-)
+);
+
+-- Enable Row Level Security (RLS) to address Supabase security warnings
+ALTER TABLE public.attendee ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.event_attendee_junction ENABLE ROW LEVEL SECURITY;
 ```
 
 I write sql queries to manage all my admin stuff. Ping me if you want more details.

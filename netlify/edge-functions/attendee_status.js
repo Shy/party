@@ -1,7 +1,11 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const env_vars = Deno.env.toObject();
-const supabase = createClient(env_vars["supabaseUrl"], env_vars["supabaseKey"]);
+const supabase = createClient(
+  env_vars["supabaseUrl"],
+  env_vars["SUPABASE_SERVICE_ROLE_KEY"] || env_vars["supabaseKey"],
+  { auth: { persistSession: false } }
+);
 
 export default async (request, context) => {
   const url = new URL(request.url);
