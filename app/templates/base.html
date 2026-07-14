@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta charset="UTF-8" />
@@ -18,7 +18,7 @@
         />
 
         <!-- Facebook Meta Tags -->
-        <meta property="og:url" content="https://www.shy.party/" />
+        <meta property="og:url" content="https://www.{{PARTY_NAME|lower}}.party/" />
         <meta property="og:type" content="website" />
         <meta
             property="og:description"
@@ -26,21 +26,21 @@
         />
         <meta
             property="og:image"
-            content="{{ url_for('static', filename='images/image.png') }}"
+            content="{% if event and event.image_id %}https://www.{{PARTY_NAME|lower}}.party/static/images/events/{{ event.image_id }}.jpg{% elif image_id %}https://www.{{PARTY_NAME|lower}}.party/static/images/events/{{ image_id }}.jpg{% else %}https://www.{{PARTY_NAME|lower}}.party{{ url_for('static', filename='images/image.png') }}{% endif %}"
         />
 
         <!-- Twitter Meta Tags -->
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="{{PARTY_NAME}}.party" />
-        <meta property="twitter:url" content="https://www.shy.party/" />
+        <meta property="twitter:url" content="https://www.{{PARTY_NAME|lower}}.party/" />
 
         <meta
             name="twitter:description"
-            content="{{PARTY_NAME}}.Party is a worse version of Partiful. "
+            content="{{PARTY_NAME}}.Party is a worse version of Partiful."
         />
         <meta
             name="twitter:image"
-            content="{{ url_for('static', filename='images/image.png') }}"
+            content="{% if event and event.image_id %}https://www.{{PARTY_NAME|lower}}.party/static/images/events/{{ event.image_id }}.jpg{% elif image_id %}https://www.{{PARTY_NAME|lower}}.party/static/images/events/{{ image_id }}.jpg{% else %}https://www.{{PARTY_NAME|lower}}.party{{ url_for('static', filename='images/image.png') }}{% endif %}"
         />
 
         {% if title %}
@@ -110,7 +110,11 @@
         />
     </head>
     <body>
-        <div class="container">{% block content %}{% endblock %}</div>
+        <header role="banner" aria-label="Site Header"></header>
+        <main id="main-content" role="main" class="container" aria-label="Main Content">
+            {% block content %}{% endblock %}
+        </main>
+        <footer role="contentinfo" aria-label="Site Footer"></footer>
 
         {% block js %}{% endblock %}
     </body>

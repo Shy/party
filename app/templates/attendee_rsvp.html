@@ -1,7 +1,7 @@
 {% extends "base.html" %}{%block coverimage %}{{event.image_id}}{% endblock %}
 {% block content %}
 
-<section class="hero is-fullheight is-flex-touch">
+<section class="hero is-fullheight is-flex-touch" aria-label="Attendee RSVP Section">
   <div class="hero-body">
     <div class="column">
       <p class="subtitle is-size-3" id="attendee_container">
@@ -39,7 +39,7 @@
         take you off the texting list.
       </p>
 
-      <form id="submit_rsvp" action="/.netlify/functions/form-handler" method="post">
+      <form id="submit_rsvp" action="/.netlify/functions/form-handler" method="post" aria-label="RSVP Form">
         <input type="hidden" name="junction_pub" id="junction_pub" value="{{event_junction_public_id}}" />
 
         <div class="columns" id="rsvp-columns">
