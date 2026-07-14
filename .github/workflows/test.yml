@@ -32,4 +32,4 @@ jobs:
     - name: Install JS dependencies
       run: npm ci
     - name: Run JS tests
-      run: node --test tests/test_js_deps.js
+      run: node tests/test_js_deps.js
