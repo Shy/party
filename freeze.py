@@ -138,6 +138,42 @@ def not_found_page():
 if __name__ == "__main__":
     # Cache images before freezing
     with app.app_context():
+        from app import db
+        import uuid
+        
+        # Create a dummy test event for compile-time validation
+        dummy_event = Event(
+            id=uuid.uuid4(),
+            public_id=uuid.uuid4().hex[:12],
+            event="Dummy Test Event",
+            date=datetime.now(pytz.UTC) + timedelta(days=2),
+            location="Validation Station",
+            description="Accessibility and OpenGraph structural test event.",
+            image_id="dummy_test"
+        )
+        db.session.add(dummy_event)
+        
+        shy = Attendee.query.filter_by(attendee="Shy Ruparel").first()
+        if not shy:
+            shy = Attendee(
+                id=uuid.uuid4(),
+                public_id=uuid.uuid4().hex[:12],
+                attendee="Shy Ruparel",
+                phone="0000000000",
+                invited=True
+            )
+            db.session.add(shy)
+            db.session.flush()
+        
+        junction = EventAttendeeJunction(
+            id=uuid.uuid4(),
+            public_id=uuid.uuid4().hex[:12],
+            event_id=dummy_event.id,
+            attendee_id=shy.id
+        )
+        db.session.add(junction)
+        db.session.commit()
+
         print("Caching event images...")
         cache_event_images()
         print()

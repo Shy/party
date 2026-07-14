@@ -1,6 +1,6 @@
 {% extends "base.html" %}{%block coverimage %}{{ url_for("static", filename="images/index.jpg") }}{% endblock %}{% block content %}
 
-<section class="hero is-fullheight is-flex-touch">
+<section class="hero is-fullheight is-flex-touch" aria-label="Event Details Section">
     <div class="hero-body">
         <div class="">
             <p class="title is-size-1 glitch" data-text="{{event.event}}">
@@ -15,7 +15,7 @@
                 <span class="pre">{{event.description | safe | trim}}</span>
             </p>
 
-            <form>
+            <form aria-label="RSVP Request Form">
                 <div class="columns has-text-centered">
                     <div class="column">
                         <button
@@ -24,6 +24,7 @@
                             name="rsvp"
                             value="attending"
                             data-text="Attend this event"
+                            aria-label="Ping Shy for your private invite"
                         >
                             Ping Shy for your private invite.
                         </button>
