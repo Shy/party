@@ -14,10 +14,10 @@ class Attendee(db.Model):
     phone = db.Column(db.String(15), nullable=False)
     dietary_restrictions = db.Column(db.String(255))
     created_at = db.Column(
-        db.DateTime, server_default=db.text("current_timestamp():::TIMESTAMPTZ")
+        db.DateTime, server_default=db.text("current_timestamp::TIMESTAMPTZ")
     )
     updated_at = db.Column(
-        db.DateTime, server_default=db.text("current_timestamp():::TIMESTAMPTZ")
+        db.DateTime, server_default=db.text("current_timestamp::TIMESTAMPTZ")
     )
     invited = db.Column(db.Boolean, nullable=False, server_default=db.text("true"))
 
@@ -35,10 +35,10 @@ class Event(db.Model):
     location = db.Column(db.String(600), nullable=False)
     description = db.Column(db.String(1000), nullable=False)
     created_at = db.Column(
-        db.DateTime, server_default=db.text("current_timestamp():::TIMESTAMPTZ")
+        db.DateTime, server_default=db.text("current_timestamp::TIMESTAMPTZ")
     )
     updated_at = db.Column(
-        db.DateTime, server_default=db.text("current_timestamp():::TIMESTAMPTZ")
+        db.DateTime, server_default=db.text("current_timestamp::TIMESTAMPTZ")
     )
     image_id = db.Column(db.String(30), nullable=False)
 
@@ -53,12 +53,12 @@ class EventAttendeeJunction(db.Model):
     public_id = db.Column(db.String(12), nullable=False)
     event_id = db.Column(db.ForeignKey("events.id", ondelete="CASCADE"))
     attendee_id = db.Column(db.ForeignKey("attendee.id", onupdate="CASCADE"))
-    rsvp = db.Column(NullType)
+    rsvp = db.Column(db.String(255))
     created_at = db.Column(
-        db.DateTime, server_default=db.text("current_timestamp():::TIMESTAMPTZ")
+        db.DateTime, server_default=db.text("current_timestamp::TIMESTAMPTZ")
     )
     updated_at = db.Column(
-        db.DateTime, server_default=db.text("current_timestamp():::TIMESTAMPTZ")
+        db.DateTime, server_default=db.text("current_timestamp::TIMESTAMPTZ")
     )
 
     attendee = relationship("Attendee")

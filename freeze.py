@@ -134,12 +134,138 @@ def attendee_rsvp():
 def not_found_page():
     yield {}
 
+def setup_dummy_event():
+    """Create a dummy event and invite 'Shy Ruparel' to verify OG generation"""
+    from app import db
+    from app.models import Event, Attendee, EventAttendeeJunction
+    import random
+    import string
+    
+    db.create_all()
+
+    dummy_attendee = Attendee.query.filter_by(attendee="Shy Ruparel").first()
+    if not dummy_attendee:
+        def rand_str(length=12):
+            return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+        
+        dummy_attendee = Attendee(
+            public_id=rand_str(12),
+            attendee="Shy Ruparel",
+            phone="1234567890",
+            invited=True
+        )
+        db.session.add(dummy_attendee)
+        db.session.commit()
+    
+    dummy_event = Event.query.filter_by(event="Shy's Special Housewarming").first()
+    if not dummy_event:
+        def rand_str(length=12):
+            return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+        
+        dummy_event = Event(
+            public_id=rand_str(12),
+            event="Shy's Special Housewarming",
+            date=datetime.now(pytz.UTC) + timedelta(days=7),
+            location="Shy's Place",
+            description="Come celebrate the new place!",
+            image_id="image"
+        )
+        db.session.add(dummy_event)
+        db.session.commit()
+        
+    junction = EventAttendeeJunction.query.filter_by(
+        event_id=dummy_event.id, 
+        attendee_id=dummy_attendee.id
+    ).first()
+    
+    if not junction:
+        def rand_str(length=12):
+            return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+            
+        junction = EventAttendeeJunction(
+            public_id=rand_str(12),
+            event_id=dummy_event.id,
+            attendee_id=dummy_attendee.id
+        )
+        db.session.add(junction)
+        db.session.commit()
+
+def generate_og_images():
+    """Generate custom Open Graph images for all active RSVPs"""
+    from PIL import ImageDraw, ImageFont
+    
+    og_dir = Path(app.static_folder) / 'images' / 'og'
+    og_dir.mkdir(parents=True, exist_ok=True)
+    
+    font_path = Path(app.static_folder) / 'font' / 'LCDBlock.ttf'
+    try:
+        title_font = ImageFont.truetype(str(font_path), 50)
+        subtitle_font = ImageFont.truetype(str(font_path), 35)
+    except:
+        title_font = ImageFont.load_default()
+        subtitle_font = ImageFont.load_default()
+
+    utc = pytz.UTC
+    now = datetime.now(utc)
+    time_diff = timedelta(days=1)
+    
+    active_events = Event.query.filter(Event.date >= now - time_diff).all()
+    
+    for event in active_events:
+        rsvps = (
+            EventAttendeeJunction.query
+            .join(Attendee)
+            .filter(EventAttendeeJunction.event_id == event.id)
+            .filter(Attendee.invited == True)
+            .all()
+        )
+        for rsvp in rsvps:
+            out_path = og_dir / f"rsvp_{rsvp.public_id}.png"
+            if out_path.exists():
+                continue
+            
+            base_img_path = Path(app.static_folder) / 'images' / 'image.png'
+            if base_img_path.exists():
+                try:
+                    img = Image.open(base_img_path).convert("RGBA").resize((1200, 630))
+                    overlay = Image.new('RGBA', img.size, (0, 0, 0, 160))
+                    img = Image.alpha_composite(img, overlay).convert("RGB")
+                except:
+                    img = Image.new('RGB', (1200, 630), color=(10, 10, 10))
+            else:
+                img = Image.new('RGB', (1200, 630), color=(10, 10, 10))
+            
+            draw = ImageDraw.Draw(img)
+            
+            attendee_name = rsvp.attendee.attendee if rsvp.attendee.attendee else "Guest"
+            
+            text = f"You're invited, {attendee_name}!"
+            draw.text((100, 120), text, font=title_font, fill=(255, 255, 255))
+            
+            event_text = f"Event: {event.event}"
+            draw.text((100, 240), event_text, font=subtitle_font, fill=(200, 200, 200))
+            
+            date_str = event.date.strftime("%B %d, %Y")
+            date_text = f"Date: {date_str}"
+            draw.text((100, 320), date_text, font=subtitle_font, fill=(200, 200, 200))
+            
+            loc_text = f"Location: {event.location}"
+            draw.text((100, 400), loc_text, font=subtitle_font, fill=(200, 200, 200))
+            
+            img.save(out_path)
+            print(f"Generated OG image for {attendee_name} (RSVP {rsvp.public_id})")
 
 if __name__ == "__main__":
     # Cache images before freezing
     with app.app_context():
+        setup_dummy_event()
+        
         print("Caching event images...")
         cache_event_images()
+        print()
+        
+        print("Generating OG images...")
+        generate_og_images()
         print()
 
     freezer.freeze()

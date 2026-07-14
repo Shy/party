@@ -1,4 +1,8 @@
 {% extends "base.html" %}{%block coverimage %}{{event.image_id}}{% endblock %}
+
+{% block og_image %}{{ url_for('static', filename='images/og/rsvp_' ~ event_junction_public_id ~ '.png') }}{% endblock %}
+{% block twitter_image %}{{ url_for('static', filename='images/og/rsvp_' ~ event_junction_public_id ~ '.png') }}{% endblock %}
+
 {% block content %}
 
 <section class="hero is-fullheight is-flex-touch">
