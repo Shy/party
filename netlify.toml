@@ -18,7 +18,7 @@
 	MISE_VERBOSE=1
 	command = "python freeze.py"
 	publish = "app/build"
-	environment = { PYTHON_VERSION = "3.12" }
+	environment = { PYTHON_VERSION = "3.12", NODE_VERSION = "22" }
 
 
 [[plugins]]

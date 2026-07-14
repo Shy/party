@@ -12,6 +12,9 @@
         "url": "https://github.com/shy/party/issues"
     },
     "homepage": "https://github.com/shy/party#readme",
+    "engines": {
+        "node": ">=22.0.0"
+    },
     "devDependencies": {
         "@netlify/plugin-sitemap": "^0.8.1",
         "netlify-plugin-cache": "^1.0.3"
