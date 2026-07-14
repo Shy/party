@@ -17,6 +17,12 @@ def debug_only(f):
     return wrapped
 
 
+@app.after_request
+def set_html_headers(response):
+    if response.headers.get('Content-Type', '').startswith('text/html'):
+        response.headers['Content-Type'] = 'text/html; charset=UTF-8'
+    return response
+
 @app.route("/")
 def index():
     now = datetime.now(pytz.UTC)
